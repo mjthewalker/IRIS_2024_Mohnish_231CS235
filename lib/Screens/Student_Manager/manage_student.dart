@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:iris_rec/Screens/Hostel_registration/hostelreg.dart';
 
 import '../../Data and models/student_list_model.dart';
@@ -13,9 +14,17 @@ class ManageStudent extends StatelessWidget{
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: Text(studentdata.name),
+        title: Text(
+            studentdata.name,
+            style: GoogleFonts.poppins(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            )),
+        backgroundColor: Colors.grey[900],
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.grey[200],
       body: Column(
         children: [
           const Text('Personal Details', style: TextStyle(fontSize: 20)),
@@ -54,7 +63,7 @@ class ManageStudent extends StatelessWidget{
               }
             },SetOptions(merge: true));
             Navigator.pop(context,true);
-          }, child:Text("Deallocate Room")),
+          }, child:const Text("Deallocate Room")),
           TextButton(onPressed: () async{
           if (studentdata.hostelinfo.hostelName != "No hostel alloted"){
             await FirebaseFirestore.instance.collection('hostels').doc(studentdata.hostelinfo.hostelName).set({
@@ -80,7 +89,7 @@ class ManageStudent extends StatelessWidget{
               context,
               MaterialPageRoute(builder: (context) => HostelRegistrationScreen(mode: "realloc",studentdetail: studentdata,)),
             );
-          }, child: Text("Reallocate Room"),)
+          }, child: const Text("Reallocate Room"),)
         ],
       ),
     );

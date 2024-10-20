@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:iris_rec/Data%20and%20models/student_list_model.dart';
 
 class ApplyLeave extends StatefulWidget {
@@ -39,7 +40,7 @@ class _ApplyLeaveState extends State<ApplyLeave> {
         _formKey.currentState!.save();
       if (_fromDate == null || _toDate == null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Please select both From and To dates!")),
+          const SnackBar(content: Text("Please select both From and To dates!")),
         );
         return;
       }
@@ -56,7 +57,7 @@ class _ApplyLeaveState extends State<ApplyLeave> {
 
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Leave applied successfully!")),
+        const SnackBar(content: Text("Leave applied successfully!")),
       );
       Navigator.pop(context);
 
@@ -66,9 +67,17 @@ class _ApplyLeaveState extends State<ApplyLeave> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Apply for Leave"),
+        title: Text(
+            "Apply for a leave",
+            style: GoogleFonts.poppins(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            )),
+        backgroundColor: Colors.grey[900],
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.grey[200],
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -78,7 +87,7 @@ class _ApplyLeaveState extends State<ApplyLeave> {
               // Name field
               TextFormField(
 
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: "Name",
                   border: OutlineInputBorder(),
                 ),
@@ -92,10 +101,10 @@ class _ApplyLeaveState extends State<ApplyLeave> {
                   _nameController = value!;
                 }
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextFormField(
 
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: "Roll Number",
                     border: OutlineInputBorder(),
                   ),
@@ -126,11 +135,11 @@ class _ApplyLeaveState extends State<ApplyLeave> {
                         });
                       }, _fromDate);
                     },
-                    child: Text('Pick From Date'),
+                    child: const Text('Pick From Date'),
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               // To date picker
               Row(
@@ -149,16 +158,16 @@ class _ApplyLeaveState extends State<ApplyLeave> {
                         });
                       }, _toDate);
                     },
-                    child: Text('Pick To Date'),
+                    child: const Text('Pick To Date'),
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               // Leave reason field
               TextFormField(
 
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: "Reason for Leave",
                   border: OutlineInputBorder(),
                 ),
@@ -173,24 +182,24 @@ class _ApplyLeaveState extends State<ApplyLeave> {
                   _leaveReasonController =value!;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               // Submit button
               ElevatedButton(
                 onPressed: () {
                   if (_fromDate == null || _toDate == null) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Please select both From and To dates!")),
+                      const SnackBar(content: Text("Please select both From and To dates!")),
                     );
                   } else if (_fromDate!.isAfter(_toDate!)) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("From Date cannot be after To Date!")),
+                      const SnackBar(content: Text("From Date cannot be after To Date!")),
                     );
                   } else {
                     _submitForm(context);
                   }
                 },
-                child: Text('Submit'),
+                child: const Text('Submit'),
               ),
             ],
           ),

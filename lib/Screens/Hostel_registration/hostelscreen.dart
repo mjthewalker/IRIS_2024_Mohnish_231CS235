@@ -1,9 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:iris_rec/Data%20and%20models/student_list_model.dart';
 import '../../Data and models/common_card.dart';
 import '../../Data and models/hostel_data.dart'; // Make sure to import your Hostel model
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../Hostel_Dashboard/iris.dart';
 
 class HostelDetailScreen extends StatefulWidget {
   final Hostel hostel; // Receive hostel object
@@ -169,6 +172,7 @@ class _HostelDetailScreenState extends State<HostelDetailScreen> {
       return;
 
     }
+
     Navigator.pop(context);// Use merge: true to avoid overwriting the existing data
 
   }
@@ -176,10 +180,18 @@ class _HostelDetailScreenState extends State<HostelDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[350],
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        title: Text("Select a room in ${widget.hostel.hostelName}"),
-        backgroundColor: Colors.grey[350],
+        centerTitle: true,
+        title: Text(
+          "Select a room in ${widget.hostel.hostelName}",
+          style: GoogleFonts.poppins(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          )),
+        backgroundColor: Colors.grey[900],
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator()) // Show loading spinner while fetching data

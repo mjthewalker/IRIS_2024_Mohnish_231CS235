@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../Data and models/hostel_change_model.dart';
 
@@ -87,8 +88,17 @@ class HostelChangeFinalApprovalState extends State<HostelChangeFinalApproval> {
     final newRoomDetails = widget.finalData.hostelChangeDetails.newRoomDetails;
 
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        title: Text("Approval for ${personalDetails.name}"),
+        title: Text(
+            "Approval for ${personalDetails.name}",
+            style: GoogleFonts.poppins(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            )),
+        backgroundColor: Colors.grey[900],
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

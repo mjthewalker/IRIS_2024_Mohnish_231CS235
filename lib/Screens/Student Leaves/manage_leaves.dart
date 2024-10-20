@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ManageLeaves extends StatefulWidget {
   @override
@@ -55,8 +56,17 @@ class _ManageLeaveState extends State<ManageLeaves> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Manage Leaves"),
+        title: Text(
+            "Manage Leaves",
+            style: GoogleFonts.poppins(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            )),
+        backgroundColor: Colors.grey[900],
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
+
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: getAllRequests(),
         builder: (context, snapshot) {
@@ -81,7 +91,7 @@ class _ManageLeaveState extends State<ManageLeaves> {
                 child: Card(
                   margin: const EdgeInsets.all(10),
                   child: ListTile(
-                    title: Text('Leave Request'),
+                    title: const Text('Leave Request'),
                     subtitle: Text(
                       'Reason: ${leaveRequest['Reason']}\n'
                           'From: ${leaveRequest['name']}\n'
@@ -95,13 +105,13 @@ class _ManageLeaveState extends State<ManageLeaves> {
                         // Approve Button
                         if (leaveRequest['status'] == 'yet to be approved')
                         IconButton(
-                          icon: Icon(Icons.check, color: Colors.green),
+                          icon: const Icon(Icons.check, color: Colors.green),
                           onPressed: () => updateRequestStatus(docId, 'Approved',hostel),
                         ),
                         if (leaveRequest['status'] == 'yet to be approved')
                         // Reject Button
                         IconButton(
-                          icon: Icon(Icons.close, color: Colors.red),
+                          icon: const Icon(Icons.close, color: Colors.red),
                           onPressed: () => updateRequestStatus(docId, 'Rejected',hostel),
                         ),
                       ],

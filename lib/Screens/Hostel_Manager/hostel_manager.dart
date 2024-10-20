@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:iris_rec/Screens/Hostel_Manager/add_hostel.dart';
 import 'package:iris_rec/Screens/Hostel_Manager/hostel_info.dart';
@@ -27,10 +28,17 @@ class HostelManagerState extends State<HostelManager>{
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: Text("Hostel Manager"),
-        backgroundColor: Colors.grey[350],
+        title: Text(
+            "Hostel Manager",
+            style: GoogleFonts.poppins(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            )),
+        backgroundColor: Colors.grey[900],
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
-      backgroundColor: Colors.grey[350],
+      backgroundColor: Colors.grey[200],
       body: FutureBuilder<List<Hostel>>(
         future: allHostels,
         builder: (context, snapshot) {

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/loader/gf_loader.dart';
 import 'package:getwidget/types/gf_loader_type.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'hostel_change_details.dart';
 import '../../Data and models/hostel_change_model.dart';
@@ -48,9 +49,17 @@ class HostelChangeApprovalState extends State<HostelChangeApproval>{
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Hostel change Requests"),
+        title: Text(
+            "Hostel Change Request",
+            style: GoogleFonts.poppins(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            )),
+        backgroundColor: Colors.grey[900],
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.grey[200],
       body: FutureBuilder<List<HostelChangeRequest>>(
         future: allChangeRequests, // Fetching data
         builder: (context, snapshot) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:iris_rec/Data%20and%20models/student_list_model.dart';
 import '../../Data and models/common_card.dart';
@@ -46,13 +47,30 @@ class _HostelRegistrationScreenState extends State<HostelRegistrationScreen> {
           width: double.infinity,
           alignment: Alignment.center,
           child:  widget.mode == "register" ? Text(
-            "Register for a hostel",
-            style: TextStyle(color: Colors.black), // Text color for visibility
-          ) : widget.mode == "realloc"? const Text("Reallocate user to") : const Text("Apply for hostel change")
+            "Hostel Registration",
+            style: GoogleFonts.poppins(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            )) : widget.mode == "realloc"?  Text(
+            "Reallocate User",
+            style: GoogleFonts.poppins(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            )) : Text(
+              "Apply for Hostel Change",
+              style: GoogleFonts.poppins(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ))
         ),
-        backgroundColor: Colors.grey[350],
+        backgroundColor: Colors.grey[900],
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
-      backgroundColor: Colors.grey[350],
+      backgroundColor: Colors.grey[200],
       body: FutureBuilder<List<Hostel>>(
         future: allHostels,
         builder: (context, snapshot) {
@@ -102,9 +120,12 @@ class _HostelRegistrationScreenState extends State<HostelRegistrationScreen> {
                       ),
                       const SizedBox(height: 8.0), // Space between image and description
                       Text(
-                        hostel.hostelName, // Display the hostel name
-                        style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold), // Bold for emphasis
-                      ),
+                          hostel.hostelName,
+                          style: GoogleFonts.poppins(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey[900],
+                          )),
                       const SizedBox(height: 4.0), // Additional spacing
                       Text(
                         'Warden ID: ${hostel.wardenId}', // Display warden ID

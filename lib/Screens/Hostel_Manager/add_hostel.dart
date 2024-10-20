@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import '../../Data and models/hostel_data.dart';
 
@@ -51,7 +52,7 @@ class _HostelLayoutFormState extends State<HostelLayoutForm> {
         // Display wing name as static text
         Text(
           wingName,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         // Capacity input for the wing
         TextFormField(
@@ -77,7 +78,7 @@ class _HostelLayoutFormState extends State<HostelLayoutForm> {
                 Wing(wingName: wingName, capacity: wingsData[floorIndex][wingIndex].capacity, availableRooms: availableRooms);
           },
         ),
-        SizedBox(height: 16), // Add space between wings
+        const SizedBox(height: 16), // Add space between wings
       ],
     );
   }
@@ -87,7 +88,7 @@ class _HostelLayoutFormState extends State<HostelLayoutForm> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Floor ${index + 1}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        Text('Floor ${index + 1}', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         ..._buildWingInputs(index),
       ],
     );
@@ -127,14 +128,23 @@ class _HostelLayoutFormState extends State<HostelLayoutForm> {
 
       Navigator.pop(context,true);
       // Show success message
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Hostel data saved successfully!')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Hostel data saved successfully!')));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Hostel Layout Form')),
+      backgroundColor: Colors.grey[200],
+      appBar: AppBar(title: Text(
+          "Add New Hostel",
+          style: GoogleFonts.poppins(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          )),
+        backgroundColor: Colors.grey[900],
+        iconTheme: const IconThemeData(color: Colors.white),),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -142,26 +152,26 @@ class _HostelLayoutFormState extends State<HostelLayoutForm> {
           child: ListView(
             children: [
               TextFormField(
-                decoration: InputDecoration(labelText: 'Hostel Name'),
+                decoration: const InputDecoration(labelText: 'Hostel Name'),
                 onChanged: (value) {
                   hostelName = value;
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Warden ID'),
+                decoration: const InputDecoration(labelText: 'Warden ID'),
                 onChanged: (value) {
                   wardenId = value;
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Hostel Image Address'),
+                decoration: const InputDecoration(labelText: 'Hostel Image Address'),
                 onChanged: (value) {
                   imgSrc = value;
                 },
               ),
               // Set the number of floors directly, assuming it's handled elsewhere
               TextFormField(
-                decoration: InputDecoration(labelText: 'Number of Floors'),
+                decoration: const InputDecoration(labelText: 'Number of Floors'),
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
                   setState(() {
@@ -174,10 +184,10 @@ class _HostelLayoutFormState extends State<HostelLayoutForm> {
                 },
               ),
               ...List.generate(numberOfFloors, (index) => _buildFloorInput(index)),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _saveHostelData,
-                child: Text('Save Hostel Data'),
+                child: const Text('Save Hostel Data'),
               ),
             ],
           ),

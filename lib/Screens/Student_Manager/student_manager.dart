@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/loader/gf_loader.dart';
 import 'package:getwidget/types/gf_loader_type.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:iris_rec/Screens/Student_Manager/manage_student.dart';
 
 import '../../Data and models/student_list_model.dart';
@@ -40,9 +41,17 @@ class StudentManagerState extends State<StudentManager>{
   Widget build(BuildContext context){
       return Scaffold(
         appBar: AppBar(
-          title: Text("Student Manager"),
+          title: Text(
+              "Student Manager",
+              style: GoogleFonts.poppins(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              )),
+          backgroundColor: Colors.grey[900],
+          iconTheme: const IconThemeData(color: Colors.white),
         ),
-        backgroundColor: Colors.grey[300],
+        backgroundColor: Colors.grey[200],
         body: FutureBuilder<List<StudentList>>(
           future: studentData, // Fetching data
           builder: (context, snapshot) {

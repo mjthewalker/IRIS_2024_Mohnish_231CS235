@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -17,8 +18,17 @@ class HostelInfo extends StatelessWidget {
 
 
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        title: Text('Hostel Information'),
+        title: Text(
+            "Hostel Information",
+            style: GoogleFonts.poppins(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            )),
+        backgroundColor: Colors.grey[900],
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Column(
         children: [
@@ -27,7 +37,7 @@ class HostelInfo extends StatelessWidget {
               valueListenable: hostelBox.listenable(),
               builder: (context, Box box, widget) {
                 if (box.isEmpty) {
-                  return Center(
+                  return const Center(
                     child: Text('No hostel information available'),
                   );
                 } else {
@@ -66,7 +76,7 @@ class HostelInfo extends StatelessWidget {
             await FirebaseFirestore.instance.collection('requests').doc('$hostelName').delete();
             await hostelBox.delete(hostelName);
             Navigator.pop(context,true);
-          }, child: Text("Delete Hostel"))
+          }, child: const Text("Delete Hostel"))
         ],
       ),
     );
