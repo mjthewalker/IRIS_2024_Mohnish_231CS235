@@ -14,8 +14,7 @@ class HostelInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Access the already opened Hive box
-   // Just access the box, don't reopen it
+
 
     return Scaffold(
       appBar: AppBar(
