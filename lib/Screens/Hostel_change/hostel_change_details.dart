@@ -19,6 +19,7 @@ class HostelChangeFinalApprovalState extends State<HostelChangeFinalApproval> {
 
   // Approve function
   Future<void> _approveRequest() async {
+
     await _firestore.collection('hostels')
           .doc(widget.finalData.hostelChangeDetails.currentDetails.currentHostel)
           .set({

@@ -6,9 +6,10 @@ import 'package:iris_rec/Screens/Hostel_Manager/hostel_manager.dart';
 import 'package:iris_rec/Screens/Hostel_change/hostel_change.dart';
 import 'package:iris_rec/Screens/Hostel_registration/hostelreg.dart';
 import 'package:iris_rec/Data%20and%20models/common_card.dart';
-
 import 'package:iris_rec/Screens/Hostel_registration/hostelscreen.dart';
 import 'package:iris_rec/Screens/Hostel_Dashboard/my_requests.dart';
+import 'package:iris_rec/Screens/Student%20Leaves/apply_leave.dart';
+import 'package:iris_rec/Screens/Student%20Leaves/manage_leaves.dart';
 import 'package:iris_rec/Screens/Student_Manager/student_manager.dart';
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -119,6 +120,12 @@ class MainScreen extends StatelessWidget {
                                 MaterialPageRoute(builder: (context) => StudentManager()),
                               );
                             }, child: Text("Student Manager")),
+                            TextButton(onPressed: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => ManageLeaves()),
+                              );
+                            }, child: Text("Student leaves")),
                           ],
                         ),
 
@@ -126,10 +133,17 @@ class MainScreen extends StatelessWidget {
                       onPressed: (){
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => MyRequestsScreen(mykey: email.split('.').first,)),
+                          MaterialPageRoute(builder: (context) => MyRequestsScreen(mykey: email.split('.').first,hostel: hostelInfo['hostelName'],rollnumber: rollNumber,)),
                         );
                       },
                       child: Text("My requests")),
+                TextButton(onPressed: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ApplyLeave(hostelName: hostelInfo['hostelName'],)),
+                  );
+                },
+                    child: Text("Apply for leave"))
 
 
               ],
