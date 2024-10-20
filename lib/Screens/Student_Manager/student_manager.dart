@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:iris_rec/Screens/Student_Manager/manage_student.dart';
 
 import '../../Data and models/student_list_model.dart';
 
@@ -58,16 +59,17 @@ class StudentManagerState extends State<StudentManager>{
                 StudentList request = requests[index];
                 return GestureDetector(
                   onTap: (){
-                    /*Navigator.push(
+                    Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => HostelChangeFinalApproval(finalData: request,)),
+                      MaterialPageRoute(builder: (context) => ManageStudent(studentdata: request)),
                     ).then((value){
                       if (value!=null){
                         setState(() {
-                          allChangeRequests = getAllRequests();
+                          studentData = getAllStudents();
                         });
                       }
-                    });*/
+                    });
+
                   },
                   child: Card(
                     margin: const EdgeInsets.all(10),

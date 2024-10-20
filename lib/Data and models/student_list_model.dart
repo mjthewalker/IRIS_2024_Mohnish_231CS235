@@ -6,13 +6,15 @@ class StudentList{
   String email;
   String name;
   String rollnumber;
-  StudentList({required this.hostelinfo,required this.email,required this.name,required this.rollnumber});
+  String uid;
+  StudentList({required this.hostelinfo,required this.email,required this.name,required this.rollnumber,required this.uid});
   factory StudentList.fromJson(Map<String, dynamic> json) {
     return StudentList(
       hostelinfo: HostelDetails.fromJson(json['hostelInfo']),
       email: json['email'],
       name : json['name'],
-      rollnumber: json['roll']
+      rollnumber: json['roll'],
+      uid : json['uid']
     );
   }
 

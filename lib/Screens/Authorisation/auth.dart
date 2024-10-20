@@ -52,7 +52,8 @@ class _AuthScreenState extends State<AuthScreen>{
             'pswd' : _enteredpswd,
             'name' : _enteredname,
             'roll' : _enteredrollno,
-            'role' : "student"
+            'role' : "student",
+            'uid'  : userCredentials.user!.uid
           });
 
         }
