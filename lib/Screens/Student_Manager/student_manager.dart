@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:getwidget/components/loader/gf_loader.dart';
+import 'package:getwidget/types/gf_loader_type.dart';
 import 'package:iris_rec/Screens/Student_Manager/manage_student.dart';
 
 import '../../Data and models/student_list_model.dart';
@@ -45,7 +47,9 @@ class StudentManagerState extends State<StudentManager>{
           future: studentData, // Fetching data
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(child: GFLoader(
+                  type:GFLoaderType.ios
+              ),);
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else if (!snapshot.hasData || snapshot.data!.isEmpty) {

@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:getwidget/components/loader/gf_loader.dart';
+import 'package:getwidget/types/gf_loader_type.dart';
 
 import 'hostel_change_details.dart';
 import '../../Data and models/hostel_change_model.dart';
@@ -53,7 +55,9 @@ class HostelChangeApprovalState extends State<HostelChangeApproval>{
         future: allChangeRequests, // Fetching data
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: GFLoader(
+                type:GFLoaderType.ios
+            ),);
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {

@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:iris_rec/Screens/Authorisation/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -9,9 +10,12 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:iris_rec/Screens/Hostel_registration/hostelreg.dart';
 import 'package:iris_rec/Screens/Hostel_registration/hostelscreen.dart';
+
+import 'firebase_api/firebase_api.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
+
 
   // Open a box for hostel data
 
@@ -32,6 +36,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await FirebaseApi().initNotifications();
 
   runApp(
     MaterialApp(

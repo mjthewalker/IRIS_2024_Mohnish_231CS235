@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:getwidget/components/button/gf_button.dart';
+import 'package:getwidget/components/drawer/gf_drawer.dart';
 import 'package:iris_rec/Data%20and%20models/student_list_model.dart';
 import 'package:iris_rec/Screens/Hostel_Manager/hostel_manager.dart';
 import 'package:iris_rec/Screens/Hostel_change/hostel_change.dart';
@@ -29,19 +31,20 @@ class MainScreen extends StatelessWidget {
         rollnumber: "dummyrolenumber",
         uid: "dummyuid");
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("IRIS DASHBOARD"),
-        backgroundColor: Colors.grey[300],
+        title: const Text("IRIS HOSTEL DASHBOARD",style: TextStyle(color: Colors.white),),
+        backgroundColor: Colors.grey[900],
         actions: [
           IconButton(
             onPressed: () {
               FirebaseAuth.instance.signOut(); // Sign out the user
             },
-            icon: const Icon(Icons.exit_to_app),
+            icon: const Icon(Icons.exit_to_app,color: Colors.white,),
           ),
         ],
       ),
+
       body: StreamBuilder<DocumentSnapshot>(
         stream: FirebaseFirestore.instance
             .collection('users')
@@ -78,6 +81,7 @@ class MainScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
                 Text('Name: $name', style: const TextStyle(fontSize: 18)),
                 Text('Email: $email', style: const TextStyle(fontSize: 18)),
                 Text('Roll Number: $rollNumber', style: const TextStyle(fontSize: 18)),
@@ -143,7 +147,8 @@ class MainScreen extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => ApplyLeave(hostelName: hostelInfo['hostelName'],)),
                   );
                 },
-                    child: Text("Apply for leave"))
+                    child: Text("Apply for leave")),
+
 
 
               ],
