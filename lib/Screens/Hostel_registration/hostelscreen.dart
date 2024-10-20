@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:iris_rec/Data%20and%20models/student_list_model.dart';
 import '../../Data and models/common_card.dart';
 import '../../Data and models/hostel_data.dart'; // Make sure to import your Hostel model
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,9 +9,10 @@ class HostelDetailScreen extends StatefulWidget {
   final Hostel hostel; // Receive hostel object
   final String mode;
   final Map<String,dynamic>? currentDetails;
+  final StudentList studentdetail;
   final String? name;
   final String? roll;
-  HostelDetailScreen({required this.hostel,required this.mode, this.currentDetails,this.name,this.roll});
+  HostelDetailScreen({required this.hostel,required this.mode, this.currentDetails,this.name,this.roll,required this.studentdetail});
 
   @override
   State<HostelDetailScreen> createState() => _HostelDetailScreenState();
@@ -139,7 +141,10 @@ class _HostelDetailScreenState extends State<HostelDetailScreen> {
       Navigator.of(context).popUntil((route) => route.isFirst);
       return;
     }
-    await FirebaseFirestore.instance.collection('users').doc(user!.uid).update({
+
+    var userid = user!.uid;
+    if (widget.mode == "realloc")  userid = widget.studentdetail.uid;
+    await FirebaseFirestore.instance.collection('users').doc(userid).update({
       "hostelInfo":{
         "hostelName" : widget.hostel.hostelName,
         "floor" : floorNumber,
@@ -157,10 +162,14 @@ class _HostelDetailScreenState extends State<HostelDetailScreen> {
         }
       }
     }, SetOptions(merge: true));
+    if (widget.mode == "realloc"){
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('student reallocated')));
+      Navigator.of(context).popUntil((route) => route.isFirst);
+      return;
+
+    }
     Navigator.pop(context);// Use merge: true to avoid overwriting the existing data
-
-
-
 
   }
 

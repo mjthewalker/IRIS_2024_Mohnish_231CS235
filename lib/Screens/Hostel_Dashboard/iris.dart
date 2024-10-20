@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:iris_rec/Data%20and%20models/student_list_model.dart';
 import 'package:iris_rec/Screens/Hostel_Manager/hostel_manager.dart';
 import 'package:iris_rec/Screens/Hostel_change/hostel_change.dart';
 import 'package:iris_rec/Screens/Hostel_registration/hostelreg.dart';
@@ -16,7 +17,16 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Get the current user's ID
     final userId = FirebaseAuth.instance.currentUser!.uid;
-
+    final StudentList x = StudentList(
+        hostelinfo: HostelDetails(
+            floor: "0",
+            hostelName: "dummy hostel",
+            roomNumber: "1",
+            wing: "dummywing")
+        , email: "dummyemail",
+        name: "dummyname",
+        rollnumber: "dummyrolenumber",
+        uid: "dummyuid");
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
@@ -58,7 +68,7 @@ class MainScreen extends StatelessWidget {
 
           // Conditional UI based on hostel info
           if (hostelInfo == null) {
-            return HostelRegistrationScreen(mode : "register"); // Navigate to registration screen
+            return HostelRegistrationScreen(mode : "register",studentdetail: x,); // Navigate to registration screen
           }
 
           // Display user information if hostel info exists
@@ -79,7 +89,7 @@ class MainScreen extends StatelessWidget {
                 TextButton(onPressed: (){
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => HostelRegistrationScreen(mode : "change",currentDetails: hostelInfo,name: name,rollNumber: rollNumber,)),
+                    MaterialPageRoute(builder: (context) => HostelRegistrationScreen(mode : "change",currentDetails: hostelInfo,name: name,rollNumber: rollNumber,studentdetail: x,)),
                   );
                 }, child: Text("Change hostel")),
                 if (userData['role'] == "admin")

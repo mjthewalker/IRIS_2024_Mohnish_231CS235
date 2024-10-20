@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:iris_rec/Data%20and%20models/student_list_model.dart';
 import '../../Data and models/common_card.dart';
 import '../../Data and models/hostel_data.dart'; // Import your Hive models
 import 'hostelscreen.dart';
@@ -8,9 +9,10 @@ import 'hostelscreen.dart'; // Import the detail screen
 class HostelRegistrationScreen extends StatefulWidget {
   final String mode;
   final Map<String,dynamic>? currentDetails;
+  final StudentList studentdetail;
   final String? name;
   final String? rollNumber;
-  HostelRegistrationScreen({required this.mode, this.currentDetails,this.name,this.rollNumber});
+  HostelRegistrationScreen({required this.mode, this.currentDetails,this.name,this.rollNumber,required this.studentdetail});
   @override
   State<HostelRegistrationScreen> createState() => _HostelRegistrationScreenState();
 }
@@ -46,7 +48,7 @@ class _HostelRegistrationScreenState extends State<HostelRegistrationScreen> {
           child:  widget.mode == "register" ? Text(
             "Register for a hostel",
             style: TextStyle(color: Colors.black), // Text color for visibility
-          ) : Text("Apply for hostel change")
+          ) : widget.mode == "realloc"? const Text("Reallocate user to") : const Text("Apply for hostel change")
         ),
         backgroundColor: Colors.grey[350],
       ),
@@ -78,7 +80,7 @@ class _HostelRegistrationScreenState extends State<HostelRegistrationScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => HostelDetailScreen(hostel: hostel,mode : widget.mode,currentDetails : widget.currentDetails,name: widget.name,roll: widget.rollNumber,), // Pass the hostel object
+                        builder: (context) => HostelDetailScreen(hostel: hostel,mode : widget.mode,currentDetails : widget.currentDetails,name: widget.name,roll: widget.rollNumber,studentdetail: widget.studentdetail,), // Pass the hostel object
                       ),
                     );
                   },
