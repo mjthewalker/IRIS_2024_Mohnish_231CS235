@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iris_rec/Data%20and%20models/student_list_model.dart';
 import 'package:iris_rec/Screens/Hostel_Dashboard/my_drawer.dart';
+import 'package:iris_rec/Screens/room_switch/approve_switch.dart';
 import 'package:iris_rec/Screens/room_switch/switch_rooms.dart';
 import 'package:iris_rec/Screens/Hostel_Manager/hostel_manager.dart';
 import 'package:iris_rec/Screens/Hostel_change/hostel_change.dart';
@@ -292,6 +293,18 @@ class _MainScreenState extends State<MainScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => SwitchRooms(studentinfo: y,),
+                            ),
+                          );
+                        },
+                      ),
+                      _buildActionButton(
+                        icon: Icons.airplane_ticket,
+                        label: 'Switch Requests',
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ApproveSwitch(),
                             ),
                           );
                         },

@@ -37,7 +37,9 @@ class _SwitchRoomsState extends State<SwitchRooms> {
           "floor": widget.studentinfo.hostelinfo.floor,
           "wing": widget.studentinfo.hostelinfo.wing,
           "room": widget.studentinfo.hostelinfo.roomNumber,
-          "their_roll": _theirRollNumber
+          "their_roll": _theirRollNumber,
+          "uid" : widget.studentinfo.uid,
+          "key" : x
         },
       }
     },SetOptions(merge: true));
