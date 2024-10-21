@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:getwidget/components/drawer/gf_drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iris_rec/Data%20and%20models/student_list_model.dart';
 import 'package:iris_rec/Screens/Hostel_Dashboard/my_drawer.dart';
@@ -21,8 +20,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  Map<String, dynamic>? userData; // To store user data
-  bool isLoading = true; // Loading state for the data
+  Map<String, dynamic>? userData;
+  bool isLoading = true;
 
   final StudentList x = StudentList(
     hostelinfo: HostelDetails(
@@ -40,59 +39,45 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    fetchUserData(); // Fetch user data when the widget is initialized
+    fetchUserData();
   }
 
-  // Function to fetch user data from Firestore
   Future<void> fetchUserData() async {
-    final userId = FirebaseAuth.instance.currentUser!.uid; // Get the current user's ID
+    final userId = FirebaseAuth.instance.currentUser!.uid;
     try {
       DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection('users').doc(userId).get();
       if (snapshot.exists) {
         setState(() {
-          userData = snapshot.data() as Map<String, dynamic>; // Store user data
-          isLoading = false; // Set loading to false once data is fetched
+          userData = snapshot.data() as Map<String, dynamic>;
+          isLoading = false;
         });
       } else {
-        print("No user data found for this ID.");
-        setState(() => isLoading = false); // Handle no data case
+        setState(() => isLoading = false);
       }
     } catch (e) {
-      print("Error retrieving user data: $e");
-      setState(() => isLoading = false); // Handle error case
+      setState(() => isLoading = false);
     }
   }
+
+  @override
   Widget build(BuildContext context) {
-    // Get the current user's ID
     final userId = FirebaseAuth.instance.currentUser!.uid;
-    final StudentList x = StudentList(
-      hostelinfo: HostelDetails(
-        floor: "0",
-        hostelName: "dummy hostel",
-        roomNumber: "1",
-        wing: "dummywing",
-      ),
-      email: "dummyemail",
-      name: "dummyname",
-      rollnumber: "dummyrolenumber",
-      uid: "dummyuid",
-    );
 
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.grey[850], // Dark background
       appBar: AppBar(
-        title:  Text(
+        title: Text(
           "HOSTEL DASHBOARD",
           style: GoogleFonts.poppins(
-            fontSize: 20,
+            fontSize: 22,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: Colors.tealAccent, // Accent color for the title
           ),
-
         ),
         centerTitle: true,
-        backgroundColor: Colors.grey[900],
-        iconTheme: const IconThemeData(color: Colors.white),
+        backgroundColor: Colors.grey[900], // Dark AppBar
+        iconTheme: const IconThemeData(color: Colors.tealAccent),
+        elevation: 2, // Subtle shadow
       ),
       drawer: MyDrawer(
         onSignOut: () => FirebaseAuth.instance.signOut(),
@@ -108,11 +93,13 @@ class _MainScreenState extends State<MainScreen> {
             MaterialPageRoute(builder: (context) => HostelChangeApproval()),
           );
         },
-        hostelManager: (){Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HostelManager()),
-        );},
-        studentManager: (){
+        hostelManager: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HostelManager()),
+          );
+        },
+        studentManager: () {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => StudentManager()),
@@ -124,7 +111,7 @@ class _MainScreenState extends State<MainScreen> {
         stream: FirebaseFirestore.instance
             .collection('users')
             .doc(userId)
-            .snapshots(), // Listen for user document changes
+            .snapshots(),
         builder: (ctx, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator()); // Loading indicator
@@ -135,19 +122,23 @@ class _MainScreenState extends State<MainScreen> {
           }
 
           if (!snapshot.hasData || !snapshot.data!.exists) {
-            return HostelRegistrationScreen(mode: "register", studentdetail: x); // Navigate to registration screen
+            return HostelRegistrationScreen(
+              mode: "register",
+              studentdetail: x,
+            ); // Navigate to registration screen
           }
 
-          // Extract user data
           var userData = snapshot.data!.data() as Map<String, dynamic>;
           var name = userData['name'] ?? 'No name provided';
           var email = userData['email'] ?? 'No email provided';
           var rollNumber = userData['roll'] ?? 'No roll number';
-          var hostelInfo = userData['hostelInfo']; // Hostel info (could be null)
+          var hostelInfo = userData['hostelInfo'];
 
-          // Conditional UI based on hostel info
           if (hostelInfo == null) {
-            return HostelRegistrationScreen(mode: "register", studentdetail: x); // Navigate to registration screen
+            return HostelRegistrationScreen(
+              mode: "register",
+              studentdetail: x,
+            );
           }
 
           return SingleChildScrollView(
@@ -156,7 +147,6 @@ class _MainScreenState extends State<MainScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Header Section with Avatar
                   Row(
                     children: [
                       CircleAvatar(
@@ -165,7 +155,7 @@ class _MainScreenState extends State<MainScreen> {
                         child: Icon(
                           Icons.person,
                           size: 40,
-                          color: Colors.grey[100],
+                          color: Colors.tealAccent,
                         ),
                       ),
                       const SizedBox(width: 16),
@@ -177,14 +167,14 @@ class _MainScreenState extends State<MainScreen> {
                             style: GoogleFonts.poppins(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: Colors.grey[800],
+                              color: Colors.tealAccent, // Accent color
                             ),
                           ),
                           Text(
                             email,
                             style: GoogleFonts.poppins(
                               fontSize: 16,
-                              color: Colors.grey[700],
+                              color: Colors.white70, // Softer text color
                             ),
                           ),
                         ],
@@ -193,12 +183,12 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                   const SizedBox(height: 40),
 
-                  // Hostel Information Card
                   Card(
                     elevation: 4,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
+                    color: Colors.blueGrey[800],
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
@@ -209,7 +199,7 @@ class _MainScreenState extends State<MainScreen> {
                             style: GoogleFonts.poppins(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: Colors.grey[800],
+                              color: Colors.tealAccent,
                             ),
                           ),
                           const SizedBox(height: 10),
@@ -221,16 +211,14 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 50),
 
-                  // Action Buttons displayed in a grid
                   GridView.count(
-                    crossAxisCount: 2, // Number of columns
+                    crossAxisCount: 2,
                     shrinkWrap: true,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
-                    childAspectRatio: 2.5, // Adjust the ratio to control button height
+                    childAspectRatio: 2.5,
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
                       _buildActionButton(
@@ -251,14 +239,19 @@ class _MainScreenState extends State<MainScreen> {
                           );
                         },
                       ),
-
                       _buildActionButton(
                         icon: Icons.airplane_ticket,
                         label: 'My Requests',
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => MyRequestsScreen(mykey: email.split('.').first,hostel: hostelInfo['hostelName'],rollnumber: rollNumber,)),
+                            MaterialPageRoute(
+                              builder: (context) => MyRequestsScreen(
+                                mykey: email.split('.').first,
+                                hostel: hostelInfo['hostelName'],
+                                rollnumber: rollNumber,
+                              ),
+                            ),
                           );
                         },
                       ),
@@ -287,7 +280,6 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  // Helper widget to create information rows
   Widget _buildInfoRow(String title, String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -298,14 +290,14 @@ class _MainScreenState extends State<MainScreen> {
             style: GoogleFonts.poppins(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: Colors.grey[700],
+              color: Colors.tealAccent, // Accent color for titles
             ),
           ),
           Text(
             value,
             style: GoogleFonts.poppins(
               fontSize: 16,
-              color: Colors.grey[600],
+              color: Colors.white70, // Softer text color for values
             ),
           ),
         ],
@@ -313,8 +305,11 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  // Helper widget to create action buttons
-  Widget _buildActionButton({required IconData icon, required String label, required VoidCallback onPressed}) {
+  Widget _buildActionButton({
+    required IconData icon,
+    required String label,
+    required VoidCallback onPressed,
+  }) {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.grey[900],
@@ -323,12 +318,12 @@ class _MainScreenState extends State<MainScreen> {
           borderRadius: BorderRadius.circular(12),
         ),
       ),
-      icon: Icon(icon, color: Colors.white),
+      icon: Icon(icon, color: Colors.tealAccent),
       label: Text(
         label,
         style: GoogleFonts.poppins(
           fontSize: 14,
-          color: Colors.white,
+          color: Colors.tealAccent,
           fontWeight: FontWeight.w500,
         ),
       ),

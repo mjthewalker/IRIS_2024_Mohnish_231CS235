@@ -18,9 +18,12 @@ class _CommonCardState extends State<CommonCard> {
     return Card(
       //   shadowColor: Theme.of(context).dividerColor,
       color: widget.color,
+
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(widget.radius),
+          //side: BorderSide(color: Colors.tealAccent, width: 1.5)
       ),
+      elevation: 50,
       child: widget.child,
     );
   }

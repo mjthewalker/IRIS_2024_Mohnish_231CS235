@@ -9,6 +9,8 @@ import 'package:iris_rec/Screens/Student_Manager/manage_student.dart';
 import '../../Data and models/student_list_model.dart';
 
 class StudentManager extends StatefulWidget{
+  const StudentManager({super.key});
+
   @override
   StudentManagerState createState() => StudentManagerState();
 }

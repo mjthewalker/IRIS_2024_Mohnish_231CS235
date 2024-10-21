@@ -26,17 +26,15 @@ class MyRequestsScreen extends StatelessWidget {
       for (var requestDoc in requestsSnapshot.docs) {
         Map<String, dynamic> requestData = requestDoc.data() as Map<String, dynamic>;
 
-        // Iterate through each user's request data
         requestData.forEach((userKey, userData) {
           if (userData is Map<String, dynamic> && userKey == mykey) {
-            // Create a HostelChangeRequest object from each user's data
             HostelChangeRequest request = HostelChangeRequest.fromJson(userData);
             allRequests.add(request);
           }
         });
       }
     } catch (e) {
-      print("Error fetching requests: $e"); // Log the error
+      print("Error fetching requests: $e");
     }
 
     return allRequests;
@@ -49,14 +47,8 @@ class MyRequestsScreen extends StatelessWidget {
     if (snapshot.exists) {
       Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
       data.forEach((userKey, userData) {
-        // Check if userData is a valid map and not empty
         if (userData != null && userData is Map<String, dynamic>) {
-          // Only add to allRequests if the required fields are present
-
           requests.add(data);
-
-        } else {
-          print("userData is null or not a valid map for user: $userKey");
         }
       });
     }
@@ -66,18 +58,20 @@ class MyRequestsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.grey[850], // Dark background
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-            "My Requests",
-            style: GoogleFonts.poppins(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            )),
-        backgroundColor: Colors.grey[900],
-        iconTheme: const IconThemeData(color: Colors.white),
+          "My Requests",
+          style: GoogleFonts.poppins(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: Colors.tealAccent, // Accent color for title
+          ),
+        ),
+        backgroundColor: Colors.grey[900], // Dark AppBar
+        iconTheme: const IconThemeData(color: Colors.tealAccent),
+        elevation: 2, // Subtle shadow
       ),
       body: FutureBuilder<List<dynamic>>(
         future: Future.wait([getAllRequests(), leaveRequests()]),
@@ -99,34 +93,103 @@ class MyRequestsScreen extends StatelessWidget {
           // Add hostel change requests to the combined list
           combinedRequests.addAll(hostelRequests.map((request) {
             return Card(
-              margin: const EdgeInsets.all(10),
+              margin: const EdgeInsets.all(12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              elevation: 8, // Shadow for depth
+              color: Colors.grey[900], // Dark card background
               child: ListTile(
-                title: const Text('Hostel Change Request'),
-                subtitle: Text(
-                  'Current Hostel: ${request.hostelChangeDetails.currentDetails.currentHostel}\n'
-                      'New Hostel: ${request.hostelChangeDetails.newRoomDetails.newHostel}',
+                leading: const Icon(Icons.home_outlined, color: Colors.tealAccent),
+                title: Text(
+                  "Hostel Change Request",
+                  style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.tealAccent, // Accent color for title
+                  ),
                 ),
-                trailing: Text('Status: ${request.status}'),
+                subtitle: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5.0),
+                  child: Text(
+                    'Current Hostel: ${request.hostelChangeDetails.currentDetails.currentHostel}\n'
+                        'New Hostel: ${request.hostelChangeDetails.newRoomDetails.newHostel}',
+                    style: GoogleFonts.poppins(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white70, // Softer text color for readability
+                    ),
+                  ),
+                ),
+                trailing: Text(
+                  "Status: ${request.status}",
+                  style: GoogleFonts.poppins(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: request.status == 'Approved'
+                        ? Colors.greenAccent
+                        : request.status == 'Denied' ? Colors.redAccent :Colors.orangeAccent, // Use accent colors for status
+                  ),
+                ),
               ),
             );
           }));
 
+          // Divider between different request types
+          combinedRequests.add(Divider(
+            height: 20,
+            thickness: 1.5,
+            color: Colors.tealAccent.withOpacity(0.5), // Accent color for divider
+            indent: 20,
+            endIndent: 20,
+          ));
+
           // Add leave requests to the combined list
           combinedRequests.addAll(leaveRequestsData.map((leaveRequest) {
             return Card(
-              margin: const EdgeInsets.all(10),
+              margin: const EdgeInsets.all(12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              elevation: 8, // Shadow for depth
+              color: Colors.grey[900], // Dark card background
               child: ListTile(
-                title: const Text('Leave Request'),
-                subtitle: Text(
-                  'Reason: ${leaveRequest['$rollnumber']['Reason']}\n'
-
+                leading: const Icon(Icons.airplane_ticket_outlined, color: Colors.tealAccent),
+                title: Text(
+                  "Leave Request",
+                  style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.tealAccent, // Accent color for title
+                  ),
                 ),
-                trailing: Text('Status: ${leaveRequest['$rollnumber']['status']}'),
+                subtitle: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5.0),
+                  child: Text(
+                    'Reason: ${leaveRequest['$rollnumber']['Reason']}',
+                    style: GoogleFonts.poppins(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white70, // Softer text color for readability
+                    ),
+                  ),
+                ),
+                trailing: Text(
+                  "Status: ${leaveRequest['$rollnumber']['status']}",
+                  style: GoogleFonts.poppins(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: leaveRequest['$rollnumber']['status'] == 'Approved'
+                        ? Colors.greenAccent
+                        : Colors.orangeAccent, // Use accent colors for status
+                  ),
+                ),
               ),
             );
           }));
 
           return ListView(
+            padding: const EdgeInsets.symmetric(vertical: 10),
             children: combinedRequests,
           );
         },

@@ -184,12 +184,12 @@ class _HostelDetailScreenState extends State<HostelDetailScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "Select a room in ${widget.hostel.hostelName}",
-          style: GoogleFonts.poppins(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          )),
+            "Select a room in ${widget.hostel.hostelName}",
+            style: GoogleFonts.poppins(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            )),
         backgroundColor: Colors.grey[900],
         iconTheme: const IconThemeData(color: Colors.white),
       ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iris_rec/Data%20and%20models/my_list_tile.dart';
 
-class MyDrawer extends StatelessWidget{
+class MyDrawer extends StatelessWidget {
   final void Function()? onSignOut;
   final void Function()? myRequests;
   final void Function()? hostelRequests;
@@ -9,45 +9,85 @@ class MyDrawer extends StatelessWidget{
   final void Function()? studentManager;
   final String? isAdmin;
 
-  const MyDrawer({super.key,this.onSignOut,this.myRequests,this.hostelRequests,this.hostelManager,this.studentManager, this.isAdmin});
+  const MyDrawer({
+    Key? key,
+    this.onSignOut,
+    this.myRequests,
+    this.hostelRequests,
+    this.hostelManager,
+    this.studentManager,
+    this.isAdmin,
+  }) : super(key: key);
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: Colors.grey[900], // Dark background for the drawer
       child: Column(
-
-
         children: [
-            DrawerHeader(
-               child: Icon(
-                 Icons.person,
-                 color: Colors.white,
-                 size: 64,
-               )),
-
-          MyListTile(icon: Icons.home, text: 'H O M E', onTap:() => Navigator.pop(context)),
-          const SizedBox(height: 10,),
-          if (isAdmin == "admin") Column(
-            children: [
-              MyListTile(icon: Icons.airplane_ticket_outlined, text: 'M A N A G E  L E A V E S', onTap : myRequests),
-              const SizedBox(height: 10,),
-              MyListTile(icon: Icons.receipt_long, text: 'H O S T E L  R E Q U E S T S', onTap : hostelRequests),
-              const SizedBox(height: 10,),
-              MyListTile(icon: Icons.business, text: 'H O S T E L  M A N A G E R', onTap : hostelManager),
-              const SizedBox(height: 10,),
-              MyListTile(icon: Icons.people, text: 'S T U D E N T  M A N A G E R', onTap : studentManager),
-              const SizedBox(height: 10,),
-            ],),
-
-          MyListTile(icon: Icons.logout, text: 'L O G O U T', onTap: onSignOut)
-
-
-
-
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.grey[850], // Slightly lighter for the header
+            ),
+            child: Center(
+              child: Icon(
+                Icons.person,
+                color: Colors.tealAccent, // Accent color for the icon
+                size: 64,
+              ),
+            ),
+          ),
+          MyListTile(
+            icon: Icons.home,
+            text: 'H O M E',
+            textColor: Colors.white,
+            activeColor: Colors.tealAccent, // Change color on tap
+            onTap: () => Navigator.pop(context),
+          ),
+          const SizedBox(height: 10),
+          if (isAdmin == "admin") ...[
+            MyListTile(
+              icon: Icons.airplane_ticket_outlined,
+              text: 'M A N A G E  L E A V E S',
+              textColor: Colors.white,
+              activeColor: Colors.tealAccent, // Change color on tap
+              onTap: myRequests,
+            ),
+            const SizedBox(height: 10),
+            MyListTile(
+              icon: Icons.receipt_long,
+              text: 'H O S T E L  R E Q U E S T S',
+              textColor: Colors.white,
+              activeColor: Colors.tealAccent, // Change color on tap
+              onTap: hostelRequests,
+            ),
+            const SizedBox(height: 10),
+            MyListTile(
+              icon: Icons.business,
+              text: 'H O S T E L  M A N A G E R',
+              textColor: Colors.white,
+              activeColor: Colors.tealAccent, // Change color on tap
+              onTap: hostelManager,
+            ),
+            const SizedBox(height: 10),
+            MyListTile(
+              icon: Icons.people,
+              text: 'S T U D E N T  M A N A G E R',
+              textColor: Colors.white,
+              activeColor: Colors.tealAccent, // Change color on tap
+              onTap: studentManager,
+            ),
+            const SizedBox(height: 10),
+          ],
+          MyListTile(
+            icon: Icons.logout,
+            text: 'L O G O U T',
+            textColor: Colors.white,
+            activeColor: Colors.tealAccent, // Change color on tap
+            onTap: onSignOut,
+          ),
         ],
       ),
-
     );
   }
 }
