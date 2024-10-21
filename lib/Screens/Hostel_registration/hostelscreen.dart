@@ -181,17 +181,19 @@ class _HostelDetailScreenState extends State<HostelDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
+
       appBar: AppBar(
         centerTitle: true,
+
         title: Text(
             "Select a room in ${widget.hostel.hostelName}",
             style: GoogleFonts.poppins(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: Colors.tealAccent,
             )),
         backgroundColor: Colors.grey[900],
-        iconTheme: const IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.tealAccent),
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator()) // Show loading spinner while fetching data
@@ -202,24 +204,60 @@ class _HostelDetailScreenState extends State<HostelDetailScreen> {
             padding: const EdgeInsets.all(8.0),
 
             child: CommonCard(
-
+              color: Colors.grey[900],
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("  Available rooms:${widget.hostel.floors[0].wings[0].availableRooms*widget.hostel.floors.length*2-occupiedRoomsCount}"),
+                  const SizedBox( height : 10),
+                  Text(
+                    "  Available rooms:${widget.hostel.floors[0].wings[0].availableRooms*widget.hostel.floors.length*2-occupiedRoomsCount}",
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.tealAccent,
+                    ),
+                  ),
+
                   Row(
                     children: [
                       const SizedBox(width: 5,),
                       selectedRoom == null
                           ? const Text("")
-                          : Text(" Selected Room: ${selectedRoom!.split('Room').last.trim()}"),
-                      const SizedBox(width: 140,),
+                          : Text(
+                        " Selected Room: ${selectedRoom!.split('Room').last.trim()}",
+                        style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          color: Colors.tealAccent, // Accent color for warden ID
+                        )),
+                      const SizedBox(width: 120,),
                       selectedRoom == null
-                          ? const Text("") :Text("Occupancy: ${occupancyRoom}/3")
+                          ? const Text("") :
+                      Text(
+                          "Occupancy: ${occupancyRoom}/3",
+                          style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            color: Colors.tealAccent, // Accent color for warden ID
+                          )),
+
                     ],
                   ),
-                  TextButton(onPressed: _submit, child: const Text("Submit"))
 
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 140),
+                    child: ElevatedButton(onPressed: _submit,
+                    style:  ElevatedButton.styleFrom(
+                      backgroundColor: Colors.greenAccent, // Reallocate button color
+
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    ),
+                    child: Text(
+                        'Book Room',
+                        style: GoogleFonts.poppins(
+                          fontSize:10,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),),
+                  ))
                 ],
               ),
             ),
@@ -230,15 +268,23 @@ class _HostelDetailScreenState extends State<HostelDetailScreen> {
               itemBuilder: (context, index) {
                 final floor = widget.hostel.floors[index];
                 return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Text(
-                        "Floor ${floor.floorNumber}",
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                      const SizedBox(height: 10,),
+
+                       Text(
+                        'Floor ${floor.floorNumber}',
+                        style: GoogleFonts.poppins(
+                            color: Colors.grey[900]
+                            ,fontSize: 18,
+                            fontWeight: FontWeight.bold// Light text color for readability
+                        ),
                       ),
+                    Divider(
+                      height: 20,
+                      thickness: 1.5,
+                      color: Colors.grey[900], // Accent color for divider
+
                     ),
                     Column(
                       children: floor.wings.map((wing) {
@@ -249,9 +295,10 @@ class _HostelDetailScreenState extends State<HostelDetailScreen> {
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
                                 '${wing.wingName}',
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500,
+                                style: GoogleFonts.poppins(
+                                    color: Colors.grey[900],
+                                    fontSize: 15
+                                    ,fontWeight: FontWeight.w600// Light text color for readability
                                 ),
                               ),
                             ),
@@ -297,11 +344,16 @@ class _HostelDetailScreenState extends State<HostelDetailScreen> {
                                           : isAvailable
                                           ? Colors.white
                                           : Colors.red,
-                                      border: Border.all(color: Colors.black),
+                                      border: Border.all(color: Colors.blueGrey),
                                       borderRadius: BorderRadius.circular(12.0),
                                     ),
                                     child: Center(
-                                      child: Text("$room"),
+                                      child: Text(
+                                        '${room}',
+                                        style: GoogleFonts.poppins(
+                                          color: Colors.grey[900] // Light text color for readability
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 );
@@ -309,8 +361,11 @@ class _HostelDetailScreenState extends State<HostelDetailScreen> {
                             ),
                           ],
                         );
+
                       }).toList(),
                     ),
+                    const SizedBox(height: 10,),
+
                   ],
                 );
               },

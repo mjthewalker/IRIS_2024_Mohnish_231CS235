@@ -4,8 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iris_rec/Data%20and%20models/student_list_model.dart';
 
 class ApplyLeave extends StatefulWidget {
-  String hostelName;
-  ApplyLeave({required this.hostelName});
+  final String hostelName;
+  const ApplyLeave({required this.hostelName});
 
   @override
   _ApplyLeaveState createState() => _ApplyLeaveState();
@@ -13,14 +13,11 @@ class ApplyLeave extends StatefulWidget {
 
 class _ApplyLeaveState extends State<ApplyLeave> {
   final _formKey = GlobalKey<FormState>();
-  var _nameController = '';
-  var _leaveReasonController = '';
-  var _roll = '';
+  String _nameController = '';
+  String _leaveReasonController = '';
+  String _roll = '';
   DateTime? _fromDate;
   DateTime? _toDate;
-
-  @override
-
 
   // Method to handle date picker for both 'from' and 'to' dates
   Future<void> _pickDate(BuildContext context, Function(DateTime?) setDate, DateTime? initialDate) async {
@@ -37,30 +34,28 @@ class _ApplyLeaveState extends State<ApplyLeave> {
 
   // Method to handle form submission
   void _submitForm(BuildContext context) async {
-        _formKey.currentState!.save();
-      if (_fromDate == null || _toDate == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Please select both From and To dates!")),
-        );
-        return;
-      }
-      await FirebaseFirestore.instance.collection('leaves').doc(widget.hostelName).set({
-        "$_roll":{
-          "name" : _nameController,
-          "status" : "yet to be approved",
-          "FromDate" : _fromDate,
-          "ToDate" : _toDate,
-          "Reason" : _leaveReasonController,
-          "rollNumber" : _roll,
-          "hostel" : widget.hostelName
-        }
-
-      });
+    _formKey.currentState!.save();
+    if (_fromDate == null || _toDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Leave applied successfully!")),
+        const SnackBar(content: Text("Please select both From and To dates!")),
       );
-      Navigator.pop(context);
-
+      return;
+    }
+    await FirebaseFirestore.instance.collection('leaves').doc(widget.hostelName).set({
+      "$_roll": {
+        "name": _nameController,
+        "status": "yet to be approved",
+        "FromDate": _fromDate,
+        "ToDate": _toDate,
+        "Reason": _leaveReasonController,
+        "rollNumber": _roll,
+        "hostel": widget.hostelName,
+      }
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Leave applied successfully!")),
+    );
+    Navigator.pop(context);
   }
 
   @override
@@ -68,16 +63,17 @@ class _ApplyLeaveState extends State<ApplyLeave> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            "Apply for a leave",
-            style: GoogleFonts.poppins(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            )),
+          "Apply for Leave",
+          style: GoogleFonts.poppins(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.tealAccent, // Accent color for title
+          ),
+        ),
         backgroundColor: Colors.grey[900],
-        iconTheme: const IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.tealAccent),
       ),
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.grey[850], // Dark background
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -85,29 +81,20 @@ class _ApplyLeaveState extends State<ApplyLeave> {
           child: ListView(
             children: <Widget>[
               // Name field
-              TextFormField(
-
-                decoration: const InputDecoration(
-                  labelText: "Name",
-                  border: OutlineInputBorder(),
+              Card(
+                color: Colors.grey[900], // Dark card background
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your name';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _nameController = value!;
-                }
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-
+                elevation: 8,
+                child: TextFormField(
                   decoration: const InputDecoration(
-                    labelText: "Roll Number",
+                    labelText: "Name",
+
                     border: OutlineInputBorder(),
+                    contentPadding: EdgeInsets.all(16),
                   ),
+                  style: TextStyle(color: Colors.white),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your name';
@@ -115,9 +102,39 @@ class _ApplyLeaveState extends State<ApplyLeave> {
                     return null;
                   },
                   onSaved: (value) {
-                    _roll = value!;
-                  }
+                    _nameController = value!;
+                  },
+                ),
               ),
+              const SizedBox(height: 20),
+
+              // Roll number field
+              Card(
+                color: Colors.grey[900], // Dark card background
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                elevation: 8,
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: "Roll Number",
+                    border: OutlineInputBorder(),
+                    contentPadding: EdgeInsets.all(16),
+                  ),
+                  style: TextStyle(color: Colors.white),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your roll number';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _roll = value!;
+                  },
+                ),
+              ),
+              const SizedBox(height: 20),
+
               // From date picker
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -126,6 +143,7 @@ class _ApplyLeaveState extends State<ApplyLeave> {
                     _fromDate == null
                         ? 'Select From date'
                         : 'From Date: ${_fromDate!.toLocal()}'.split(' ')[0],
+                    style: const TextStyle(color: Colors.tealAccent), // Light text color for readability
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -149,6 +167,7 @@ class _ApplyLeaveState extends State<ApplyLeave> {
                     _toDate == null
                         ? 'Select To date'
                         : 'To Date: ${_toDate!.toLocal()}'.split(' ')[0],
+                    style: const TextStyle(color: Colors.tealAccent), // Light text color for readability
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -165,22 +184,32 @@ class _ApplyLeaveState extends State<ApplyLeave> {
               const SizedBox(height: 20),
 
               // Leave reason field
-              TextFormField(
-
-                decoration: const InputDecoration(
-                  labelText: "Reason for Leave",
-                  border: OutlineInputBorder(),
+              Card(
+                color: Colors.grey[900], // Dark card background
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
                 ),
+                elevation: 8,
+                child: TextFormField(
 
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please provide a reason for leave';
-                  }
-                  return null;
-                },
-                onSaved: (value){
-                  _leaveReasonController =value!;
-                },
+                  decoration: const InputDecoration(
+                    labelText: "Reason for Leave",
+                    border: OutlineInputBorder(),
+                    contentPadding: EdgeInsets.all(16),
+                  ),
+
+                  style: TextStyle(color: Colors.white),
+
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please provide a reason for leave';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _leaveReasonController = value!;
+                  },
+                ),
               ),
               const SizedBox(height: 20),
 
@@ -199,7 +228,14 @@ class _ApplyLeaveState extends State<ApplyLeave> {
                     _submitForm(context);
                   }
                 },
-                child: const Text('Submit'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.tealAccent, // Match previous theme
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10), // Rounded corners for button
+                  ),
+                ),
+                child:  Text('Submit',style: TextStyle(color: Colors.grey[900]),),
               ),
             ],
           ),

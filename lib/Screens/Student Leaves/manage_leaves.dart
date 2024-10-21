@@ -8,6 +8,7 @@ class ManageLeaves extends StatefulWidget {
 }
 
 class _ManageLeaveState extends State<ManageLeaves> {
+  // Fetch all leave requests from Firestore
   Future<List<Map<String, dynamic>>> getAllRequests() async {
     List<Map<String, dynamic>> allRequests = [];
 
@@ -18,6 +19,7 @@ class _ManageLeaveState extends State<ManageLeaves> {
       for (var requestDoc in requestsSnapshot.docs) {
         Map<String, dynamic> requestData = requestDoc.data() as Map<String, dynamic>;
 
+        // Iterate over user requests in the document
         requestData.forEach((userKey, userData) {
           if (userData != null && userData is Map<String, dynamic>) {
             allRequests.add(userData);
@@ -33,6 +35,7 @@ class _ManageLeaveState extends State<ManageLeaves> {
     return allRequests;
   }
 
+  // Function to update the request status in Firestore
   Future<void> updateRequestStatus(String docId, String status, String hostel) async {
     try {
       await FirebaseFirestore.instance.collection('leaves').doc(hostel).set({
@@ -40,7 +43,13 @@ class _ManageLeaveState extends State<ManageLeaves> {
           "status": status,
         }
       }, SetOptions(merge: true));
-      setState(() {}); // Refresh UI after status change
+
+      // Provide user feedback
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Status updated to $status')),
+      );
+
+      setState(() {}); // Refresh the UI after status change
     } catch (e) {
       print("Error updating status: $e");
     }
@@ -67,12 +76,13 @@ class _ManageLeaveState extends State<ManageLeaves> {
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: getAllRequests(),
         builder: (context, snapshot) {
+          // Handling different states of the Future
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator()); // Loading indicator
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}')); // Error handling
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No Leave Requests Found')); // No data found
+            return const Center(child: Text('No Leave Requests Found')); // No requests found
           }
 
           List<Map<String, dynamic>> leaveRequests = snapshot.data!;
@@ -81,7 +91,7 @@ class _ManageLeaveState extends State<ManageLeaves> {
             itemCount: leaveRequests.length,
             itemBuilder: (context, index) {
               Map<String, dynamic> leaveRequest = leaveRequests[index];
-              String docId = leaveRequest['rollNumber'];
+              String docId = leaveRequest['rollNumber']; // Assuming each request has a unique docId
               String hostel = leaveRequest['hostel'];
 
               return Card(
@@ -92,7 +102,6 @@ class _ManageLeaveState extends State<ManageLeaves> {
                   side: BorderSide(color: Colors.tealAccent, width: 1.5), // Accent color border
                 ),
                 elevation: 8, // Card elevation for shadow effect
-                shadowColor: Colors.black38, // Subtle shadow color
                 child: ListTile(
                   title: Text(
                     "Leave Request",
@@ -102,21 +111,45 @@ class _ManageLeaveState extends State<ManageLeaves> {
                       color: Colors.tealAccent, // Accent color for title
                     ),
                   ),
-                  subtitle: Text(
-                    'Reason: ${leaveRequest['Reason']}\n'
-                        'From: ${leaveRequest['name']}\n'
-                        'To: ${leaveRequest['rollNumber']}',
-                    style: GoogleFonts.poppins(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white, // Light text color for readability
-                    ),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Reason: ${leaveRequest['Reason']}\n'
+                            'From: ${leaveRequest['name']}\n'
+                            'To: ${leaveRequest['rollNumber']}\n',
+                        style: GoogleFonts.poppins(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white, // Light text color for readability
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          if (leaveRequest['status'] == 'yet to be approved') ...[
+                          IconButton(
+                            icon: const Icon(Icons.check, color: Colors.green),
+                            onPressed: () => updateRequestStatus(docId, 'Approved', hostel),
+                          ),
+                          const SizedBox(width: 5),
+                          // Reject button (only show if pending)
+                          IconButton(
+                            icon: const Icon(Icons.close, color: Colors.red),
+                            onPressed: () => updateRequestStatus(docId, 'Rejected', hostel),
+                          ),
+              ]
+
+
+                        ],
+                      )
+
+
+                    ],
                   ),
                   trailing: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      // Status display (remains in trailing position)
+                      // Status display
                       Text(
                         "Status: ${leaveRequest['status']}",
                         style: GoogleFonts.poppins(
@@ -133,19 +166,7 @@ class _ManageLeaveState extends State<ManageLeaves> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           // Approve button (only show if pending)
-                          if (leaveRequest['status'] == 'yet to be approved')
-                            IconButton(
-                              icon: const Icon(Icons.check, color: Colors.green),
-                              onPressed: () => updateRequestStatus(docId, 'Approved', hostel),
-                            ),
-                          const SizedBox(width: 5),
 
-                          // Reject button (only show if pending)
-                          if (leaveRequest['status'] == 'yet to be approved')
-                            IconButton(
-                              icon: const Icon(Icons.close, color: Colors.red),
-                              onPressed: () => updateRequestStatus(docId, 'Rejected', hostel),
-                            ),
                         ],
                       ),
                     ],
