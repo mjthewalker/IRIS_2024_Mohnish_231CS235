@@ -47,7 +47,8 @@ class MyRequestsScreen extends StatelessWidget {
     if (snapshot.exists) {
       Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
       data.forEach((userKey, userData) {
-        if (userData != null && userData is Map<String, dynamic>) {
+        if (userData != null && userData is Map<String, dynamic> && userKey == mykey) {
+          print(data);
           requests.add(data);
         }
       });
@@ -146,6 +147,10 @@ class MyRequestsScreen extends StatelessWidget {
 
           // Add leave requests to the combined list
           combinedRequests.addAll(leaveRequestsData.map((leaveRequest) {
+            final requestData = leaveRequest[rollnumber];
+            final hasReason = requestData != null && requestData.containsKey('Reason');
+            final hasStatus = requestData != null && requestData.containsKey('status');
+
             return Card(
               margin: const EdgeInsets.all(12),
               shape: RoundedRectangleBorder(
@@ -166,7 +171,7 @@ class MyRequestsScreen extends StatelessWidget {
                 subtitle: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 5.0),
                   child: Text(
-                    'Reason: ${leaveRequest['$rollnumber']['Reason']}',
+                    hasReason ? 'Reason: ${requestData['Reason']}' : 'Reason: Not available',
                     style: GoogleFonts.poppins(
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
@@ -175,11 +180,11 @@ class MyRequestsScreen extends StatelessWidget {
                   ),
                 ),
                 trailing: Text(
-                  "Status: ${leaveRequest['$rollnumber']['status']}",
+                  hasStatus ? "Status: ${requestData['status']}" : "Status: Unknown",
                   style: GoogleFonts.poppins(
                     fontSize: 13,
                     fontWeight: FontWeight.bold,
-                    color: leaveRequest['$rollnumber']['status'] == 'Approved'
+                    color: hasStatus && requestData['status'] == 'Approved'
                         ? Colors.greenAccent
                         : Colors.orangeAccent, // Use accent colors for status
                   ),

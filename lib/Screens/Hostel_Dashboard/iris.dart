@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iris_rec/Data%20and%20models/student_list_model.dart';
 import 'package:iris_rec/Screens/Hostel_Dashboard/my_drawer.dart';
+import 'package:iris_rec/Screens/room_switch/switch_rooms.dart';
 import 'package:iris_rec/Screens/Hostel_Manager/hostel_manager.dart';
 import 'package:iris_rec/Screens/Hostel_change/hostel_change.dart';
 import 'package:iris_rec/Screens/Hostel_registration/hostelreg.dart';
@@ -58,6 +59,7 @@ class _MainScreenState extends State<MainScreen> {
       setState(() => isLoading = false);
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -134,12 +136,25 @@ class _MainScreenState extends State<MainScreen> {
           var rollNumber = userData['roll'] ?? 'No roll number';
           var hostelInfo = userData['hostelInfo'];
 
+
           if (hostelInfo == null) {
             return HostelRegistrationScreen(
               mode: "register",
               studentdetail: x,
             );
           }
+          final StudentList y = StudentList(
+            hostelinfo: HostelDetails(
+              floor: hostelInfo['floor'],
+              hostelName: hostelInfo['hostelName'],
+              roomNumber: hostelInfo['roomNumber'],
+              wing: hostelInfo['wing'],
+            ),
+            email: email,
+            name: name,
+            rollnumber: rollNumber,
+            uid: userId,
+          );
 
           return SingleChildScrollView(
             child: Padding(
@@ -203,7 +218,7 @@ class _MainScreenState extends State<MainScreen> {
                             ),
                           ),
                           const SizedBox(height: 10),
-                          _buildInfoRow('Hostel Name', hostelInfo['hostelName']),
+                          _buildInfoRow('Hostel', hostelInfo['hostelName']),
                           _buildInfoRow('Room Number', hostelInfo['roomNumber']),
                           _buildInfoRow('Floor', hostelInfo['floor']),
                           _buildInfoRow('Wing', hostelInfo['wing']),
@@ -265,6 +280,18 @@ class _MainScreenState extends State<MainScreen> {
                               builder: (context) => ApplyLeave(
                                 hostelName: hostelInfo['hostelName'],
                               ),
+                            ),
+                          );
+                        },
+                      ),
+                      _buildActionButton(
+                        icon: Icons.airplane_ticket,
+                        label: 'Switch Rooms',
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SwitchRooms(studentinfo: y,),
                             ),
                           );
                         },

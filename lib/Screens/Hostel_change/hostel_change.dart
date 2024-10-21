@@ -91,20 +91,23 @@ class HostelChangeApprovalState extends State<HostelChangeApproval> {
                 shadowColor: Colors.black38, // Subtle shadow color
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HostelChangeFinalApproval(finalData: request)),
-                    ).then((value) {
-                      if (value != null) {
-                        setState(() {
-                          allChangeRequests = getAllRequests();
-                        });
-                      }
-                    });
+                    if (request.status=="Pending") {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) =>
+                            HostelChangeFinalApproval(finalData: request)),
+                      ).then((value) {
+                        if (value != null) {
+                          setState(() {
+                            allChangeRequests = getAllRequests();
+                          });
+                        }
+                      });
+                    }
                   },
                   child: ListTile(
                     title: Text(
-                      'Name: ${request.personalDetails.name}',
+                      '${request.personalDetails.name}',
                       style: GoogleFonts.poppins(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -114,22 +117,45 @@ class HostelChangeApprovalState extends State<HostelChangeApproval> {
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Current Hostel: ${request.hostelChangeDetails.currentDetails.currentHostel}',
-                          style: GoogleFonts.poppins(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.white, // Light text color for readability
+                        Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: '${request.hostelChangeDetails.currentDetails.currentHostel}  ',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.orangeAccent, // Light text color for readability
+                                ),
+                              ),
+                              const TextSpan(
+                                text: '->  ',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.white, // Keeping the arrow color white
+                                ),
+                              ),
+                              TextSpan(
+                                text: '${request.hostelChangeDetails.newRoomDetails.newHostel}',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.tealAccent, // Different color for the new hostel
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        Text(
+                        )
+
+                        /*Text(
                           'New Hostel: ${request.hostelChangeDetails.newRoomDetails.newHostel}',
                           style: GoogleFonts.poppins(
                             fontSize: 13,
                             fontWeight: FontWeight.w400,
                             color: Colors.white, // Light text color for readability
                           ),
-                        ),
+                        ),*/
                       ],
                     ),
                     trailing: Text(

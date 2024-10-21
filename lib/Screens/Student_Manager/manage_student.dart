@@ -76,7 +76,7 @@ class ManageStudent extends StatelessWidget {
             // Deallocate Room Button
             ElevatedButton(
               onPressed: () async {
-                if (studentdata.hostelinfo.hostelName == "No hostel alloted") {
+                if (studentdata.hostelinfo.hostelName == "No hostel allotted") {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Deallocation failed, student already deallocated')),
                   );
