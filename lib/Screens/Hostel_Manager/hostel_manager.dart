@@ -3,42 +3,46 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:iris_rec/Screens/Hostel_Manager/add_hostel.dart';
 import 'package:iris_rec/Screens/Hostel_Manager/hostel_info.dart';
-
 import '../../Data and models/common_card.dart';
 import '../../Data and models/hostel_data.dart';
 
-class HostelManager extends StatefulWidget{
+class HostelManager extends StatefulWidget {
   @override
   HostelManagerState createState() => HostelManagerState();
 }
-class HostelManagerState extends State<HostelManager>{
-  late Box<Hostel> hostelBox; // Define your hostel box
+
+class HostelManagerState extends State<HostelManager> {
+  late Box<Hostel> hostelBox;
   late Future<List<Hostel>> allHostels;
+
   @override
   void initState() {
     super.initState();
-    hostelBox = Hive.box<Hostel>('hostelBox5'); // Initialize your Hive box
-    allHostels = getAllHostels(); // Call the function to get hostels
+    hostelBox = Hive.box<Hostel>('hostelBox5');
+    allHostels = getAllHostels();
   }
+
   Future<List<Hostel>> getAllHostels() async {
     List<Hostel> hostels = await HostelDataBase(hostelBox).getAllHostels();
     return hostels;
   }
 
-  Widget build(BuildContext context){
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            "Hostel Manager",
-            style: GoogleFonts.poppins(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            )),
+          "Hostel Manager",
+          style: GoogleFonts.poppins(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.tealAccent,
+          ),
+        ),
         backgroundColor: Colors.grey[900],
-        iconTheme: const IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.tealAccent),
       ),
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.grey[850],
       body: FutureBuilder<List<Hostel>>(
         future: allHostels,
         builder: (context, snapshot) {
@@ -46,49 +50,72 @@ class HostelManagerState extends State<HostelManager>{
             return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return Center(
+              child: Text(
+                'Error: ${snapshot.error}',
+                style: const TextStyle(
+                  color: Colors.red,
+                  fontSize: 16,
+                ),
+              ),
+            );
           }
 
-          List<Hostel> hostels = snapshot.data!;
+          List<Hostel> hostels = snapshot.data ?? [];
           if (hostels.isEmpty) {
             return const Center(child: Text('No hostels available.'));
           }
 
-          return
-                  Column(
-                    children: [
-                      TextButton(onPressed: (){
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                            builder: (context) => HostelLayoutForm(), // Pass the hostel object
-                        )).then((value){
-                          if (value!=null){
-                            setState(() {
-                              allHostels = getAllHostels();
-                            });
-                          }
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HostelLayoutForm(),
+                      ),
+                    ).then((value) {
+                      if (value != null) {
+                        setState(() {
+                          allHostels = getAllHostels();
                         });
-                      }, child: Text("Add New Hostel")),
+                      }
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.tealAccent,
+                    foregroundColor: Colors.black,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  ),
+                  child: Text(
+                    "Add New Hostel",
+                    style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: hostels.length,
+                  itemBuilder: (context, index) {
+                    final hostel = hostels[index];
 
-
-                      Expanded(
-                                  child: ListView.builder(
-                                    itemCount: hostels.length,
-                                    itemBuilder: (context, index) {
-                                      final hostel = hostels[index];
-
-                                      return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: GestureDetector( // Wrap with GestureDetector
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                      child: GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => HostelInfo(hostelName: hostel.hostelName,hostelBox: hostelBox,), // Pass the hostel object
+                              builder: (context) => HostelInfo(hostelName: hostel.hostelName, hostelBox: hostelBox),
                             ),
-                          ).then((value){
-                            if (value!=null){
+                          ).then((value) {
+                            if (value != null) {
                               setState(() {
                                 allHostels = getAllHostels();
                               });
@@ -97,40 +124,70 @@ class HostelManagerState extends State<HostelManager>{
                         },
                         child: Column(
                           children: [
-
                             CommonCard(
-                              color: Colors.white70,
-                              radius: 16,
+                              color: Colors.grey[900],
+                              radius: 15,
                               child: ClipRRect(
                                 borderRadius: const BorderRadius.all(Radius.circular(16.0)),
                                 child: AspectRatio(
                                   aspectRatio: 2.7,
                                   child: Image.asset(
-                                    hostel.imgSrc, // Use the image source from the hostel data
+                                    hostel.imgSrc,
                                     fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) => Container(
+                                      color: Colors.grey[300],
+                                      child: Icon(
+                                        Icons.image,
+                                        size: 50,
+                                        color: Colors.grey[600],
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 8.0), // Space between image and description
-                            Text(
-                              hostel.hostelName, // Display the hostel name
-                              style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold), // Bold for emphasis
+                            const SizedBox(height: 8.0),
+                            Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16.0),
+                              ),
+                              elevation: 10,
+                              color: Colors.grey[800],
+                              shadowColor: Colors.black38,
+                              child: Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      hostel.hostelName,
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Warden ID: ${hostel.wardenId}",
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 14,
+                                        color: Colors.tealAccent,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                            const SizedBox(height: 4.0), // Additional spacing
-                            Text(
-                              'Warden ID: ${hostel.wardenId}', // Display warden ID
-                              style: TextStyle(color: Colors.grey[600]), // Lighter color for less emphasis
-                            ),
+                            const SizedBox(height: 16),
                           ],
                         ),
                       ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                    ],
-                  );
+                    );
+                  },
+                ),
+              ),
+            ],
+          );
         },
       ),
     );
