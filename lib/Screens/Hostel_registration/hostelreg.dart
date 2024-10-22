@@ -32,7 +32,7 @@ class _HostelRegistrationScreenState extends State<HostelRegistrationScreen> {
   @override
   void initState() {
     super.initState();
-    hostelBox = Hive.box<Hostel>('hostelBox5');
+    hostelBox = Hive.box<Hostel>('hostelBox6');
     allHostels = getAllHostels();
   }
 
@@ -157,7 +157,7 @@ class _HostelRegistrationScreenState extends State<HostelRegistrationScreen> {
                                 ),
                               ),
                               Text(
-                                "Warden ID",
+                                 hostel.occupancy.toLowerCase(),
                                 style: GoogleFonts.poppins(
                                   fontSize: 14,
                                   color: Colors.tealAccent, // Accent color for warden ID

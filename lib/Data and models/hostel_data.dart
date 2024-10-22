@@ -47,12 +47,15 @@ class Hostel {
 
   @HiveField(3)
   final String imgSrc;
+  @HiveField(4)
+  final String occupancy;
 
   Hostel({
     required this.hostelName,
     required this.floors,
     required this.wardenId,
-    required this.imgSrc
+    required this.imgSrc,
+    required this.occupancy
   });
 }
 class HostelDataBase {
@@ -109,7 +112,8 @@ class HostelDataBase {
         hostelName: 'Shivalik',
         floors: floors,
         wardenId: 'admin123',
-        imgSrc: 'assets/images/shivalik.jpg'
+        imgSrc: 'assets/images/shivalik.jpg',
+        occupancy: 'tripleSharing'
       );
       List<Wing> wingsFloors0 = [
         Wing(wingName: "Right Wing", capacity: 60, availableRooms: 20),
@@ -134,7 +138,8 @@ class HostelDataBase {
           hostelName: 'Sahyadri',
           floors: floors1,
           wardenId: 'admin123',
-          imgSrc: 'assets/images/sahyadri.jpg'
+          imgSrc: 'assets/images/sahyadri.jpg',
+          occupancy: 'tripleSharing'
       );
       List<Wing> wingsFloork0 = [
         Wing(wingName: "Right Wing", capacity: 60, availableRooms: 20),
@@ -159,12 +164,122 @@ class HostelDataBase {
           hostelName: 'Karavali',
           floors: floors2,
           wardenId: 'admin123',
-          imgSrc: 'assets/images/karavali.jpg'
+          imgSrc: 'assets/images/karavali.jpg',
+          occupancy: 'tripleSharing'
       );
+      List<Wing> wingsFloort0 = [
+        Wing(wingName: "Right Wing", capacity: 60, availableRooms: 20),
+        Wing(wingName: "Left Wing", capacity: 60, availableRooms: 20),
+      ];
+      List<Wing> wingsFloort1 = [
+        Wing(wingName: "Right Wing", capacity: 60, availableRooms: 20),
+        Wing(wingName: "Left Wing", capacity: 60, availableRooms: 20),
+      ];
+      List<Wing> wingsFloort2 = [
+        Wing(wingName: "Right Wing", capacity: 60, availableRooms: 20),
+        Wing(wingName: "Left Wing", capacity: 60, availableRooms: 20),
+      ];
+      List<Floor> floors3 = [
+        Floor(floorNumber: 0, wings: wingsFloort0),
+        Floor(floorNumber: 1, wings: wingsFloort1),
+        Floor(floorNumber: 2, wings: wingsFloort2),
 
+      ];
+
+      Hostel hostel3 = Hostel(
+          hostelName: 'Trishul',
+          floors: floors3,
+          wardenId: 'admin123',
+          imgSrc: 'assets/images/trishul.jpg',
+          occupancy: 'doubleSharing'
+      );
+      List<Wing> wingsFloora1 = [
+        Wing(wingName: "Right Wing", capacity: 60, availableRooms: 20),
+        Wing(wingName: "Left Wing", capacity: 60, availableRooms: 20),
+      ];
+      List<Wing> wingsFloora2 = [
+        Wing(wingName: "Right Wing", capacity: 60, availableRooms: 20),
+        Wing(wingName: "Left Wing", capacity: 60, availableRooms: 20),
+      ];
+      List<Wing> wingsFloora3 = [
+        Wing(wingName: "Right Wing", capacity: 60, availableRooms: 20),
+        Wing(wingName: "Left Wing", capacity: 60, availableRooms: 20),
+      ];
+      List<Floor> floors4 = [
+        Floor(floorNumber: 0, wings: wingsFloora1),
+        Floor(floorNumber: 1, wings: wingsFloora2),
+        Floor(floorNumber: 2, wings: wingsFloora3),
+
+      ];
+
+      Hostel hostel4 = Hostel(
+          hostelName: 'Aravali',
+          floors: floors4,
+          wardenId: 'admin123',
+          imgSrc: 'assets/images/Aravali.jpg',
+          occupancy : 'tripleSharing'
+      );
+      List<Wing> wingsFloorv1 = [
+        Wing(wingName: "Right Wing", capacity: 60, availableRooms: 20),
+        Wing(wingName: "Left Wing", capacity: 60, availableRooms: 20),
+      ];
+      List<Wing> wingsFloorv2 = [
+        Wing(wingName: "Right Wing", capacity: 60, availableRooms: 20),
+        Wing(wingName: "Left Wing", capacity: 60, availableRooms: 20),
+      ];
+      List<Wing> wingsFloorv3 = [
+        Wing(wingName: "Right Wing", capacity: 60, availableRooms: 20),
+        Wing(wingName: "Left Wing", capacity: 60, availableRooms: 20),
+      ];
+      List<Floor> floors5 = [
+        Floor(floorNumber: 0, wings: wingsFloorv1),
+        Floor(floorNumber: 1, wings: wingsFloorv2),
+        Floor(floorNumber: 2, wings: wingsFloorv3),
+
+      ];
+
+      Hostel hostel5 = Hostel(
+          hostelName: 'Vindhya',
+          floors: floors5,
+          wardenId: 'admin123',
+          imgSrc: 'assets/images/vindhya.jpg',
+          occupancy : 'doubleSharing'
+      );
+      List<Wing> wingsFloorsa1 = [
+        Wing(wingName: "Right Wing", capacity: 60, availableRooms: 20),
+        Wing(wingName: "Left Wing", capacity: 60, availableRooms: 20),
+      ];
+      List<Wing> wingsFloorsa2 = [
+        Wing(wingName: "Right Wing", capacity: 60, availableRooms: 20),
+        Wing(wingName: "Left Wing", capacity: 60, availableRooms: 20),
+      ];
+      List<Wing> wingsFloorsa3 = [
+        Wing(wingName: "Right Wing", capacity: 60, availableRooms: 20),
+        Wing(wingName: "Left Wing", capacity: 60, availableRooms: 20),
+      ];
+      List<Floor> floors6 = [
+        Floor(floorNumber: 0, wings: wingsFloorsa1),
+        Floor(floorNumber: 1, wings: wingsFloorsa2),
+        Floor(floorNumber: 2, wings: wingsFloorsa3),
+
+      ];
+
+      Hostel hostel6 = Hostel(
+          hostelName: 'Satpura',
+          floors: floors6,
+          wardenId: 'admin123',
+          imgSrc: 'assets/images/satpura.jpg',
+          occupancy : 'doubleSharing'
+      );
       await hostelBox.put('Shivalik', hostel);
       await hostelBox.put('Sahyadri', hostel1);
       await hostelBox.put('Karavali', hostel2);
+      await hostelBox.put('Trishul', hostel3);
+      await hostelBox.put('Aravali', hostel4);
+      await hostelBox.put('Vindhya', hostel5);
+      await hostelBox.put('Satpura', hostel6);
+
+
 
 
       print('Hostel data stored!');

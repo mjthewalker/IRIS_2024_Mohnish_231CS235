@@ -73,6 +73,7 @@ class ManageStudent extends StatelessWidget {
                 ),
               ),
             ),
+            const SizedBox(height: 30,),
             // Deallocate Room Button
             ElevatedButton(
               onPressed: () async {
@@ -115,7 +116,7 @@ class ManageStudent extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 24),
             // Reallocate Room Button
             ElevatedButton(
               onPressed: () async {
@@ -170,7 +171,7 @@ class ManageStudent extends StatelessWidget {
         text: TextSpan(
           children: [
             TextSpan(
-              text: '$label: ',
+              text: '$label :  ',
               style: GoogleFonts.poppins(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,

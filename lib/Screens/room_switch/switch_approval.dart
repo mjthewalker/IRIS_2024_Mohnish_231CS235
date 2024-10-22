@@ -88,7 +88,7 @@ class RoomChangeFinalApprovalState extends State<RoomChangeFinalApproval> {
       backgroundColor: Colors.grey[850], // Dark background
       appBar: AppBar(
         title: Text(
-          "Approval for ${widget.user1['name']} and ${widget.user1['name']}",
+          "Approval for Room Switch",
           style: GoogleFonts.poppins(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -115,7 +115,7 @@ class RoomChangeFinalApprovalState extends State<RoomChangeFinalApproval> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Personal Details',
+                      'Student 1 Details',
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -125,11 +125,21 @@ class RoomChangeFinalApprovalState extends State<RoomChangeFinalApproval> {
                     const SizedBox(height: 8),
                     _buildDetailText('Name', widget.user1['name']),
                     _buildDetailText('Roll Number', widget.user1['rollNumber']),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Student 2 Details',
+                      style: GoogleFonts.poppins(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.tealAccent, // Accent color for heading
+                      ),
+                    ),
+                    const SizedBox(height: 8),
                     _buildDetailText('Name', widget.user2['name']),
                     _buildDetailText('Roll Number', widget.user2['rollNumber']),
                     const SizedBox(height: 16),
                     Text(
-                      'Current Room Details',
+                      'Student 1 Room Details',
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -143,7 +153,7 @@ class RoomChangeFinalApprovalState extends State<RoomChangeFinalApproval> {
                     _buildDetailText('Wing', widget.user1['wing']),
                     const SizedBox(height: 16),
                     Text(
-                      'New Room Details',
+                      'Student 2 Room Details',
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -151,10 +161,10 @@ class RoomChangeFinalApprovalState extends State<RoomChangeFinalApproval> {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    _buildDetailText('New Hostel', widget.user2['hostel']),
-                    _buildDetailText('New Floor', widget.user2['floor']),
-                    _buildDetailText('New Room', widget.user2['room']),
-                    _buildDetailText('New Wing', widget.user2['wing']),
+                    _buildDetailText('Hostel', widget.user2['hostel']),
+                    _buildDetailText('Floor', widget.user2['floor']),
+                    _buildDetailText('Room', widget.user2['room']),
+                    _buildDetailText('Wing', widget.user2['wing']),
                   ],
                 ),
               ),

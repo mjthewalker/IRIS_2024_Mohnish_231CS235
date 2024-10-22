@@ -17,6 +17,7 @@ class HostelInfo extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[850], // Dark background
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           "Hostel Information",
           style: GoogleFonts.poppins(

@@ -98,13 +98,14 @@ class HostelAdapter extends TypeAdapter<Hostel> {
       floors: (fields[1] as List).cast<Floor>(),
       wardenId: fields[2] as String,
       imgSrc: fields[3] as String,
+      occupancy: fields[4] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, Hostel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.hostelName)
       ..writeByte(1)
@@ -112,7 +113,9 @@ class HostelAdapter extends TypeAdapter<Hostel> {
       ..writeByte(2)
       ..write(obj.wardenId)
       ..writeByte(3)
-      ..write(obj.imgSrc);
+      ..write(obj.imgSrc)
+      ..writeByte(4)
+      ..write(obj.occupancy);
   }
 
   @override

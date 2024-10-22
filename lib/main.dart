@@ -23,7 +23,7 @@ void main() async {
   Hive.registerAdapter(WingAdapter());
   Hive.registerAdapter(FloorAdapter());
   Hive.registerAdapter(HostelAdapter());
-  var hostelBox = await Hive.openBox<Hostel>('hostelBox5');
+  var hostelBox = await Hive.openBox<Hostel>('hostelBox6');
 
 
    // Be careful with this; it deletes all data in the box.

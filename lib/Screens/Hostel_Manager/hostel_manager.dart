@@ -18,7 +18,7 @@ class HostelManagerState extends State<HostelManager> {
   @override
   void initState() {
     super.initState();
-    hostelBox = Hive.box<Hostel>('hostelBox5');
+    hostelBox = Hive.box<Hostel>('hostelBox6');
     allHostels = getAllHostels();
   }
 
@@ -31,6 +31,7 @@ class HostelManagerState extends State<HostelManager> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           "Hostel Manager",
           style: GoogleFonts.poppins(
@@ -168,7 +169,7 @@ class HostelManagerState extends State<HostelManager> {
                                       ),
                                     ),
                                     Text(
-                                      "Warden ID: ${hostel.wardenId}",
+                                      hostel.occupancy.toLowerCase(),
                                       style: GoogleFonts.poppins(
                                         fontSize: 14,
                                         color: Colors.tealAccent,

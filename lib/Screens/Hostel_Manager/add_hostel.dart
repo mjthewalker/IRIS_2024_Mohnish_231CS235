@@ -16,6 +16,7 @@ class _HostelLayoutFormState extends State<HostelLayoutForm> {
   // Form state variables
   String hostelName = '';
   String wardenId = '';
+  String occupancy = '';
   String imgSrc = '';
   int numberOfFloors = 0;
 
@@ -52,12 +53,12 @@ class _HostelLayoutFormState extends State<HostelLayoutForm> {
         // Display wing name as static text
         Text(
           wingName,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold,color: Colors.white),
         ),
         // Capacity input for the wing
         TextFormField(
           decoration: InputDecoration(
-            labelText: 'Capacity of $wingName',
+            labelText: 'Capacity of ${wingName}',labelStyle: TextStyle(color: Colors.white),
           ),
           keyboardType: TextInputType.number,
           onChanged: (value) {
@@ -69,7 +70,7 @@ class _HostelLayoutFormState extends State<HostelLayoutForm> {
         // Available rooms input for the wing
         TextFormField(
           decoration: InputDecoration(
-            labelText: 'Available Rooms in $wingName',
+            labelText: 'Available Rooms in $wingName',labelStyle: TextStyle(color: Colors.white),
           ),
           keyboardType: TextInputType.number,
           onChanged: (value) {
@@ -88,7 +89,7 @@ class _HostelLayoutFormState extends State<HostelLayoutForm> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Floor ${index + 1}', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        Text('Floor ${index + 1}', style: const TextStyle(fontSize: 18,color: Colors.white)),
         ..._buildWingInputs(index),
       ],
     );
@@ -111,6 +112,7 @@ class _HostelLayoutFormState extends State<HostelLayoutForm> {
         floors: floors,
         wardenId: wardenId,
         imgSrc: imgSrc,
+        occupancy: occupancy
       );
 
       // Save hostel object to Hive
@@ -135,16 +137,18 @@ class _HostelLayoutFormState extends State<HostelLayoutForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.grey[850],
+
       appBar: AppBar(title: Text(
           "Add New Hostel",
           style: GoogleFonts.poppins(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: Colors.tealAccent,
           )),
+        centerTitle: true,
         backgroundColor: Colors.grey[900],
-        iconTheme: const IconThemeData(color: Colors.white),),
+        iconTheme: const IconThemeData(color: Colors.tealAccent),),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -152,26 +156,33 @@ class _HostelLayoutFormState extends State<HostelLayoutForm> {
           child: ListView(
             children: [
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Hostel Name'),
+
+                decoration: const InputDecoration(labelText: 'Hostel Name',labelStyle: TextStyle(color: Colors.white)),
                 onChanged: (value) {
                   hostelName = value;
                 },
               ),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Warden ID'),
+                decoration: const InputDecoration(labelText: 'Warden ID',labelStyle: TextStyle(color: Colors.white)),
                 onChanged: (value) {
                   wardenId = value;
                 },
               ),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Hostel Image Address'),
+                decoration: const InputDecoration(labelText: 'Hostel Image Address',labelStyle: TextStyle(color: Colors.white)),
                 onChanged: (value) {
                   imgSrc = value;
                 },
               ),
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'Occupancy',labelStyle: TextStyle(color: Colors.white)),
+                onChanged: (value) {
+                  occupancy = value;
+                },
+              ),
               // Set the number of floors directly, assuming it's handled elsewhere
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Number of Floors'),
+                decoration: const InputDecoration(labelText: 'Number of Floors',labelStyle: TextStyle(color: Colors.white)),
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
                   setState(() {

@@ -56,9 +56,18 @@ class _HostelDetailScreenState extends State<HostelDetailScreen> {
               wingData.forEach((roomKey, value) {
                 if (roomKey.startsWith('Room')) {
                   fetchedData[roomKey] = value ?? 0;
-                  if (value != null && value > 3) {
-                    occupiedCount++;
+                  if (widget.hostel.occupancy=="doubleSharing"){
+                    if (value != null && value >=2) {
+                      occupiedCount++;
+
+                    }
                   }
+                  else{
+                    if (value != null && value >= 3) {
+                      occupiedCount++;
+                    }
+                  }
+
                   // Store room occupancy info
                 }
               });
@@ -69,6 +78,7 @@ class _HostelDetailScreenState extends State<HostelDetailScreen> {
         setState(() {
           roomData = fetchedData;
           occupiedRoomsCount = occupiedCount;
+
           // Save fetched data to roomData map
           isLoading = false; // Stop showing loading spinner
         });
@@ -84,6 +94,11 @@ class _HostelDetailScreenState extends State<HostelDetailScreen> {
     }
   }
   void _submit() async{
+    if (selectedRoom == null){
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Please Select a room')));  return;
+    }
+
     bool? confirm = await showDialog<bool>(
       context: context,
       builder: (BuildContext context) {
@@ -107,6 +122,8 @@ class _HostelDetailScreenState extends State<HostelDetailScreen> {
         );
       },
     );
+
+
     if (confirm == false) return;
     User? user = FirebaseAuth.instance.currentUser;
     List<String> parts = selectedRoom!.split(',');
@@ -203,63 +220,64 @@ class _HostelDetailScreenState extends State<HostelDetailScreen> {
             width: double.infinity,
             padding: const EdgeInsets.all(8.0),
 
-            child: CommonCard(
-              color: Colors.grey[900],
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox( height : 10),
-                  Text(
-                    "  Available rooms:${widget.hostel.floors[0].wings[0].availableRooms*widget.hostel.floors.length*2-occupiedRoomsCount}",
-                    style: GoogleFonts.poppins(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.tealAccent,
-                    ),
-                  ),
+            child: Row(
+              children: [
+                Container(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
 
-                  Row(
-                    children: [
-                      const SizedBox(width: 5,),
-                      selectedRoom == null
-                          ? const Text("")
-                          : Text(
-                        " Selected Room: ${selectedRoom!.split('Room').last.trim()}",
-                        style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          color: Colors.tealAccent, // Accent color for warden ID
-                        )),
-                      const SizedBox(width: 120,),
-                      selectedRoom == null
-                          ? const Text("") :
-                      Text(
-                          "Occupancy: ${occupancyRoom}/3",
+                        Text(
+                          "Available rooms : ${widget.hostel.floors[0].wings[0].availableRooms*widget.hostel.floors.length*2-occupiedRoomsCount}",
                           style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            color: Colors.tealAccent, // Accent color for warden ID
-                          )),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.grey[900],
+                          ),
+                        ),
 
-                    ],
-                  ),
 
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 140),
-                    child: ElevatedButton(onPressed: _submit,
-                    style:  ElevatedButton.styleFrom(
-                      backgroundColor: Colors.greenAccent, // Reallocate button color
+                            selectedRoom == null
+                                ? const Text("")
+                                : Text(
+                              "Selected Room : ${selectedRoom!.split('Room').last.trim()}",
+                              style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                color: Colors.grey[900], // Accent color for warden ID
+                              )),
 
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                            selectedRoom == null
+                                ? const Text("") :
+                            Text(
+                                "Occupancy : ${occupancyRoom}/3",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  color: Colors.grey[900], // Accent color for warden ID
+                                )),
+
+
+                      ],
                     ),
-                    child: Text(
+                  ),
+                ),
+                const SizedBox(width: 90,),
+                ElevatedButton(onPressed: _submit,
+                      style:  ElevatedButton.styleFrom(
+                        backgroundColor: Colors.greenAccent, // Reallocate button color
+
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      ),
+                      child: Text(
                         'Book Room',
                         style: GoogleFonts.poppins(
                           fontSize:10,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),),
-                  ))
-                ],
-              ),
+                    )
+              ],
             ),
           ),
           Expanded(
@@ -322,7 +340,14 @@ class _HostelDetailScreenState extends State<HostelDetailScreen> {
                                 String roomKey = 'Room $room';
                                 // Use pre-fetched data to determine availability
                                 int occupancy = roomData[roomKey] ?? 0;
+
+
                                 bool isAvailable = occupancy == 0 || occupancy == 1 || occupancy == 2;
+                                if (widget.hostel.occupancy=="doubleSharing"){
+                                  isAvailable = occupancy == 0 || occupancy == 1;
+                                }
+
+
                                 String roomId =
                                     "Floor ${floor.floorNumber}, ${wing.wingName}, Room $room";
 

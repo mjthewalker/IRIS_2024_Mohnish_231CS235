@@ -53,8 +53,9 @@ class _SwitchRoomsState extends State<SwitchRooms> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
-          "Apply for Leave",
+          "Apply for Room Switch",
           style: GoogleFonts.poppins(
             fontSize: 20,
             fontWeight: FontWeight.bold,

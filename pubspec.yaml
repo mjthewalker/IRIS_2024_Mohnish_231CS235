@@ -74,6 +74,9 @@ flutter:
        - assets/images/sahyadri.jpg
        - assets/images/karavali.jpg
        - assets/images/trishul.jpg
+       - assets/images/vindhya.jpg
+       - assets/images/satpura.jpg
+       - assets/images/Aravali.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

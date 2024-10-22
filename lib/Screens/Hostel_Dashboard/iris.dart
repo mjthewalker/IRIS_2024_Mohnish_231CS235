@@ -108,6 +108,14 @@ class _MainScreenState extends State<MainScreen> {
             MaterialPageRoute(builder: (context) => StudentManager()),
           );
         },
+        switchRequests: (){
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ApproveSwitch(),
+            ),
+          );
+        },
         isAdmin: userData?['role'],
       ),
       body: StreamBuilder<DocumentSnapshot>(
@@ -238,7 +246,7 @@ class _MainScreenState extends State<MainScreen> {
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
                       _buildActionButton(
-                        icon: Icons.swap_horiz,
+                        icon: Icons.swap_vert,
                         label: 'Change Hostel',
                         onPressed: () {
                           Navigator.push(
@@ -256,7 +264,7 @@ class _MainScreenState extends State<MainScreen> {
                         },
                       ),
                       _buildActionButton(
-                        icon: Icons.airplane_ticket,
+                        icon: Icons.question_answer_rounded,
                         label: 'My Requests',
                         onPressed: () {
                           Navigator.push(
@@ -286,7 +294,7 @@ class _MainScreenState extends State<MainScreen> {
                         },
                       ),
                       _buildActionButton(
-                        icon: Icons.airplane_ticket,
+                        icon: Icons.swap_horiz,
                         label: 'Switch Rooms',
                         onPressed: () {
                           Navigator.push(
@@ -297,18 +305,7 @@ class _MainScreenState extends State<MainScreen> {
                           );
                         },
                       ),
-                      _buildActionButton(
-                        icon: Icons.airplane_ticket,
-                        label: 'Switch Requests',
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ApproveSwitch(),
-                            ),
-                          );
-                        },
-                      ),
+
                     ],
                   ),
                 ],

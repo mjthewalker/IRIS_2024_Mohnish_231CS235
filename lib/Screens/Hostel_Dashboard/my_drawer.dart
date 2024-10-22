@@ -7,6 +7,7 @@ class MyDrawer extends StatelessWidget {
   final void Function()? hostelRequests;
   final void Function()? hostelManager;
   final void Function()? studentManager;
+  final void Function()? switchRequests;
   final String? isAdmin;
 
   const MyDrawer({
@@ -17,6 +18,7 @@ class MyDrawer extends StatelessWidget {
     this.hostelManager,
     this.studentManager,
     this.isAdmin,
+    this.switchRequests
   }) : super(key: key);
 
   @override
@@ -76,6 +78,14 @@ class MyDrawer extends StatelessWidget {
               textColor: Colors.white,
               activeColor: Colors.tealAccent, // Change color on tap
               onTap: studentManager,
+            ),
+            const SizedBox(height: 10),
+            MyListTile(
+              icon: Icons.people,
+              text: 'S W I T C H  R E Q U E S T S',
+              textColor: Colors.white,
+              activeColor: Colors.tealAccent, // Change color on tap
+              onTap: switchRequests,
             ),
             const SizedBox(height: 10),
           ],

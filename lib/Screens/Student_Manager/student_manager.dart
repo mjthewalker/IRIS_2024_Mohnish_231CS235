@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:getwidget/components/loader/gf_loader.dart';
 import 'package:getwidget/types/gf_loader_type.dart';
 import 'package:iris_rec/Screens/Student_Manager/manage_student.dart';
+import 'package:iris_rec/Screens/Student_Manager/student_search.dart';
 
 import '../../Data and models/student_list_model.dart';
 
@@ -49,6 +50,11 @@ class StudentManagerState extends State<StudentManager> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        actions: [
+          IconButton(onPressed: (){
+            showSearch(context: context, delegate: StudentSearchDelegate(studentData));
+          }, icon: Icon(Icons.search))
+        ],
         title: Text(
           "Student Manager",
 
@@ -57,7 +63,9 @@ class StudentManagerState extends State<StudentManager> {
             fontWeight: FontWeight.bold,
             color: Colors.tealAccent, // Accent color for title
           ),
+
         ),
+
         backgroundColor: Colors.grey[900], // Dark background for AppBar
         iconTheme: const IconThemeData(color: Colors.tealAccent), // Accent color for icons
       ),
@@ -115,7 +123,7 @@ class StudentManagerState extends State<StudentManager> {
                         size: 40, // Size of the icon
                       ),
                       title: Text(
-                        'Name: ${request.name}',
+                        '${request.name}',
                         style: GoogleFonts.poppins(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,

@@ -62,6 +62,7 @@ class _ApplyLeaveState extends State<ApplyLeave> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           "Apply for Leave",
           style: GoogleFonts.poppins(
