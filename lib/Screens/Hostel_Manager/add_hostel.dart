@@ -30,10 +30,10 @@ class _HostelLayoutFormState extends State<HostelLayoutForm> {
   }
 
   Future<void> openBox() async {
-    if (!Hive.isBoxOpen('hostelbox5')) {
-      hostelBox = await Hive.openBox<Hostel>('hostelbox5');
+    if (!Hive.isBoxOpen('hostelbox6')) {
+      hostelBox = await Hive.openBox<Hostel>('hostelbox6');
     } else {
-      hostelBox = Hive.box<Hostel>('hostelbox5');
+      hostelBox = Hive.box<Hostel>('hostelbox6');
     }
   }
 

@@ -24,7 +24,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   Map<String, dynamic>? userData;
   bool isLoading = true;
-
+  bool isLogin = false;
   final StudentList x = StudentList(
     hostelinfo: HostelDetails(
       floor: "0",
@@ -62,6 +62,8 @@ class _MainScreenState extends State<MainScreen> {
   }
 
 
+
+
   @override
   Widget build(BuildContext context) {
     final userId = FirebaseAuth.instance.currentUser!.uid;
@@ -82,7 +84,8 @@ class _MainScreenState extends State<MainScreen> {
         iconTheme: const IconThemeData(color: Colors.tealAccent),
         elevation: 2, // Subtle shadow
       ),
-      drawer: MyDrawer(
+      drawer:
+            MyDrawer(
         onSignOut: () => FirebaseAuth.instance.signOut(),
         myRequests: () {
           Navigator.push(
@@ -115,7 +118,9 @@ class _MainScreenState extends State<MainScreen> {
               builder: (context) => ApproveSwitch(),
             ),
           );
+
         },
+
         isAdmin: userData?['role'],
       ),
       body: StreamBuilder<DocumentSnapshot>(
@@ -152,6 +157,7 @@ class _MainScreenState extends State<MainScreen> {
               studentdetail: x,
             );
           }
+
           final StudentList y = StudentList(
             hostelinfo: HostelDetails(
               floor: hostelInfo['floor'],
@@ -219,7 +225,7 @@ class _MainScreenState extends State<MainScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Current Hostel Information',
+                            'Hostel Room Details',
                             style: GoogleFonts.poppins(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,

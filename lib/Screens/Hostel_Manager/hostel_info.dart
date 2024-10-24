@@ -85,7 +85,7 @@ class HostelInfo extends StatelessWidget {
                                 ),
                               ),
                               subtitle: Text(
-                                'Capacity: ${wing.capacity}, Available Rooms: ${wing.availableRooms}',
+                                'Capacity: ${wing.capacity}, Number of Rooms: ${wing.availableRooms}',
                                 style: GoogleFonts.poppins(
                                   color: Colors.white70, // Slightly lighter for subtitles
                                 ),

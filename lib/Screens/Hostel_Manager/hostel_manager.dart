@@ -135,12 +135,16 @@ class HostelManagerState extends State<HostelManager> {
                                   child: Image.asset(
                                     hostel.imgSrc,
                                     fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) => Container(
-                                      color: Colors.grey[300],
-                                      child: Icon(
-                                        Icons.image,
-                                        size: 50,
-                                        color: Colors.grey[600],
+                                    errorBuilder: (context, error, stackTrace) => Image.network(
+                                      '${hostel.imgSrc}',
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (context, error, stackTrace) => Container(
+                                        color: Colors.grey[300],
+                                        child: Icon(
+                                          Icons.image,
+                                          size: 50,
+                                          color: Colors.grey[600],
+                                        ),
                                       ),
                                     ),
                                   ),

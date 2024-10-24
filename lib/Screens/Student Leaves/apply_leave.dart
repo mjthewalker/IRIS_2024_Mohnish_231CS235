@@ -146,16 +146,14 @@ class _ApplyLeaveState extends State<ApplyLeave> {
                         : 'From Date: ${_fromDate!.toLocal()}'.split(' ')[0],
                     style: const TextStyle(color: Colors.tealAccent), // Light text color for readability
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      _pickDate(context, (pickedDate) {
-                        setState(() {
-                          _fromDate = pickedDate;
-                        });
-                      }, _fromDate);
-                    },
-                    child: const Text('Pick From Date'),
-                  ),
+                  IconButton(onPressed: () {
+                    _pickDate(context, (pickedDate) {
+                      setState(() {
+                        _fromDate = pickedDate;
+                      });
+                    }, _fromDate);
+                  }, icon: Icon(Icons.calendar_month,color: Colors.tealAccent,))
+
                 ],
               ),
               const SizedBox(height: 20),
@@ -167,19 +165,17 @@ class _ApplyLeaveState extends State<ApplyLeave> {
                   Text(
                     _toDate == null
                         ? 'Select To date'
-                        : 'To Date: ${_toDate!.toLocal()}'.split(' ')[0],
+                        : 'To Date: ${_toDate!}'.split(' ')[0],
                     style: const TextStyle(color: Colors.tealAccent), // Light text color for readability
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      _pickDate(context, (pickedDate) {
-                        setState(() {
-                          _toDate = pickedDate;
-                        });
-                      }, _toDate);
-                    },
-                    child: const Text('Pick To Date'),
-                  ),
+                  IconButton(onPressed: () {
+                    _pickDate(context, (pickedDate) {
+                      setState(() {
+                        _toDate = pickedDate;
+                      });
+                    }, _toDate);
+                  }, icon: Icon(Icons.calendar_month,color: Colors.tealAccent,))
+
                 ],
               ),
               const SizedBox(height: 20),

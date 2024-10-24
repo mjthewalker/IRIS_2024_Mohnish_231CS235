@@ -8,6 +8,7 @@ class MyDrawer extends StatelessWidget {
   final void Function()? hostelManager;
   final void Function()? studentManager;
   final void Function()? switchRequests;
+
   final String? isAdmin;
 
   const MyDrawer({
@@ -18,7 +19,8 @@ class MyDrawer extends StatelessWidget {
     this.hostelManager,
     this.studentManager,
     this.isAdmin,
-    this.switchRequests
+    this.switchRequests,
+
   }) : super(key: key);
 
   @override
@@ -89,6 +91,7 @@ class MyDrawer extends StatelessWidget {
             ),
             const SizedBox(height: 10),
           ],
+
           MyListTile(
             icon: Icons.logout,
             text: 'L O G O U T',
