@@ -6,6 +6,7 @@ import 'package:iris_rec/Screens/Hostel_Manager/add_hostel.dart';
 import 'package:iris_rec/Screens/Hostel_Manager/hostel_info.dart';
 import '../../Data and models/common_card.dart';
 import '../../Data and models/hostel_data.dart';
+import '../../Data and models/loading_screen.dart';
 
 class HostelManager extends StatefulWidget {
   const HostelManager({super.key});
@@ -96,7 +97,7 @@ class HostelManagerState extends State<HostelManager> {
         future: allHostels,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return LinearLoadingScreen();
           }
           if (snapshot.hasError) {
             return Center(

@@ -5,6 +5,7 @@ import 'package:hive/hive.dart';
 import 'package:iris_rec/Data%20and%20models/student_list_model.dart';
 import '../../Data and models/common_card.dart';
 import '../../Data and models/hostel_data.dart';
+import '../../Data and models/loading_screen.dart';
 import 'hostelscreen.dart';
 
 class HostelRegistrationScreen extends StatefulWidget {
@@ -114,7 +115,7 @@ class _HostelRegistrationScreenState extends State<HostelRegistrationScreen> {
         future: allHostels,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return LinearLoadingScreen();
           }
           if (snapshot.hasError) {
             return Center(

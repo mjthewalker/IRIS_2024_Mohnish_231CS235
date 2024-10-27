@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: MainScaffold(),  // Use MainScaffold here
+        home: MainScaffold(),
       ),
     );
   }

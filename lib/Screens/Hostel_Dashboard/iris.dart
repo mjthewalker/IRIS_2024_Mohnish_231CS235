@@ -15,6 +15,7 @@ import 'package:iris_rec/Screens/Student%20Leaves/apply_leave.dart';
 import 'package:iris_rec/Screens/Student%20Leaves/manage_leaves.dart';
 import 'package:iris_rec/Screens/Student_Manager/student_manager.dart';
 
+import '../../Data and models/loading_screen.dart';
 import 'bloc/iris_bloc.dart';
 
 class MainScreen extends StatefulWidget {
@@ -51,8 +52,8 @@ class _MainScreenState extends State<MainScreen> {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         if (state is HomeLoading) {
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
+          return  Scaffold(
+            body: LinearLoadingScreen(),
           );
         } else if (state is HomeError) {
           return Scaffold(
