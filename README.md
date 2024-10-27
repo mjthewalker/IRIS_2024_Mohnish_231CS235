@@ -1,16 +1,36 @@
-# iris_rec
+# IRIS HOSTEL MANAGER
 
-A new Flutter project.
+<div style="display: flex; gap: 20px;">
+    <img src="Images/Screenshot_20241027_180001.png" alt="Screenshot" width="200" style="height:auto;">
+    <img src="Images/drawer.png" alt="Drawer" width="200" style="height:auto;">
+</div>
 
-## Getting Started
+## List of Implimented features
 
-This project is a starting point for a Flutter application.
+  * Authentication screen integrated with firebase
+  * Hostel Dashboard with a drawer
+  * Used Hive to store hostel information
+  * Change Hostel feature.(The user can see which rooms are available)
+  * My requests module to track your leave requests and hostel change requests
+  * Leave Application module to apply for leave
+  * Switch Rooms Feature to apply for room switch which requires consent from both the parties
+  * Manage Leaves module for admin to approve/reject users leave requests
+  * Hostel Requests module for admin to approve/reject users hostel change requests
+  * Switch Requests module for admin to approve/reject users room switch requests
+  * Hostel Manager module for admin to view all the available hostels,add new ones and  also delete hostels.
+  * Student Manager module for admin to view all the students and their details, Also reallocate or deallocate users.
+  * Use of Bloc for State Management
+## Operating system 
+  used windows 10
+## Design Tools
+ used Adobe After Effects
+ 
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+
+
+
+
+
