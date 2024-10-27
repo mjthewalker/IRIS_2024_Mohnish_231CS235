@@ -125,6 +125,8 @@ class HostelInfo extends StatelessWidget {
                 if (confirmDelete == true) {
                   try {
                     await FirebaseFirestore.instance.collection('hostels').doc(hostelName).delete();
+                    await FirebaseFirestore.instance.collection('requests').doc(hostelName).delete();
+                    await FirebaseFirestore.instance.collection('new_hostels').doc(hostelName).delete();
                     await hostelBox.delete(hostelName);
                     Navigator.pop(context, true);
                   } catch (e) {

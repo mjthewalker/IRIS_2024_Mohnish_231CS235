@@ -114,10 +114,34 @@ class _HostelLayoutFormState extends State<HostelLayoutForm> {
         await FirebaseFirestore.instance.collection('requests').doc('$hostelName').set({
           'Sample': {}
         });
+        await FirebaseFirestore.instance.collection('new_hostels').doc('$hostelName').set({
+          'hostelName': hostelName,
+          'wardenId': 'admin123',
+          'imgSrc': imgSrc,
+          'occupancy': occupancy
+        });
+        for (int i = 0; i < numberOfFloors; i++) {
+          List<Map<String, dynamic>> wingsList = wingsData[i].map((wing) {
+            return {
+              'wingName': wing.wingName,
+              'capacity': wing.capacity,
+              'availableRooms': wing.availableRooms,
+            };
+          }).toList();
+
+          await FirebaseFirestore.instance.collection('new_hostels').doc(hostelName).set({
+            'floors': FieldValue.arrayUnion([
+              {
+                'floorNumber': i,
+                'wings': wingsList,
+              }
+            ])
+          }, SetOptions(merge: true));
+        }
+
       } catch (e) {
         print("error");
       }
-
       Navigator.pop(context, true);
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Hostel data saved successfully!')));
     }
@@ -147,6 +171,7 @@ class _HostelLayoutFormState extends State<HostelLayoutForm> {
           child: ListView(
             children: [
               TextFormField(
+
                 decoration: const InputDecoration(labelText: 'Hostel Name', labelStyle: TextStyle(color: Colors.white)),
                 onChanged: (value) {
                   hostelName = value;

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
@@ -39,6 +40,52 @@ class _HostelRegistrationScreenState extends State<HostelRegistrationScreen> {
 
   Future<List<Hostel>> getAllHostels() async {
     List<Hostel> hostels = await HostelDataBase(hostelBox).getAllHostels();
+
+    List<Hostel> missingHostels = [];
+
+    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('new_hostels').get();
+
+    for (QueryDocumentSnapshot doc in snapshot.docs) {
+      var data = doc.data() as Map<String, dynamic>;
+      String hostelName = data['hostelName'] ?? 'Unknown Hostel';
+      String wardenId = data['wardenId'] ?? 'Unknown Warden';
+      String imgSrc = data['imgSrc'] ?? 'assets/images/default.jpg';
+      String occupancy = data['occupancy'] ?? 'Unknown Occupancy';
+
+      if (!(await hostelBox.containsKey(hostelName))) {
+
+        List floors = data['floors'] ?? [];
+
+        List<Floor> floorsList = floors.map((floorData) {
+          List<Wing> wingsList = (floorData['wings'] as List).map((wingData) {
+            return Wing(
+              wingName: wingData['wingName'] ?? 'Unknown Wing',
+              capacity: wingData['capacity'] ?? 0,
+              availableRooms: wingData['availableRooms'] ?? 0,
+            );
+          }).toList();
+
+          return Floor(
+            floorNumber: floorData['floorNumber'] ?? 0,
+            wings: wingsList,
+          );
+        }).toList();
+
+
+        Hostel newHostel = Hostel(
+          hostelName: hostelName,
+          wardenId: wardenId,
+          imgSrc: imgSrc,
+          occupancy: occupancy,
+          floors: floorsList,
+        );
+
+
+        missingHostels.add(newHostel);
+      }
+    }
+
+    hostels.addAll(missingHostels);
     if (widget.mode == "change" && widget.currentDetails?['hostelName'] != null) {
       hostels = hostels.where((hostel) => hostel.hostelName != widget.currentDetails!['hostelName']).toList();
     }
