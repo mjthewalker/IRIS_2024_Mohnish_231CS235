@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iris_rec/Data and models/hostel_change_model.dart';
-import 'package:iris_rec/Data and models/student_list_model.dart';
+import 'package:iris_rec/Data%20and%20models/loading_screen.dart';
 
 class MyRequestsScreen extends StatelessWidget {
   final String mykey;
@@ -10,11 +10,11 @@ class MyRequestsScreen extends StatelessWidget {
   final String rollnumber;
 
   const MyRequestsScreen({
-    Key? key,
+    super.key,
     required this.mykey,
     required this.hostel,
     required this.rollnumber,
-  }) : super(key: key);
+  });
 
   Future<List<HostelChangeRequest>> getAllRequests() async {
     List<HostelChangeRequest> allRequests = [];
@@ -47,7 +47,7 @@ class MyRequestsScreen extends StatelessWidget {
     if (snapshot.exists) {
       Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
       data.forEach((userKey, userData) {
-        if (userData != null && userData is Map<String, dynamic> && userKey == mykey) {
+        if (userData != null && userData is Map<String, dynamic> ) {
           print(data);
           requests.add(data);
         }
@@ -59,7 +59,7 @@ class MyRequestsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[850], // Dark background
+      backgroundColor: Colors.grey[850],
       appBar: AppBar(
         centerTitle: true,
         title: Text(
@@ -67,39 +67,37 @@ class MyRequestsScreen extends StatelessWidget {
           style: GoogleFonts.poppins(
             fontSize: 22,
             fontWeight: FontWeight.bold,
-            color: Colors.tealAccent, // Accent color for title
+            color: Colors.tealAccent,
           ),
         ),
-        backgroundColor: Colors.grey[900], // Dark AppBar
+        backgroundColor: Colors.grey[900],
         iconTheme: const IconThemeData(color: Colors.tealAccent),
-        elevation: 2, // Subtle shadow
+        elevation: 2,
       ),
       body: FutureBuilder<List<dynamic>>(
         future: Future.wait([getAllRequests(), leaveRequests()]),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator()); // Loading indicator
+            return LinearLoadingScreen();
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}')); // Error handling
+            return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No Requests Found')); // No requests found
+            return const Center(child: Text('No Requests Found'));
           }
 
           List<HostelChangeRequest> hostelRequests = snapshot.data![0] as List<HostelChangeRequest>;
           List<Map<String, dynamic>> leaveRequestsData = snapshot.data![1] as List<Map<String, dynamic>>;
 
-          // Combine requests for display
           List<Widget> combinedRequests = [];
 
-          // Add hostel change requests to the combined list
           combinedRequests.addAll(hostelRequests.map((request) {
             return Card(
               margin: const EdgeInsets.all(12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15),
               ),
-              elevation: 8, // Shadow for depth
-              color: Colors.grey[900], // Dark card background
+              elevation: 8,
+              color: Colors.grey[900],
               child: ListTile(
                 leading: const Icon(Icons.home_outlined, color: Colors.tealAccent),
                 title: Text(
@@ -107,7 +105,7 @@ class MyRequestsScreen extends StatelessWidget {
                   style: GoogleFonts.poppins(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Colors.tealAccent, // Accent color for title
+                    color: Colors.tealAccent,
                   ),
                 ),
                 subtitle: Padding(
@@ -118,7 +116,7 @@ class MyRequestsScreen extends StatelessWidget {
                     style: GoogleFonts.poppins(
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
-                      color: Colors.white70, // Softer text color for readability
+                      color: Colors.white70,
                     ),
                   ),
                 ),
@@ -129,23 +127,21 @@ class MyRequestsScreen extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     color: request.status == 'Approved'
                         ? Colors.greenAccent
-                        : request.status == 'Denied' ? Colors.redAccent :Colors.orangeAccent, // Use accent colors for status
+                        : request.status == 'Denied' ? Colors.redAccent : Colors.orangeAccent,
                   ),
                 ),
               ),
             );
           }));
 
-          // Divider between different request types
           combinedRequests.add(Divider(
             height: 20,
             thickness: 1.5,
-            color: Colors.tealAccent.withOpacity(0.5), // Accent color for divider
+            color: Colors.tealAccent.withOpacity(0.5),
             indent: 20,
             endIndent: 20,
           ));
 
-          // Add leave requests to the combined list
           combinedRequests.addAll(leaveRequestsData.map((leaveRequest) {
             final requestData = leaveRequest[rollnumber];
             final hasReason = requestData != null && requestData.containsKey('Reason');
@@ -156,8 +152,8 @@ class MyRequestsScreen extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15),
               ),
-              elevation: 8, // Shadow for depth
-              color: Colors.grey[900], // Dark card background
+              elevation: 8,
+              color: Colors.grey[900],
               child: ListTile(
                 leading: const Icon(Icons.airplane_ticket_outlined, color: Colors.tealAccent),
                 title: Text(
@@ -165,7 +161,7 @@ class MyRequestsScreen extends StatelessWidget {
                   style: GoogleFonts.poppins(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Colors.tealAccent, // Accent color for title
+                    color: Colors.tealAccent,
                   ),
                 ),
                 subtitle: Padding(
@@ -175,7 +171,7 @@ class MyRequestsScreen extends StatelessWidget {
                     style: GoogleFonts.poppins(
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
-                      color: Colors.white70, // Softer text color for readability
+                      color: Colors.white70,
                     ),
                   ),
                 ),
@@ -186,7 +182,7 @@ class MyRequestsScreen extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     color: hasStatus && requestData['status'] == 'Approved'
                         ? Colors.greenAccent
-                        : Colors.orangeAccent, // Use accent colors for status
+                        : Colors.orangeAccent,
                   ),
                 ),
               ),

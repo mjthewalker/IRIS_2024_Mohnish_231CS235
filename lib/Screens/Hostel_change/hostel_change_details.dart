@@ -1,13 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../Data and models/hostel_change_model.dart';
+import '../Hostel_Dashboard/bloc/iris_bloc.dart';
 
 class HostelChangeFinalApproval extends StatefulWidget {
   final HostelChangeRequest finalData;
 
-  HostelChangeFinalApproval({required this.finalData});
+  const HostelChangeFinalApproval({super.key, required this.finalData});
 
   @override
   HostelChangeFinalApprovalState createState() =>
@@ -22,7 +24,7 @@ class HostelChangeFinalApprovalState extends State<HostelChangeFinalApproval> {
         .doc(widget.finalData.hostelChangeDetails.currentDetails.currentHostel)
         .set({
       "Floor ${widget.finalData.hostelChangeDetails.currentDetails.currentFloor}": {
-        "${widget.finalData.hostelChangeDetails.currentDetails.currentWing}": {
+        widget.finalData.hostelChangeDetails.currentDetails.currentWing: {
           "Room ${widget.finalData.hostelChangeDetails.currentDetails.currentRoom}": FieldValue.increment(-1)
         }
       }
@@ -31,7 +33,7 @@ class HostelChangeFinalApprovalState extends State<HostelChangeFinalApproval> {
         .doc(widget.finalData.hostelChangeDetails.newRoomDetails.newHostel)
         .set({
       "Floor ${widget.finalData.hostelChangeDetails.newRoomDetails.newFloor}": {
-        "${widget.finalData.hostelChangeDetails.newRoomDetails.newWing}": {
+        widget.finalData.hostelChangeDetails.newRoomDetails.newWing: {
           "Room ${widget.finalData.hostelChangeDetails.newRoomDetails.newRoom}": FieldValue.increment(1)
         }
       }
@@ -49,13 +51,15 @@ class HostelChangeFinalApprovalState extends State<HostelChangeFinalApproval> {
     await _firestore.collection('requests')
         .doc(widget.finalData.hostelChangeDetails.newRoomDetails.newHostel)
         .set({
-      "${widget.finalData.personalDetails.email}": {
+      widget.finalData.personalDetails.email: {
         "Status": "Approved"
       }
     }, SetOptions(merge: true));
 
     ScaffoldMessenger.of(context)
         .showSnackBar(const SnackBar(content: Text('Request Approved')));
+    final homeBloc = context.read<HomeBloc>();
+    homeBloc.add(LoadData());
     Navigator.pop(context, true);
   }
 
@@ -63,7 +67,7 @@ class HostelChangeFinalApprovalState extends State<HostelChangeFinalApproval> {
     await _firestore.collection('requests')
         .doc(widget.finalData.hostelChangeDetails.newRoomDetails.newHostel)
         .set({
-      "${widget.finalData.personalDetails.email}": {
+      widget.finalData.personalDetails.email: {
         "Status": "Denied"
       }
     }, SetOptions(merge: true));
@@ -80,17 +84,17 @@ class HostelChangeFinalApprovalState extends State<HostelChangeFinalApproval> {
     final newRoomDetails = widget.finalData.hostelChangeDetails.newRoomDetails;
 
     return Scaffold(
-      backgroundColor: Colors.grey[850], // Dark background
+      backgroundColor: Colors.grey[850],
       appBar: AppBar(
         title: Text(
           "Approval for ${personalDetails.name}",
           style: GoogleFonts.poppins(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Colors.tealAccent, // Accent color for title
+            color: Colors.tealAccent,
           ),
         ),
-        backgroundColor: Colors.grey[900], // Dark AppBar
+        backgroundColor: Colors.grey[900],
         iconTheme: const IconThemeData(color: Colors.tealAccent),
       ),
       body: Padding(
@@ -98,11 +102,11 @@ class HostelChangeFinalApprovalState extends State<HostelChangeFinalApproval> {
         child: ListView(
           children: [
             Card(
-              color: Colors.grey[900], // Dark card background
+              color: Colors.grey[900],
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15),
               ),
-              elevation: 8, // Shadow for depth
+              elevation: 8,
               margin: const EdgeInsets.only(bottom: 20),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -114,7 +118,7 @@ class HostelChangeFinalApprovalState extends State<HostelChangeFinalApproval> {
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Colors.tealAccent, // Accent color for heading
+                        color: Colors.tealAccent,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -126,7 +130,7 @@ class HostelChangeFinalApprovalState extends State<HostelChangeFinalApproval> {
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Colors.tealAccent, // Accent color for heading
+                        color: Colors.tealAccent,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -140,7 +144,7 @@ class HostelChangeFinalApprovalState extends State<HostelChangeFinalApproval> {
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Colors.tealAccent, // Accent color for heading
+                        color: Colors.tealAccent,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -158,7 +162,7 @@ class HostelChangeFinalApprovalState extends State<HostelChangeFinalApproval> {
                 ElevatedButton(
                   onPressed: _approveRequest,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.greenAccent, // Approve button color
+                    backgroundColor: Colors.greenAccent,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 30, vertical: 15),
                     shape: RoundedRectangleBorder(
@@ -176,7 +180,7 @@ class HostelChangeFinalApprovalState extends State<HostelChangeFinalApproval> {
                 ElevatedButton(
                   onPressed: _denyRequest,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.redAccent, // Deny button color
+                    backgroundColor: Colors.redAccent,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 30, vertical: 15),
                     shape: RoundedRectangleBorder(

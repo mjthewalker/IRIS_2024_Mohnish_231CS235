@@ -1,15 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:iris_rec/Data%20and%20models/loading_screen.dart';
 import 'package:iris_rec/Screens/room_switch/switch_approval.dart';
 
 class ApproveSwitch extends StatefulWidget {
+  const ApproveSwitch({super.key});
+
   @override
   _ApproveSwitchState createState() => _ApproveSwitchState();
 }
 
 class _ApproveSwitchState extends State<ApproveSwitch> {
-  // Fetch all leave requests from Firestore
+
   Future<List<Map<String, dynamic>>> getAllRequests() async {
     List<Map<String, dynamic>> allRequests = [];
 
@@ -82,7 +85,7 @@ class _ApproveSwitchState extends State<ApproveSwitch> {
     return allRequests;
   }
 
-  // Function to update the request status in Firestore
+
   Future<void> updateRequestStatus(String docId, String status, String hostel) async {
     try {
       await FirebaseFirestore.instance.collection('leaves').doc(hostel).set({
@@ -96,7 +99,7 @@ class _ApproveSwitchState extends State<ApproveSwitch> {
         SnackBar(content: Text('Status updated to $status')),
       );
 
-      setState(() {}); // Refresh the UI after status change
+      setState(() {});
     } catch (e) {
       print("Error updating status: $e");
     }
@@ -111,25 +114,25 @@ class _ApproveSwitchState extends State<ApproveSwitch> {
           style: GoogleFonts.poppins(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Colors.tealAccent, // Accent color for AppBar title
+            color: Colors.tealAccent,
           ),
         ),
-        backgroundColor: Colors.grey[900], // Dark background for AppBar
-        iconTheme: const IconThemeData(color: Colors.tealAccent), // Accent for AppBar icons
+        backgroundColor: Colors.grey[900],
+        iconTheme: const IconThemeData(color: Colors.tealAccent),
         centerTitle: true,
-        elevation: 2, // Subtle shadow for AppBar
+        elevation: 2,
       ),
-      backgroundColor: Colors.grey[850], // Dark background for body
+      backgroundColor: Colors.grey[850],
       body:  FutureBuilder<List<Map<String, dynamic>>>(
         future: getAllRequests(),
         builder: (context, snapshot) {
-          // Handling different states of the Future
+
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator()); // Loading indicator
+            return LinearLoadingScreen();
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}')); // Error handling
+            return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No Leave Requests Found')); // No requests found
+            return const Center(child: Text('No Leave Requests Found'));
           }
 
           List<Map<String, dynamic>> leaveRequests = snapshot.data!;
@@ -149,12 +152,12 @@ class _ApproveSwitchState extends State<ApproveSwitch> {
 
               return Card(
                 margin: const EdgeInsets.all(10),
-                color: Colors.grey[900], // Dark card background
+                color: Colors.grey[900],
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16.0), // Rounded corners for cards
-                  side: BorderSide(color: Colors.tealAccent, width: 1.5), // Accent color border
+                  borderRadius: BorderRadius.circular(16.0),
+                  side: const BorderSide(color: Colors.tealAccent, width: 1.5),
                 ),
-                elevation: 8, // Card elevation for shadow effect
+                elevation: 8,
                 child: GestureDetector(
                   onTap: (){
                     Navigator.push(
@@ -170,7 +173,7 @@ class _ApproveSwitchState extends State<ApproveSwitch> {
                       style: GoogleFonts.poppins(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Colors.tealAccent, // Accent color for title
+                        color: Colors.tealAccent,
                       ),
                     ),
                     subtitle: Column(
@@ -184,7 +187,7 @@ class _ApproveSwitchState extends State<ApproveSwitch> {
                           style: GoogleFonts.poppins(
                             fontSize: 13,
                             fontWeight: FontWeight.w400,
-                            color: Colors.white, // Light text color for readability
+                            color: Colors.white,
                           ),
                         ),
 
@@ -203,10 +206,10 @@ class _ApproveSwitchState extends State<ApproveSwitch> {
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
                             color: user1['Status'] == 'Approved'
-                                ? Colors.greenAccent // Green for approved
+                                ? Colors.greenAccent
                                 : user1['Status'] == 'Denied'
-                                ? Colors.redAccent // Red for rejected
-                                : Colors.orangeAccent, // Yellow for pending
+                                ? Colors.redAccent
+                                : Colors.orangeAccent,
                           ),
                         ),
 

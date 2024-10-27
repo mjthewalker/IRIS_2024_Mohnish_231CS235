@@ -1,8 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iris_rec/Data%20and%20models/student_list_model.dart';
+import 'package:iris_rec/Screens/Authorisation/bloc/auth_bloc.dart';
 import 'package:iris_rec/Screens/Hostel_Dashboard/my_drawer.dart';
 import 'package:iris_rec/Screens/room_switch/approve_switch.dart';
 import 'package:iris_rec/Screens/room_switch/switch_rooms.dart';
@@ -14,6 +15,8 @@ import 'package:iris_rec/Screens/Student%20Leaves/apply_leave.dart';
 import 'package:iris_rec/Screens/Student%20Leaves/manage_leaves.dart';
 import 'package:iris_rec/Screens/Student_Manager/student_manager.dart';
 
+import 'bloc/iris_bloc.dart';
+
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
@@ -22,9 +25,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  Map<String, dynamic>? userData;
-  bool isLoading = true;
-  bool isLogin = false;
   final StudentList x = StudentList(
     hostelinfo: HostelDetails(
       floor: "0",
@@ -41,122 +41,34 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    fetchUserData();
+    context.read<HomeBloc>().add(LoadData());
   }
-
-  Future<void> fetchUserData() async {
-    final userId = FirebaseAuth.instance.currentUser!.uid;
-    try {
-      DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection('users').doc(userId).get();
-      if (snapshot.exists) {
-        setState(() {
-          userData = snapshot.data() as Map<String, dynamic>;
-          isLoading = false;
-        });
-      } else {
-        setState(() => isLoading = false);
-      }
-    } catch (e) {
-      setState(() => isLoading = false);
-    }
-  }
-
-
-
 
   @override
   Widget build(BuildContext context) {
     final userId = FirebaseAuth.instance.currentUser!.uid;
 
-    return Scaffold(
-      backgroundColor: Colors.grey[850], // Dark background
-      appBar: AppBar(
-        title: Text(
-          "HOSTEL DASHBOARD",
-          style: GoogleFonts.poppins(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            color: Colors.tealAccent, // Accent color for the title
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.grey[900], // Dark AppBar
-        iconTheme: const IconThemeData(color: Colors.tealAccent),
-        elevation: 2, // Subtle shadow
-      ),
-      drawer:
-            MyDrawer(
-        onSignOut: () => FirebaseAuth.instance.signOut(),
-        myRequests: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ManageLeaves()),
+    return BlocBuilder<HomeBloc, HomeState>(
+      builder: (context, state) {
+        if (state is HomeLoading) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
           );
-        },
-        hostelRequests: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => HostelChangeApproval()),
+        } else if (state is HomeError) {
+          return Scaffold(
+            body: Center(child: Text(state.error)),
           );
-        },
-        hostelManager: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => HostelManager()),
+        } else if (state is HomeLoadedWithoutData) {
+          return HostelRegistrationScreen(
+            mode: "register",
+            studentdetail: x,
           );
-        },
-        studentManager: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => StudentManager()),
-          );
-        },
-        switchRequests: (){
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ApproveSwitch(),
-            ),
-          );
-
-        },
-
-        isAdmin: userData?['role'],
-      ),
-      body: StreamBuilder<DocumentSnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('users')
-            .doc(userId)
-            .snapshots(),
-        builder: (ctx, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator()); // Loading indicator
-          }
-
-          if (snapshot.hasError) {
-            return const Center(child: Text('Something went wrong!')); // Error handling
-          }
-
-          if (!snapshot.hasData || !snapshot.data!.exists) {
-            return HostelRegistrationScreen(
-              mode: "register",
-              studentdetail: x,
-            ); // Navigate to registration screen
-          }
-
-          var userData = snapshot.data!.data() as Map<String, dynamic>;
-          var name = userData['name'] ?? 'No name provided';
-          var email = userData['email'] ?? 'No email provided';
-          var rollNumber = userData['roll'] ?? 'No roll number';
-          var hostelInfo = userData['hostelInfo'];
-
-
-          if (hostelInfo == null) {
-            return HostelRegistrationScreen(
-              mode: "register",
-              studentdetail: x,
-            );
-          }
+        } else if (state is HomeLoadedWithData) {
+          final userData = state.userData;
+          final name = userData['name'] ?? 'No name provided';
+          final email = userData['email'] ?? 'No email provided';
+          final rollNumber = userData['roll'] ?? 'No roll number';
+          final hostelInfo = userData['hostelInfo'];
 
           final StudentList y = StudentList(
             hostelinfo: HostelDetails(
@@ -171,155 +83,207 @@ class _MainScreenState extends State<MainScreen> {
             uid: userId,
           );
 
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 40,
-                        backgroundColor: Colors.grey[400],
-                        child: Icon(
-                          Icons.person,
-                          size: 40,
-                          color: Colors.tealAccent,
+          return Scaffold(
+            backgroundColor: Colors.grey[850],
+            appBar: AppBar(
+              title: Text(
+                "HOSTEL DASHBOARD",
+                style: GoogleFonts.poppins(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.tealAccent,
+                ),
+              ),
+              centerTitle: true,
+              backgroundColor: Colors.grey[900],
+              iconTheme: const IconThemeData(color: Colors.tealAccent),
+              elevation: 2,
+            ),
+            drawer: MyDrawer(
+              onSignOut: () {
+                context.read<AuthBloc>().add(AuthLogout());
+              },
+              myRequests: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ManageLeaves()),
+                );
+              },
+              hostelRequests: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HostelChangeApproval()),
+                );
+              },
+              hostelManager: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HostelManager()),
+                );
+              },
+              studentManager: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const StudentManager()),
+                );
+              },
+              switchRequests: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ApproveSwitch()),
+                );
+              },
+              isAdmin: userData['role'],
+            ),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 40,
+                          backgroundColor: Colors.grey[400],
+                          child: const Icon(
+                            Icons.person,
+                            size: 40,
+                            color: Colors.tealAccent,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              name,
+                              style: GoogleFonts.poppins(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.tealAccent,
+                              ),
+                            ),
+                            Text(
+                              email,
+                              style: GoogleFonts.poppins(
+                                fontSize: 16,
+                                color: Colors.white70,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 40),
+                    Card(
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      color: Colors.blueGrey[800],
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Hostel Room Details',
+                              style: GoogleFonts.poppins(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.tealAccent,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            _buildInfoRow('Hostel', hostelInfo['hostelName']),
+                            _buildInfoRow('Room Number', hostelInfo['roomNumber']),
+                            _buildInfoRow('Floor', hostelInfo['floor']),
+                            _buildInfoRow('Wing', hostelInfo['wing']),
+                          ],
                         ),
                       ),
-                      const SizedBox(width: 16),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            name,
-                            style: GoogleFonts.poppins(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.tealAccent, // Accent color
-                            ),
-                          ),
-                          Text(
-                            email,
-                            style: GoogleFonts.poppins(
-                              fontSize: 16,
-                              color: Colors.white70, // Softer text color
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 40),
-
-                  Card(
-                    elevation: 4,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
                     ),
-                    color: Colors.blueGrey[800],
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Hostel Room Details',
-                            style: GoogleFonts.poppins(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.tealAccent,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          _buildInfoRow('Hostel', hostelInfo['hostelName']),
-                          _buildInfoRow('Room Number', hostelInfo['roomNumber']),
-                          _buildInfoRow('Floor', hostelInfo['floor']),
-                          _buildInfoRow('Wing', hostelInfo['wing']),
-                        ],
-                      ),
+                    const SizedBox(height: 50),
+                    GridView.count(
+                      crossAxisCount: 2,
+                      shrinkWrap: true,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 2.5,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: [
+                        _buildActionButton(
+                          icon: Icons.swap_vert,
+                          label: 'Change Hostel',
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HostelRegistrationScreen(
+                                  mode: "change",
+                                  currentDetails: hostelInfo,
+                                  name: name,
+                                  rollNumber: rollNumber,
+                                  studentdetail: x,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                        _buildActionButton(
+                          icon: Icons.question_answer_rounded,
+                          label: 'My Requests',
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MyRequestsScreen(
+                                  mykey: email.split('.').first,
+                                  hostel: hostelInfo['hostelName'],
+                                  rollnumber: rollNumber,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                        _buildActionButton(
+                          icon: Icons.airplane_ticket,
+                          label: 'Apply for Leave',
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ApplyLeave(
+                                  hostelName: hostelInfo['hostelName'],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                        _buildActionButton(
+                          icon: Icons.swap_horiz,
+                          label: 'Switch Rooms',
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SwitchRooms(studentinfo: y),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
                     ),
-                  ),
-                  const SizedBox(height: 50),
-
-                  GridView.count(
-                    crossAxisCount: 2,
-                    shrinkWrap: true,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    childAspectRatio: 2.5,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      _buildActionButton(
-                        icon: Icons.swap_vert,
-                        label: 'Change Hostel',
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HostelRegistrationScreen(
-                                mode: "change",
-                                currentDetails: hostelInfo,
-                                name: name,
-                                rollNumber: rollNumber,
-                                studentdetail: x,
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                      _buildActionButton(
-                        icon: Icons.question_answer_rounded,
-                        label: 'My Requests',
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MyRequestsScreen(
-                                mykey: email.split('.').first,
-                                hostel: hostelInfo['hostelName'],
-                                rollnumber: rollNumber,
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                      _buildActionButton(
-                        icon: Icons.airplane_ticket,
-                        label: 'Apply for Leave',
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ApplyLeave(
-                                hostelName: hostelInfo['hostelName'],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                      _buildActionButton(
-                        icon: Icons.swap_horiz,
-                        label: 'Switch Rooms',
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SwitchRooms(studentinfo: y,),
-                            ),
-                          );
-                        },
-                      ),
-
-                    ],
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );
-        },
-      ),
+        }
+
+        return const Center(child: Text('No data available'));
+      },
     );
   }
 
@@ -333,14 +297,14 @@ class _MainScreenState extends State<MainScreen> {
             style: GoogleFonts.poppins(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: Colors.tealAccent, // Accent color for titles
+              color: Colors.tealAccent,
             ),
           ),
           Text(
             value,
             style: GoogleFonts.poppins(
               fontSize: 16,
-              color: Colors.white70, // Softer text color for values
+              color: Colors.white70,
             ),
           ),
         ],
@@ -364,11 +328,7 @@ class _MainScreenState extends State<MainScreen> {
       icon: Icon(icon, color: Colors.tealAccent),
       label: Text(
         label,
-        style: GoogleFonts.poppins(
-          fontSize: 14,
-          color: Colors.tealAccent,
-          fontWeight: FontWeight.w500,
-        ),
+        style: GoogleFonts.poppins(color: Colors.tealAccent),
       ),
       onPressed: onPressed,
     );

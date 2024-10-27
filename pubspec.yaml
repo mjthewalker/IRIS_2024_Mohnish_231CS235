@@ -45,6 +45,9 @@ dependencies:
   google_fonts: ^6.2.1
   flutter_bloc: ^8.0.1
   equatable: ^2.0.3
+  lottie: ^1.0.1
+  shimmer: ^3.0.0
+  intl: ^0.18.0
 
 dev_dependencies:
   flutter_test:
@@ -79,6 +82,8 @@ flutter:
        - assets/images/vindhya.jpg
        - assets/images/satpura.jpg
        - assets/images/Aravali.jpg
+       - assets/images/NITK_Emblem (0-00-00-00).jpg
+       - assets/images/logonitk.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

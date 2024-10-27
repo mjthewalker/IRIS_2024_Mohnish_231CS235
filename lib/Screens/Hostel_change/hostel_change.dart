@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:getwidget/components/loader/gf_loader.dart';
-import 'package:getwidget/types/gf_loader_type.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../Data and models/loading_screen.dart';
 import 'hostel_change_details.dart';
 import '../../Data and models/hostel_change_model.dart';
 
 class HostelChangeApproval extends StatefulWidget {
+  const HostelChangeApproval({super.key});
+
   @override
   HostelChangeApprovalState createState() => HostelChangeApprovalState();
 }
@@ -53,24 +54,24 @@ class HostelChangeApprovalState extends State<HostelChangeApproval> {
           style: GoogleFonts.poppins(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Colors.tealAccent, // Accent color for AppBar title
+            color: Colors.tealAccent,
           ),
         ),
-        backgroundColor: Colors.grey[900], // Dark background for AppBar
-        iconTheme: const IconThemeData(color: Colors.tealAccent), // Accent for AppBar icons
+        backgroundColor: Colors.grey[900],
+        iconTheme: const IconThemeData(color: Colors.tealAccent),
         centerTitle: true,
-        elevation: 2, // Subtle shadow for AppBar
+        elevation: 2,
       ),
-      backgroundColor: Colors.grey[850], // Light background for body
+      backgroundColor: Colors.grey[850],
       body: FutureBuilder<List<HostelChangeRequest>>(
         future: allChangeRequests,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: GFLoader(type: GFLoaderType.ios)); // Loading indicator
+            return LinearLoadingScreen();
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}')); // Error handling
+            return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No Requests Found')); // No data found
+            return const Center(child: Text('No Requests Found'));
           }
 
           List<HostelChangeRequest> requests = snapshot.data!;
@@ -82,16 +83,15 @@ class HostelChangeApprovalState extends State<HostelChangeApproval> {
 
               return Card(
                 margin: const EdgeInsets.all(10),
-                color: Colors.grey[900], // Dark card background
+                color: Colors.grey[900],
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16.0), // Rounded corners for cards
-                 // side: BorderSide(color: Colors.tealAccent, width: 1.5), // Accent color border
+                  borderRadius: BorderRadius.circular(16.0),
                 ),
-                elevation: 8, // Card elevation for shadow effect
-                shadowColor: Colors.black38, // Subtle shadow color
+                elevation: 8,
+                shadowColor: Colors.black38,
                 child: GestureDetector(
                   onTap: () {
-                    if (request.status=="Pending") {
+                    if (request.status == "Pending") {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) =>
@@ -107,11 +107,11 @@ class HostelChangeApprovalState extends State<HostelChangeApproval> {
                   },
                   child: ListTile(
                     title: Text(
-                      '${request.personalDetails.name}',
+                      request.personalDetails.name,
                       style: GoogleFonts.poppins(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Colors.tealAccent, // Accent color for title
+                        color: Colors.tealAccent,
                       ),
                     ),
                     subtitle: Column(
@@ -125,7 +125,7 @@ class HostelChangeApprovalState extends State<HostelChangeApproval> {
                                 style: GoogleFonts.poppins(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w400,
-                                  color: Colors.orangeAccent, // Light text color for readability
+                                  color: Colors.orangeAccent,
                                 ),
                               ),
                               const TextSpan(
@@ -133,29 +133,20 @@ class HostelChangeApprovalState extends State<HostelChangeApproval> {
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w400,
-                                  color: Colors.white, // Keeping the arrow color white
+                                  color: Colors.white,
                                 ),
                               ),
                               TextSpan(
-                                text: '${request.hostelChangeDetails.newRoomDetails.newHostel}',
+                                text: request.hostelChangeDetails.newRoomDetails.newHostel,
                                 style: GoogleFonts.poppins(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w400,
-                                  color: Colors.tealAccent, // Different color for the new hostel
+                                  color: Colors.tealAccent,
                                 ),
                               ),
                             ],
                           ),
-                        )
-
-                        /*Text(
-                          'New Hostel: ${request.hostelChangeDetails.newRoomDetails.newHostel}',
-                          style: GoogleFonts.poppins(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.white, // Light text color for readability
-                          ),
-                        ),*/
+                        ),
                       ],
                     ),
                     trailing: Text(
@@ -164,10 +155,10 @@ class HostelChangeApprovalState extends State<HostelChangeApproval> {
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                         color: request.status == 'Approved'
-                            ? Colors.greenAccent // Green for approved
+                            ? Colors.greenAccent
                             : request.status == 'Denied'
-                            ? Colors.redAccent // Red for rejected
-                            : Colors.orangeAccent, // Yellow for pending
+                            ? Colors.redAccent
+                            : Colors.orangeAccent,
                       ),
                     ),
                   ),

@@ -1,14 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iris_rec/Screens/Hostel_registration/hostelreg.dart';
-
 import '../../Data and models/student_list_model.dart';
+import '../Hostel_Dashboard/bloc/iris_bloc.dart';
 
 class ManageStudent extends StatelessWidget {
   final StudentList studentdata;
 
-  ManageStudent({required this.studentdata});
+  const ManageStudent({super.key, required this.studentdata});
 
   @override
   Widget build(BuildContext context) {
@@ -19,23 +20,23 @@ class ManageStudent extends StatelessWidget {
           style: GoogleFonts.poppins(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Colors.tealAccent, // Accent color for title
+            color: Colors.tealAccent,
           ),
         ),
         backgroundColor: Colors.grey[900],
         iconTheme: const IconThemeData(color: Colors.tealAccent),
       ),
-      backgroundColor: Colors.grey[850], // Dark background for the body
+      backgroundColor: Colors.grey[850],
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
             Card(
-              color: Colors.grey[900], // Dark card background
+              color: Colors.grey[900],
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15),
               ),
-              elevation: 8, // Shadow for depth
+              elevation: 8,
               margin: const EdgeInsets.only(bottom: 20),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -47,7 +48,7 @@ class ManageStudent extends StatelessWidget {
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Colors.tealAccent, // Accent color for heading
+                        color: Colors.tealAccent,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -60,7 +61,7 @@ class ManageStudent extends StatelessWidget {
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Colors.tealAccent, // Accent color for heading
+                        color: Colors.tealAccent,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -73,8 +74,7 @@ class ManageStudent extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 30,),
-            // Deallocate Room Button
+            const SizedBox(height: 30),
             ElevatedButton(
               onPressed: () async {
                 if (studentdata.hostelinfo.hostelName == "No hostel allotted") {
@@ -94,16 +94,21 @@ class ManageStudent extends StatelessWidget {
 
                 await FirebaseFirestore.instance.collection('hostels').doc(studentdata.hostelinfo.hostelName).set({
                   'Floor ${studentdata.hostelinfo.floor}': {
-                    '${studentdata.hostelinfo.wing}': {
+                    studentdata.hostelinfo.wing: {
                       'Room ${studentdata.hostelinfo.roomNumber}': FieldValue.increment(-1)
                     }
                   }
                 }, SetOptions(merge: true));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Room Deallocated')),
+                );
+                final homeBloc = context.read<HomeBloc>();
+                homeBloc.add(LoadData());
 
                 Navigator.pop(context, true);
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.redAccent, // Deallocate button color
+                backgroundColor: Colors.redAccent,
                 padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               ),
@@ -117,13 +122,12 @@ class ManageStudent extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-            // Reallocate Room Button
             ElevatedButton(
               onPressed: () async {
                 if (studentdata.hostelinfo.hostelName != "No hostel allotted") {
                   await FirebaseFirestore.instance.collection('hostels').doc(studentdata.hostelinfo.hostelName).set({
                     'Floor ${studentdata.hostelinfo.floor}': {
-                      '${studentdata.hostelinfo.wing}': {
+                      studentdata.hostelinfo.wing: {
                         'Room ${studentdata.hostelinfo.roomNumber}': FieldValue.increment(-1)
                       }
                     }
@@ -145,7 +149,7 @@ class ManageStudent extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.greenAccent, // Reallocate button color
+                backgroundColor: Colors.greenAccent,
                 padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               ),
@@ -175,7 +179,7 @@ class ManageStudent extends StatelessWidget {
               style: GoogleFonts.poppins(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: Colors.tealAccent, // Accent color for label
+                color: Colors.tealAccent,
               ),
             ),
             TextSpan(
@@ -183,7 +187,7 @@ class ManageStudent extends StatelessWidget {
               style: GoogleFonts.poppins(
                 fontSize: 16,
                 fontWeight: FontWeight.normal,
-                color: Colors.white70, // Light text color for value
+                color: Colors.white70,
               ),
             ),
           ],

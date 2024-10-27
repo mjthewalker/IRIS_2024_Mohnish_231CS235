@@ -12,7 +12,7 @@ class MyDrawer extends StatelessWidget {
   final String? isAdmin;
 
   const MyDrawer({
-    Key? key,
+    super.key,
     this.onSignOut,
     this.myRequests,
     this.hostelRequests,
@@ -20,24 +20,34 @@ class MyDrawer extends StatelessWidget {
     this.studentManager,
     this.isAdmin,
     this.switchRequests,
-
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Colors.grey[900], // Dark background for the drawer
+      backgroundColor: Colors.grey[900],
       child: Column(
         children: [
           DrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.grey[850], // Slightly lighter for the header
+              color: Colors.grey[900],
             ),
             child: Center(
-              child: Icon(
-                Icons.person,
-                color: Colors.tealAccent, // Accent color for the icon
-                size: 64,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 35),
+                child: Row(
+                  children: [
+                    Image.asset('assets/images/logonitk.jpg', scale: 5),
+                    const SizedBox(width: 25),
+                    Container(width: 1, height: 60, color: Colors.tealAccent),
+                    const SizedBox(width: 20),
+                    const Icon(
+                      Icons.person,
+                      color: Colors.tealAccent,
+                      size: 80,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -45,7 +55,7 @@ class MyDrawer extends StatelessWidget {
             icon: Icons.home,
             text: 'H O M E',
             textColor: Colors.white,
-            activeColor: Colors.tealAccent, // Change color on tap
+            activeColor: Colors.tealAccent,
             onTap: () => Navigator.pop(context),
           ),
           const SizedBox(height: 10),
@@ -54,7 +64,7 @@ class MyDrawer extends StatelessWidget {
               icon: Icons.airplane_ticket_outlined,
               text: 'M A N A G E  L E A V E S',
               textColor: Colors.white,
-              activeColor: Colors.tealAccent, // Change color on tap
+              activeColor: Colors.tealAccent,
               onTap: myRequests,
             ),
             const SizedBox(height: 10),
@@ -62,7 +72,7 @@ class MyDrawer extends StatelessWidget {
               icon: Icons.receipt_long,
               text: 'H O S T E L  R E Q U E S T S',
               textColor: Colors.white,
-              activeColor: Colors.tealAccent, // Change color on tap
+              activeColor: Colors.tealAccent,
               onTap: hostelRequests,
             ),
             const SizedBox(height: 10),
@@ -70,7 +80,7 @@ class MyDrawer extends StatelessWidget {
               icon: Icons.business,
               text: 'H O S T E L  M A N A G E R',
               textColor: Colors.white,
-              activeColor: Colors.tealAccent, // Change color on tap
+              activeColor: Colors.tealAccent,
               onTap: hostelManager,
             ),
             const SizedBox(height: 10),
@@ -78,7 +88,7 @@ class MyDrawer extends StatelessWidget {
               icon: Icons.people,
               text: 'S T U D E N T  M A N A G E R',
               textColor: Colors.white,
-              activeColor: Colors.tealAccent, // Change color on tap
+              activeColor: Colors.tealAccent,
               onTap: studentManager,
             ),
             const SizedBox(height: 10),
@@ -86,17 +96,16 @@ class MyDrawer extends StatelessWidget {
               icon: Icons.people,
               text: 'S W I T C H  R E Q U E S T S',
               textColor: Colors.white,
-              activeColor: Colors.tealAccent, // Change color on tap
+              activeColor: Colors.tealAccent,
               onTap: switchRequests,
             ),
             const SizedBox(height: 10),
           ],
-
           MyListTile(
             icon: Icons.logout,
             text: 'L O G O U T',
             textColor: Colors.white,
-            activeColor: Colors.tealAccent, // Change color on tap
+            activeColor: Colors.tealAccent,
             onTap: onSignOut,
           ),
         ],

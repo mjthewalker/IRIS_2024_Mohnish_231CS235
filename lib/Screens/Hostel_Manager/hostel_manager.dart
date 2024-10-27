@@ -7,6 +7,8 @@ import '../../Data and models/common_card.dart';
 import '../../Data and models/hostel_data.dart';
 
 class HostelManager extends StatefulWidget {
+  const HostelManager({super.key});
+
   @override
   HostelManagerState createState() => HostelManagerState();
 }
@@ -76,7 +78,7 @@ class HostelManagerState extends State<HostelManager> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => HostelLayoutForm(),
+                        builder: (context) => const HostelLayoutForm(),
                       ),
                     ).then((value) {
                       if (value != null) {
@@ -136,7 +138,7 @@ class HostelManagerState extends State<HostelManager> {
                                     hostel.imgSrc,
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) => Image.network(
-                                      '${hostel.imgSrc}',
+                                      hostel.imgSrc,
                                       fit: BoxFit.cover,
                                       errorBuilder: (context, error, stackTrace) => Container(
                                         color: Colors.grey[300],
@@ -169,7 +171,7 @@ class HostelManagerState extends State<HostelManager> {
                                       style: GoogleFonts.poppins(
                                         fontSize: 17,
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.white,
+                                        color: Colors.orangeAccent
                                       ),
                                     ),
                                     Text(

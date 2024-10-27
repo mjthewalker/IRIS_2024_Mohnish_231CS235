@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:getwidget/components/loader/gf_loader.dart';
-import 'package:getwidget/types/gf_loader_type.dart';
+import 'package:iris_rec/Data%20and%20models/loading_screen.dart';
 import 'package:iris_rec/Screens/Student_Manager/manage_student.dart';
 import 'package:iris_rec/Screens/Student_Manager/student_search.dart';
-
 import '../../Data and models/student_list_model.dart';
 
 class StudentManager extends StatefulWidget {
@@ -18,6 +16,7 @@ class StudentManager extends StatefulWidget {
 class StudentManagerState extends State<StudentManager> {
   late Future<List<StudentList>> studentData;
 
+  @override
   void initState() {
     super.initState();
     studentData = getAllStudents();
@@ -31,19 +30,15 @@ class StudentManagerState extends State<StudentManager> {
 
       for (var tempdoc in hostelsSnapshot.docs) {
         Map<String, dynamic> studentData = tempdoc.data() as Map<String, dynamic>;
-
-        // Directly create the StudentList object without null check
         StudentList student = StudentList.fromJson(studentData);
         tempList.add(student);
       }
     } catch (e) {
-      // Log the actual error for better debugging
       print("Error fetching students: $e");
     }
 
     return tempList;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -51,34 +46,27 @@ class StudentManagerState extends State<StudentManager> {
       appBar: AppBar(
         centerTitle: true,
         actions: [
-          IconButton(onPressed: (){
+          IconButton(onPressed: () {
             showSearch(context: context, delegate: StudentSearchDelegate(studentData));
-          }, icon: Icon(Icons.search))
+          }, icon: const Icon(Icons.search))
         ],
         title: Text(
           "Student Manager",
-
           style: GoogleFonts.poppins(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Colors.tealAccent, // Accent color for title
+            color: Colors.tealAccent,
           ),
-
         ),
-
-        backgroundColor: Colors.grey[900], // Dark background for AppBar
-        iconTheme: const IconThemeData(color: Colors.tealAccent), // Accent color for icons
+        backgroundColor: Colors.grey[900],
+        iconTheme: const IconThemeData(color: Colors.tealAccent),
       ),
-      backgroundColor: Colors.grey[850], // Dark background for the main body
+      backgroundColor: Colors.grey[850],
       body: FutureBuilder<List<StudentList>>(
-        future: studentData, // Fetching data
+        future: studentData,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: GFLoader(
-                type: GFLoaderType.ios,
-              ),
-            );
+            return LinearLoadingScreen();
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -106,43 +94,42 @@ class StudentManagerState extends State<StudentManager> {
                   });
                 },
                 child: InkWell(
-
                   child: Card(
                     margin: const EdgeInsets.all(10),
-                    color: Colors.grey[900], // Dark card background
+                    color: Colors.grey[900],
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16.0), // Rounded corners for cards
-                      side: BorderSide(color: Colors.tealAccent, width: 1.5), // Accent color border
+                      borderRadius: BorderRadius.circular(16.0),
+                      side: const BorderSide(color: Colors.tealAccent, width: 1.5),
                     ),
-                    elevation: 8, // Card elevation for shadow effect
-                    shadowColor: Colors.black38, // Subtle shadow color
+                    elevation: 8,
+                    shadowColor: Colors.black38,
                     child: ListTile(
                       leading: const Icon(
-                        Icons.person, // Person icon
-                        color: Colors.tealAccent, // Accent color for the icon
-                        size: 40, // Size of the icon
+                        Icons.person,
+                        color: Colors.tealAccent,
+                        size: 40,
                       ),
                       title: Text(
                         '${request.name}',
                         style: GoogleFonts.poppins(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Colors.tealAccent, // Accent color for title
+                          color: Colors.tealAccent,
                         ),
                       ),
                       subtitle: Padding(
-                        padding: const EdgeInsets.only(top: 4.0), // Add some space above the subtitle
+                        padding: const EdgeInsets.only(top: 4.0),
                         child: Text(
                           'Current Hostel: ${request.hostelinfo.hostelName}\n',
                           style: GoogleFonts.poppins(
                             fontSize: 13,
                             fontWeight: FontWeight.w400,
-                            color: Colors.white, // Light text color for readability
+                            color: Colors.white,
                           ),
                         ),
                       ),
-                      trailing: Icon(
-                        Icons.arrow_forward_ios, // Optional: Add a forward arrow to indicate navigation
+                      trailing: const Icon(
+                        Icons.arrow_forward_ios,
                         color: Colors.tealAccent,
                       ),
                     ),
@@ -151,7 +138,6 @@ class StudentManagerState extends State<StudentManager> {
               );
             },
           );
-
         },
       ),
     );

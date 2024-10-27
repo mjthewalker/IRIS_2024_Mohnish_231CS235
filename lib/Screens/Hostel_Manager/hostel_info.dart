@@ -1,21 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import '../../Data and models/hostel_data.dart'; // Assuming this is where your Hive models are defined
+import '../../Data and models/hostel_data.dart';
 
 class HostelInfo extends StatelessWidget {
   final String hostelName;
   final Box hostelBox;
 
-  const HostelInfo({required this.hostelName, required this.hostelBox});
+  const HostelInfo({super.key, required this.hostelName, required this.hostelBox});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[850], // Dark background
+      backgroundColor: Colors.grey[850],
       appBar: AppBar(
         centerTitle: true,
         title: Text(
@@ -23,7 +22,7 @@ class HostelInfo extends StatelessWidget {
           style: GoogleFonts.poppins(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Colors.tealAccent, // Accent color for title
+            color: Colors.tealAccent,
           ),
         ),
         backgroundColor: Colors.grey[900],
@@ -37,18 +36,19 @@ class HostelInfo extends StatelessWidget {
               builder: (context, Box box, widget) {
                 if (box.isEmpty) {
                   return const Center(
-                    child: Text('No hostel information available',
-                      style: TextStyle(color: Colors.white), // Light text color for readability
+                    child: Text(
+                      'No hostel information available',
+                      style: TextStyle(color: Colors.white),
                     ),
                   );
                 } else {
-                  // Retrieve the hostel data from the box using the hostel name
-                  Hostel? hostel = box.get(hostelName); // Add null check
+                  Hostel? hostel = box.get(hostelName);
 
                   if (hostel == null) {
                     return Center(
-                      child: Text('Hostel $hostelName not found!',
-                        style: TextStyle(color: Colors.white), // Light text color for readability
+                      child: Text(
+                        'Hostel $hostelName not found!',
+                        style: const TextStyle(color: Colors.white),
                       ),
                     );
                   }
@@ -59,19 +59,17 @@ class HostelInfo extends StatelessWidget {
                       Floor floor = hostel.floors[index];
 
                       return Card(
-
-                        color: Colors.grey[900], // Dark card background
+                        color: Colors.grey[900],
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15), // Rounded corners
+                          borderRadius: BorderRadius.circular(15),
                         ),
-                        elevation: 8, // Card elevation for shadow effect
+                        elevation: 8,
                         margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                         child: ExpansionTile(
-
                           title: Text(
                             'Floor ${floor.floorNumber}',
                             style: GoogleFonts.poppins(
-                              color: Colors.tealAccent, // Accent color for title
+                              color: Colors.tealAccent,
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
@@ -79,15 +77,15 @@ class HostelInfo extends StatelessWidget {
                           children: floor.wings.map((wing) {
                             return ListTile(
                               title: Text(
-                                '${wing.wingName}',
+                                wing.wingName,
                                 style: GoogleFonts.poppins(
-                                  color: Colors.white, // Light text color for readability
+                                  color: Colors.white,
                                 ),
                               ),
                               subtitle: Text(
                                 'Capacity: ${wing.capacity}, Number of Rooms: ${wing.availableRooms}',
                                 style: GoogleFonts.poppins(
-                                  color: Colors.white70, // Slightly lighter for subtitles
+                                  color: Colors.white70,
                                 ),
                               ),
                             );
@@ -104,7 +102,6 @@ class HostelInfo extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
               onPressed: () async {
-                // Confirmation dialog before deletion
                 bool? confirmDelete = await showDialog(
                   context: context,
                   builder: (context) {
@@ -128,7 +125,6 @@ class HostelInfo extends StatelessWidget {
                 if (confirmDelete == true) {
                   try {
                     await FirebaseFirestore.instance.collection('hostels').doc(hostelName).delete();
-                    await FirebaseFirestore.instance.collection('requests').doc(hostelName).delete();
                     await hostelBox.delete(hostelName);
                     Navigator.pop(context, true);
                   } catch (e) {
@@ -139,10 +135,10 @@ class HostelInfo extends StatelessWidget {
                 }
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.redAccent, // Delete button color
+                backgroundColor: Colors.redAccent,
                 padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10), // Rounded corners for button
+                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
               child: Text(

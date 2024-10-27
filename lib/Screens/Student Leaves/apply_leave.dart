@@ -1,17 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:iris_rec/Data%20and%20models/student_list_model.dart';
 
 class ApplyLeave extends StatefulWidget {
   final String hostelName;
-  const ApplyLeave({required this.hostelName});
+  const ApplyLeave({super.key, required this.hostelName});
 
   @override
-  _ApplyLeaveState createState() => _ApplyLeaveState();
+  ApplyLeaveState createState() => ApplyLeaveState();
 }
 
-class _ApplyLeaveState extends State<ApplyLeave> {
+class ApplyLeaveState extends State<ApplyLeave> {
   final _formKey = GlobalKey<FormState>();
   String _nameController = '';
   String _leaveReasonController = '';
@@ -19,7 +18,7 @@ class _ApplyLeaveState extends State<ApplyLeave> {
   DateTime? _fromDate;
   DateTime? _toDate;
 
-  // Method to handle date picker for both 'from' and 'to' dates
+
   Future<void> _pickDate(BuildContext context, Function(DateTime?) setDate, DateTime? initialDate) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -32,7 +31,7 @@ class _ApplyLeaveState extends State<ApplyLeave> {
     }
   }
 
-  // Method to handle form submission
+
   void _submitForm(BuildContext context) async {
     _formKey.currentState!.save();
     if (_fromDate == null || _toDate == null) {
@@ -68,22 +67,22 @@ class _ApplyLeaveState extends State<ApplyLeave> {
           style: GoogleFonts.poppins(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Colors.tealAccent, // Accent color for title
+            color: Colors.tealAccent,
           ),
         ),
         backgroundColor: Colors.grey[900],
         iconTheme: const IconThemeData(color: Colors.tealAccent),
       ),
-      backgroundColor: Colors.grey[850], // Dark background
+      backgroundColor: Colors.grey[850],
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: ListView(
             children: <Widget>[
-              // Name field
+
               Card(
-                color: Colors.grey[900], // Dark card background
+                color: Colors.grey[900],
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -95,7 +94,7 @@ class _ApplyLeaveState extends State<ApplyLeave> {
                     border: OutlineInputBorder(),
                     contentPadding: EdgeInsets.all(16),
                   ),
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your name';
@@ -109,9 +108,9 @@ class _ApplyLeaveState extends State<ApplyLeave> {
               ),
               const SizedBox(height: 20),
 
-              // Roll number field
+
               Card(
-                color: Colors.grey[900], // Dark card background
+                color: Colors.grey[900],
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -122,7 +121,7 @@ class _ApplyLeaveState extends State<ApplyLeave> {
                     border: OutlineInputBorder(),
                     contentPadding: EdgeInsets.all(16),
                   ),
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your roll number';
@@ -136,15 +135,15 @@ class _ApplyLeaveState extends State<ApplyLeave> {
               ),
               const SizedBox(height: 20),
 
-              // From date picker
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     _fromDate == null
                         ? 'Select From date'
-                        : 'From Date: ${_fromDate!.toLocal()}'.split(' ')[0],
-                    style: const TextStyle(color: Colors.tealAccent), // Light text color for readability
+                        : 'From Date: ${_fromDate!}'.substring(0, 20),
+                    style: const TextStyle(color: Colors.tealAccent),
                   ),
                   IconButton(onPressed: () {
                     _pickDate(context, (pickedDate) {
@@ -152,21 +151,22 @@ class _ApplyLeaveState extends State<ApplyLeave> {
                         _fromDate = pickedDate;
                       });
                     }, _fromDate);
-                  }, icon: Icon(Icons.calendar_month,color: Colors.tealAccent,))
+                  }, icon: const Icon(Icons.calendar_month,color: Colors.tealAccent,))
 
                 ],
               ),
               const SizedBox(height: 20),
 
-              // To date picker
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     _toDate == null
                         ? 'Select To date'
-                        : 'To Date: ${_toDate!}'.split(' ')[0],
-                    style: const TextStyle(color: Colors.tealAccent), // Light text color for readability
+                        : "To Date: ${_toDate!}".substring(0, 20)
+                    ,
+                    style: const TextStyle(color: Colors.tealAccent),
                   ),
                   IconButton(onPressed: () {
                     _pickDate(context, (pickedDate) {
@@ -174,15 +174,15 @@ class _ApplyLeaveState extends State<ApplyLeave> {
                         _toDate = pickedDate;
                       });
                     }, _toDate);
-                  }, icon: Icon(Icons.calendar_month,color: Colors.tealAccent,))
+                  }, icon: const Icon(Icons.calendar_month,color: Colors.tealAccent,))
 
                 ],
               ),
               const SizedBox(height: 20),
 
-              // Leave reason field
+
               Card(
-                color: Colors.grey[900], // Dark card background
+                color: Colors.grey[900],
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -195,7 +195,7 @@ class _ApplyLeaveState extends State<ApplyLeave> {
                     contentPadding: EdgeInsets.all(16),
                   ),
 
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
 
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -208,9 +208,9 @@ class _ApplyLeaveState extends State<ApplyLeave> {
                   },
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 40),
 
-              // Submit button
+
               ElevatedButton(
                 onPressed: () {
                   if (_fromDate == null || _toDate == null) {
@@ -226,7 +226,7 @@ class _ApplyLeaveState extends State<ApplyLeave> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.tealAccent, // Match previous theme
+                  backgroundColor: Colors.tealAccent,
                   padding: const EdgeInsets.symmetric(vertical: 15),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10), // Rounded corners for button

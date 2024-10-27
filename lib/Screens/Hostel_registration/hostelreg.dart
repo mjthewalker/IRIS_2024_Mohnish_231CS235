@@ -3,8 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:iris_rec/Data%20and%20models/student_list_model.dart';
 import '../../Data and models/common_card.dart';
-import '../../Data and models/hostel_data.dart'; // Import your Hive models
-import 'hostelscreen.dart'; // Import the detail screen
+import '../../Data and models/hostel_data.dart';
+import 'hostelscreen.dart';
 
 class HostelRegistrationScreen extends StatefulWidget {
   final String mode;
@@ -13,7 +13,8 @@ class HostelRegistrationScreen extends StatefulWidget {
   final String? name;
   final String? rollNumber;
 
-  HostelRegistrationScreen({
+  const HostelRegistrationScreen({
+    super.key,
     required this.mode,
     this.currentDetails,
     this.name,
@@ -53,15 +54,15 @@ class _HostelRegistrationScreenState extends State<HostelRegistrationScreen> {
           style: GoogleFonts.poppins(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Colors.tealAccent, // Accent color for title
+            color: Colors.tealAccent,
           ),
         ),
-        backgroundColor: Colors.grey[900], // Dark background for AppBar
+        backgroundColor: Colors.grey[900],
         centerTitle: true,
-        iconTheme: const IconThemeData(color: Colors.tealAccent), // Accent color for icons
-        elevation: 2, // Slight elevation for the AppBar
+        iconTheme: const IconThemeData(color: Colors.tealAccent),
+        elevation: 2,
       ),
-      backgroundColor: Colors.grey[850], // Dark background for the main body
+      backgroundColor: Colors.grey[850],
       body: FutureBuilder<List<Hostel>>(
         future: allHostels,
         builder: (context, snapshot) {
@@ -110,7 +111,6 @@ class _HostelRegistrationScreenState extends State<HostelRegistrationScreen> {
                   },
                   child: Column(
                     children: [
-                      // First card: Image only
                       CommonCard(
                         color: Colors.grey[900],
                         radius: 15,
@@ -122,7 +122,7 @@ class _HostelRegistrationScreenState extends State<HostelRegistrationScreen> {
                               hostel.imgSrc,
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) => Image.network(
-                                '${hostel.imgSrc}',
+                                hostel.imgSrc,
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => Container(
                                   color: Colors.grey[300],
@@ -138,15 +138,13 @@ class _HostelRegistrationScreenState extends State<HostelRegistrationScreen> {
                         ),
                       ),
 
-                      // Second card: Text information (hostel name and warden ID)
                       Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16.0),
-                          //side: BorderSide(color: Colors.tealAccent, width: 1.2),
                         ),
-                        elevation: 10, // Subtle shadow for the card
-                        color: Colors.grey[800], // Softer dark color for the card
-                        shadowColor: Colors.black38, // Shadow color
+                        elevation: 10,
+                        color: Colors.grey[800],
+                        shadowColor: Colors.black38,
                         child: Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Row(
@@ -157,14 +155,14 @@ class _HostelRegistrationScreenState extends State<HostelRegistrationScreen> {
                                 style: GoogleFonts.poppins(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.white,
+                                  color: Colors.orangeAccent,
                                 ),
                               ),
                               Text(
-                                 hostel.occupancy.toLowerCase(),
+                                hostel.occupancy.toLowerCase(),
                                 style: GoogleFonts.poppins(
                                   fontSize: 14,
-                                  color: Colors.tealAccent, // Accent color for warden ID
+                                  color: Colors.tealAccent,
                                 ),
                               ),
                             ],

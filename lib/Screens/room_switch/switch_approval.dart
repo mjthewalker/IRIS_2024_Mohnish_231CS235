@@ -2,13 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../Data and models/hostel_change_model.dart';
 
 class RoomChangeFinalApproval extends StatefulWidget {
   final Map<String,dynamic> user1;
   final Map<String,dynamic> user2;
 
-  RoomChangeFinalApproval({required this.user1,required this.user2});
+  const RoomChangeFinalApproval({super.key, required this.user1,required this.user2});
 
   @override
   RoomChangeFinalApprovalState createState() =>
@@ -119,7 +118,7 @@ class RoomChangeFinalApprovalState extends State<RoomChangeFinalApproval> {
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Colors.tealAccent, // Accent color for heading
+                        color: Colors.orangeAccent, // Accent color for heading
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -131,7 +130,7 @@ class RoomChangeFinalApprovalState extends State<RoomChangeFinalApproval> {
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Colors.tealAccent, // Accent color for heading
+                        color: Colors.orangeAccent, // Accent color for heading
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -143,7 +142,7 @@ class RoomChangeFinalApprovalState extends State<RoomChangeFinalApproval> {
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Colors.tealAccent, // Accent color for heading
+                        color: Colors.orangeAccent, // Accent color for heading
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -157,7 +156,7 @@ class RoomChangeFinalApprovalState extends State<RoomChangeFinalApproval> {
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Colors.tealAccent, // Accent color for heading
+                        color: Colors.orangeAccent, // Accent color for heading
                       ),
                     ),
                     const SizedBox(height: 8),
