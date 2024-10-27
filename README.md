@@ -9,7 +9,7 @@
 
   * Authentication screen integrated with firebase
   * Hostel Dashboard with a drawer
-  * Used Hive to store hostel information
+  * Used Hive to store hostel information which also updates when a new hostel is added by the admin
   * Change Hostel feature.(The user can see which rooms are available)
   * My requests module to track your leave requests and hostel change requests
   * Leave Application module to apply for leave
