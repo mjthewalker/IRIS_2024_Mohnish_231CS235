@@ -80,7 +80,7 @@ class _HostelRegistrationScreenState extends State<HostelRegistrationScreen> {
           floors: floorsList,
         );
 
-
+        await hostelBox.put(newHostel.hostelName,newHostel);
         missingHostels.add(newHostel);
       }
     }
