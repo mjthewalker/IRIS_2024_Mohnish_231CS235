@@ -18,7 +18,7 @@
   * Hostel Requests module for admin to approve/reject users hostel change requests
   * Switch Requests module for admin to approve/reject users room switch requests
   * Hostel Manager module for admin to view all the available hostels,add new ones and  also delete hostels.
-  * Student Manager module for admin to view all the students and their details, Also reallocate or deallocate users.
+  * Student Manager module for admin to view all the students and their details, Also reallocate or deallocate users. This module also has a search feature
   * Use of Bloc for State Management
 ## Operating system 
   used windows 10
