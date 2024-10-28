@@ -24,8 +24,9 @@
 ## List of Planned features 
 * FCM required credit card so couldnt implement
 * Displaying original hostel layouts while hostel booking
-## Recording
+## Recordings
 https://drive.google.com/file/d/1OYoBaK6j8lfa8s7Y7qr-0snmoVT8r6Qj/view?usp=drive_link
+https://drive.google.com/file/d/1BJ2OUCJEQeveRu65DYkl2YA9r2DhQhWe/view?usp=sharing
 ## References
 * https://www.youtube.com/watch?v=THCkkQ-V1-8
 * https://www.youtube.com/watch?v=Y1roIi0-Sro&list=PL9n0l8rSshSkzasAAyVMozHQu8-LdWxI0&index=2
