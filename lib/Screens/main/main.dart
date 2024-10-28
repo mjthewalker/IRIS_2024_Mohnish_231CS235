@@ -3,13 +3,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:iris_rec/Data%20and%20models/hostel_data.dart';
+import 'package:iris_rec/Data%20and%20models/loading_screen.dart';
 import 'package:iris_rec/Screens/Authorisation/bloc/auth_bloc.dart';
 import 'package:iris_rec/Screens/Hostel_Dashboard/iris.dart';
-
+import 'package:iris_rec/Screens/Hostel_Manager/add_hostel.dart';
 
 import '../../Data and models/firebase_options.dart';
 import '../Authorisation/auth.dart';
 import '../Hostel_Dashboard/bloc/iris_bloc.dart';
+import '../Hostel_Manager/hostel_info.dart';
+import '../Hostel_Manager/hostel_manager.dart';
+import '../Hostel_change/hostel_change.dart';
+import '../Hostel_registration/hostelscreen.dart';
+import '../Student Leaves/manage_leaves.dart';
+import '../Student_Manager/student_manager.dart';
+import '../room_switch/approve_switch.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,9 +33,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(
-    MyApp(),
-  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -43,14 +49,54 @@ class MyApp extends StatelessWidget {
         BlocProvider<HomeBloc>(
           create: (context) => HomeBloc()..add(LoadData()),
         ),
-
-
-
       ],
-      child: const MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: MainScaffold(),
-      ),
+        initialRoute: '/',
+          routes: {
+            '/': (context) => const MainScaffold(),
+            '/manageLeaves': (context) => const ManageLeaves(),
+            '/hostelChangeApproval': (context) => const HostelChangeApproval(),
+            '/hostelManager': (context) => const HostelManager(),
+            '/studentManager': (context) => const StudentManager(),
+            '/approveSwitch': (context) => const ApproveSwitch(),
+            '/addHostel': (context) => const HostelLayoutForm(),
+            // Use a function to handle parameterized routes
+          },
+          onGenerateRoute: (settings) {
+            if (settings.name == '/hostelInfo') {
+              final args = settings.arguments as Map<String, dynamic>;
+              final hostelName = args['hostelName'] as String;
+              final hostelBox = args['hostelBox'] as Box;
+              return MaterialPageRoute(
+                builder: (context) => HostelInfo(
+                  hostelName: hostelName,
+                  hostelBox: hostelBox,
+                ),
+              );
+            }
+            else if (settings.name == '/hostelDetail') {
+              final args = settings.arguments as Map<String, dynamic>;
+              final hostel = args['hostel'];
+              final mode = args['mode'];
+              final currentDetails = args['currentDetails'];
+              final name = args['name'];
+              final roll = args['roll'];
+              final studentDetail = args['studentdetail'];
+              return MaterialPageRoute(
+                builder: (context) => HostelDetailScreen(
+                  hostel: hostel,
+                  mode: mode,
+                  currentDetails: currentDetails,
+                  name: name,
+                  roll: roll,
+                  studentdetail: studentDetail,
+                ),
+              );
+            }
+            return null; // Handle other routes or return a default route
+          },
+      )
     );
   }
 }
@@ -68,8 +114,7 @@ class MainScaffold extends StatelessWidget {
               SnackBar(content: Text(state.message)),
             );
             context.read<AuthBloc>().add(AuthLoginSwitch());
-          }
-          else if (state is AuthFailureRegister) {
+          } else if (state is AuthFailureRegister) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.message)),
             );
@@ -80,7 +125,7 @@ class MainScaffold extends StatelessWidget {
           if (state is AuthSuccess) {
             return const MainScreen();
           } else if (state is AuthLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return LinearLoadingScreen();
           } else {
             return const AuthScreen();
           }

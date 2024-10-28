@@ -39,7 +39,7 @@ class HostelManagerState extends State<HostelManager> {
       String imgSrc = data['imgSrc'] ?? 'assets/images/default.jpg';
       String occupancy = data['occupancy'] ?? 'Unknown Occupancy';
 
-      if (!(await hostelBox.containsKey(hostelName))) {
+      if (!(await hostelBox.containsKey(hostelName))&& hostelName!='Unknown Hostel' ) {
 
         List floors = data['floors'] ?? [];
 
@@ -121,12 +121,10 @@ class HostelManagerState extends State<HostelManager> {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
+                  onPressed: (){
+                    Navigator.pushNamed(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => const HostelLayoutForm(),
-                      ),
+                      '/addHostel',
                     ).then((value) {
                       if (value != null) {
                         setState(() {
@@ -159,11 +157,13 @@ class HostelManagerState extends State<HostelManager> {
                       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(
+                          Navigator.pushNamed(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => HostelInfo(hostelName: hostel.hostelName, hostelBox: hostelBox),
-                            ),
+                            '/hostelInfo',
+                            arguments: {
+                              'hostelName': hostel.hostelName,
+                              'hostelBox': hostelBox,
+                            },
                           ).then((value) {
                             if (value != null) {
                               setState(() {

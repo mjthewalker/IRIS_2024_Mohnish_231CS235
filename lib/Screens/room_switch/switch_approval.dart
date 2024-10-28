@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../Hostel_Dashboard/bloc/iris_bloc.dart';
 
 
 class RoomChangeFinalApproval extends StatefulWidget {
@@ -56,6 +59,8 @@ class RoomChangeFinalApprovalState extends State<RoomChangeFinalApproval> {
 
     ScaffoldMessenger.of(context)
         .showSnackBar(const SnackBar(content: Text('Request Approved')));
+    final homeBloc = context.read<HomeBloc>();
+    homeBloc.add(LoadData());
     Navigator.pop(context, true);
   }
 

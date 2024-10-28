@@ -3,23 +3,16 @@ import 'package:iris_rec/Data%20and%20models/my_list_tile.dart';
 
 class MyDrawer extends StatelessWidget {
   final void Function()? onSignOut;
-  final void Function()? myRequests;
-  final void Function()? hostelRequests;
-  final void Function()? hostelManager;
-  final void Function()? studentManager;
-  final void Function()? switchRequests;
+
 
   final String? isAdmin;
 
   const MyDrawer({
     super.key,
     this.onSignOut,
-    this.myRequests,
-    this.hostelRequests,
-    this.hostelManager,
-    this.studentManager,
+
     this.isAdmin,
-    this.switchRequests,
+
   });
 
   @override
@@ -65,7 +58,9 @@ class MyDrawer extends StatelessWidget {
               text: 'M A N A G E  L E A V E S',
               textColor: Colors.white,
               activeColor: Colors.tealAccent,
-              onTap: myRequests,
+              onTap: (){
+                Navigator.pushNamed(context, '/manageLeaves');
+              },
             ),
             const SizedBox(height: 10),
             MyListTile(
@@ -73,7 +68,9 @@ class MyDrawer extends StatelessWidget {
               text: 'H O S T E L  R E Q U E S T S',
               textColor: Colors.white,
               activeColor: Colors.tealAccent,
-              onTap: hostelRequests,
+              onTap: (){
+                Navigator.pushNamed(context, '/hostelChangeApproval');
+              },
             ),
             const SizedBox(height: 10),
             MyListTile(
@@ -81,7 +78,9 @@ class MyDrawer extends StatelessWidget {
               text: 'H O S T E L  M A N A G E R',
               textColor: Colors.white,
               activeColor: Colors.tealAccent,
-              onTap: hostelManager,
+              onTap: (){
+                Navigator.pushNamed(context, '/hostelManager');
+              },
             ),
             const SizedBox(height: 10),
             MyListTile(
@@ -89,7 +88,9 @@ class MyDrawer extends StatelessWidget {
               text: 'S T U D E N T  M A N A G E R',
               textColor: Colors.white,
               activeColor: Colors.tealAccent,
-              onTap: studentManager,
+              onTap: (){
+                Navigator.pushNamed(context, '/studentManager');
+              },
             ),
             const SizedBox(height: 10),
             MyListTile(
@@ -97,7 +98,9 @@ class MyDrawer extends StatelessWidget {
               text: 'S W I T C H  R E Q U E S T S',
               textColor: Colors.white,
               activeColor: Colors.tealAccent,
-              onTap: switchRequests,
+              onTap: (){
+                Navigator.pushNamed(context, '/approveSwitch');
+              },
             ),
             const SizedBox(height: 10),
           ],

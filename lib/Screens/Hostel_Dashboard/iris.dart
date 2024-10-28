@@ -104,36 +104,6 @@ class _MainScreenState extends State<MainScreen> {
               onSignOut: () {
                 context.read<AuthBloc>().add(AuthLogout());
               },
-              myRequests: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ManageLeaves()),
-                );
-              },
-              hostelRequests: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HostelChangeApproval()),
-                );
-              },
-              hostelManager: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => HostelManager()),
-                );
-              },
-              studentManager: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const StudentManager()),
-                );
-              },
-              switchRequests: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ApproveSwitch()),
-                );
-              },
               isAdmin: userData['role'],
             ),
             body: SingleChildScrollView(

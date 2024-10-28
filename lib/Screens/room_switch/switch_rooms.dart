@@ -36,6 +36,7 @@ class _SwitchRoomsState extends State<SwitchRooms> {
     await FirebaseFirestore.instance.collection('room_exchange').doc(widget.studentinfo.hostelinfo.hostelName).set({
       x : {
         _roll :{
+          "Status" : "Pending",
           "name": widget.studentinfo.name,
           "rollNumber": _roll,
           "hostel": widget.studentinfo.hostelinfo.hostelName,

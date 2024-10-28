@@ -33,6 +33,12 @@ class ManageLeaveState extends State<ManageLeaves> {
           }
         });
       }
+      allRequests.sort((a, b) {
+        if (a['status'] == 'yet to be approved' && b['status'] != 'yet to be approved') return -1;
+        if (a['status'] != 'yet to be approved' && b['status'] == 'yet to be approved') return 1;
+        return 0;
+      });
+
     } catch (e) {
       print("Error fetching requests: $e");
     }

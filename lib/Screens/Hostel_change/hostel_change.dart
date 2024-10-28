@@ -38,6 +38,11 @@ class HostelChangeApprovalState extends State<HostelChangeApproval> {
           }
         });
       }
+      allRequests.sort((a, b) {
+        if (a.status == 'Pending' && b.status != 'Pending') return -1;
+        if (a.status != 'Pending' && b.status == 'Pending') return 1;
+        return 0;
+      });
     } catch (e) {
       print("Error fetching requests: $e");
     }

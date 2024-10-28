@@ -53,7 +53,7 @@ class _HostelRegistrationScreenState extends State<HostelRegistrationScreen> {
       String imgSrc = data['imgSrc'] ?? 'assets/images/default.jpg';
       String occupancy = data['occupancy'] ?? 'Unknown Occupancy';
 
-      if (!(await hostelBox.containsKey(hostelName))) {
+      if (!(await hostelBox.containsKey(hostelName))&& hostelName!='Unknown Hostel') {
 
         List floors = data['floors'] ?? [];
 
@@ -143,19 +143,18 @@ class _HostelRegistrationScreenState extends State<HostelRegistrationScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.push(
+                    Navigator.pushNamed(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => HostelDetailScreen(
-                          hostel: hostel,
-                          mode: widget.mode,
-                          currentDetails: widget.currentDetails,
-                          name: widget.name,
-                          roll: widget.rollNumber,
-                          studentdetail: widget.studentdetail,
-                        ),
-                      ),
-                    );
+                      '/hostelDetail',
+                      arguments: {
+                        'hostel': hostel,
+                        'mode': widget.mode,
+                        'currentDetails' : widget.currentDetails,
+                        'name' : widget.name,
+                        'roll' : widget.rollNumber,
+                        'studentdetail' : widget.studentdetail
+                      });
+
                   },
                   child: Column(
                     children: [

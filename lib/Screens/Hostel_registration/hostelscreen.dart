@@ -185,7 +185,11 @@ class _HostelDetailScreenState extends State<HostelDetailScreen> {
 
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('student reallocated')));
-      Navigator.of(context).popUntil((route) => route.isFirst);
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        '/studentManager', // Replace with the name of the route you want to push
+            (route) => route.isFirst,
+      );
+
       final homeBloc = context.read<HomeBloc>();
       homeBloc.add(LoadData());
       return;

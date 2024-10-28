@@ -23,7 +23,7 @@ class _ApproveSwitchState extends State<ApproveSwitch> {
       for (var requestDoc in requestsSnapshot.docs) {
         Map<String, dynamic> requestData = requestDoc.data() as Map<String, dynamic>;
 
-        // Iterate over user requests in the document
+
         requestData.forEach((userKey, userData) {
 
 
@@ -201,6 +201,7 @@ class _ApproveSwitchState extends State<ApproveSwitch> {
                         // Status display
                         const SizedBox(height: 13,),
                         Text(
+                          user1['Status']==null?"Status: Pending":
                           "Status: ${user1['Status']}",
                           style: GoogleFonts.poppins(
                             fontSize: 14,
