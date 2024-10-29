@@ -22,7 +22,7 @@
   * Use of Bloc for State Management
   * Implemented Role Based Access for admins and users
 ## List of Planned features 
-* FCM required credit card so couldnt implement
+
 * Displaying original hostel layouts while hostel booking
 ## Recordings
 App
