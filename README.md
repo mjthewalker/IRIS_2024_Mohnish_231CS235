@@ -19,7 +19,7 @@ new_hostels - This collection stores information about any new hostels created b
 <h3></h3>
 leaves - This collection stores the information about the leave requests sent by the users and their status.Each of the requests have the student's rollNumbers as the main key to identify the users as this key will be unique.
 <h3></h3>
-hostels - This collection stores the realtime occupancy of each hostel. This collection shows how many users are present in each room.This collection is dynamically updated on each operations of the user or the admin
+hostels - This collection stores the realtime occupancy of each hostel. This collection shows how many users are present in each room.This collection is dynamically updated on each operation of the user or the admin
 
 
 
