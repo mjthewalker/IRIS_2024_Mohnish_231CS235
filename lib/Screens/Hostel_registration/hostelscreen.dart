@@ -25,18 +25,24 @@ class HostelDetailScreen extends StatefulWidget {
 class _HostelDetailScreenState extends State<HostelDetailScreen> {
   String? selectedRoom;
   String? room;
-  num i = 0;
-  num x = 0;
+  int i = 0;
+  int x = 0;
   int occupancyRoom=0;
   int occupiedRoomsCount = 0;
   Map<String, int> roomData = {};
+
   bool isLoading = true;
+
+
+
 
   @override
   void initState() {
     super.initState();
     _fetchAllRooms();
+
   }
+
 
   Future<void> _fetchAllRooms() async {
     try {
@@ -286,6 +292,7 @@ class _HostelDetailScreenState extends State<HostelDetailScreen> {
               ],
             ),
           ),
+
           Expanded(
             child: ListView.builder(
               itemCount: widget.hostel.floors.length,
@@ -340,10 +347,13 @@ class _HostelDetailScreenState extends State<HostelDetailScreen> {
                               itemBuilder: (context, roomIndex) {
                                 x = roomIndex + 1;
                                 if (floor.floorNumber>0) {
-                                  x = roomIndex + 1 + (floor.floorNumber * (widget.hostel.floors[index-1].wings[0].availableRooms +widget.hostel.floors[index-1].wings[1].availableRooms )) ;
+                                  for (int i=0;i<floor.floorNumber;i++){
+                                    x+=(widget.hostel.floors[index-1].wings[0].availableRooms +widget.hostel.floors[index-1].wings[1].availableRooms);
+                                  }
                                 }
                                 if (wing.wingName == "Left Wing") x += widget.hostel.floors[index].wings[0].availableRooms;
                                 room = x.toString();
+
                                 String roomKey = 'Room $room';
 
                                 int occupancy = roomData[roomKey] ?? 0;
@@ -390,6 +400,8 @@ class _HostelDetailScreenState extends State<HostelDetailScreen> {
                                 );
                               },
                             ),
+
+
                           ],
                         );
 
