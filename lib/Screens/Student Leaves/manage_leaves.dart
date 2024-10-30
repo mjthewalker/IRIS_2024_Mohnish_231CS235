@@ -13,7 +13,7 @@ class ManageLeaves extends StatefulWidget {
 }
 
 class ManageLeaveState extends State<ManageLeaves> {
-  // Fetch all leave requests from Firestore
+
   Future<List<Map<String, dynamic>>> getAllRequests() async {
     List<Map<String, dynamic>> allRequests = [];
 
@@ -24,7 +24,7 @@ class ManageLeaveState extends State<ManageLeaves> {
       for (var requestDoc in requestsSnapshot.docs) {
         Map<String, dynamic> requestData = requestDoc.data() as Map<String, dynamic>;
 
-        // Iterate over user requests in the document
+
         requestData.forEach((userKey, userData) {
           if (userData != null && userData is Map<String, dynamic>) {
             allRequests.add(userData);
@@ -54,7 +54,6 @@ class ManageLeaveState extends State<ManageLeaves> {
         }
       }, SetOptions(merge: true));
 
-      // Provide user feedback
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Status updated to $status')),
       );

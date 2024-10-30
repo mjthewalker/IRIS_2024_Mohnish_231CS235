@@ -102,12 +102,7 @@ class FirebaseApi {
       print("Token refreshed: $event");
     });
   }
-  Future<void> setupInteractMessage(BuildContext context) async{
-    RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
-    if (initialMessage != null){
-    
-    }
-  }
+
   void handleMessage(BuildContext context, String? payload) {
     if (kDebugMode) {
       print("Notification tapped with payload: $payload");

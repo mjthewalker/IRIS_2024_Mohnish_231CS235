@@ -67,22 +67,22 @@ class _SwitchRoomsState extends State<SwitchRooms> {
           style: GoogleFonts.poppins(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Colors.tealAccent, // Accent color for title
+            color: Colors.tealAccent,
           ),
         ),
         backgroundColor: Colors.grey[900],
         iconTheme: const IconThemeData(color: Colors.tealAccent),
       ),
-      backgroundColor: Colors.grey[850], // Dark background
+      backgroundColor: Colors.grey[850],
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: ListView(
             children: <Widget>[
-              // Name field
+
               Card(
-                color: Colors.grey[900], // Dark card background
+                color: Colors.grey[900],
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -107,9 +107,9 @@ class _SwitchRoomsState extends State<SwitchRooms> {
               ),
               const SizedBox(height: 20),
 
-              // Roll number field
+
               Card(
-                color: Colors.grey[900], // Dark card background
+                color: Colors.grey[900],
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -135,9 +135,9 @@ class _SwitchRoomsState extends State<SwitchRooms> {
               const SizedBox(height: 20),
 
 
-              // Leave reason field
+
               Card(
-                color: Colors.grey[900], // Dark card background
+                color: Colors.grey[900],
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -165,7 +165,7 @@ class _SwitchRoomsState extends State<SwitchRooms> {
               ),
               const SizedBox(height: 20),
               Card(
-                color: Colors.grey[900], // Dark card background
+                color: Colors.grey[900],
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -193,7 +193,7 @@ class _SwitchRoomsState extends State<SwitchRooms> {
               ),
               const SizedBox(height: 20),
               Card(
-                color: Colors.grey[900], // Dark card background
+                color: Colors.grey[900],
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -222,7 +222,7 @@ class _SwitchRoomsState extends State<SwitchRooms> {
               const SizedBox(height: 40),
 
 
-              // Submit button
+
               ElevatedButton(
                 onPressed: () {
 
@@ -230,10 +230,10 @@ class _SwitchRoomsState extends State<SwitchRooms> {
 
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.tealAccent, // Match previous theme
+                  backgroundColor: Colors.tealAccent,
                   padding: const EdgeInsets.symmetric(vertical: 15),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10), // Rounded corners for button
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
                 child:  Text('Submit',style: TextStyle(color: Colors.grey[900]),),
