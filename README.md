@@ -24,6 +24,7 @@
 ## List of Planned features 
 
 * Displaying original hostel layouts while hostel booking
+* FCM Notifications
 ## Recordings
 App
 https://drive.google.com/file/d/1OYoBaK6j8lfa8s7Y7qr-0snmoVT8r6Qj/view?usp=drive_link
