@@ -29,6 +29,7 @@ class MyRequestsScreen extends StatelessWidget {
         requestData.forEach((userKey, userData) {
           if (userData is Map<String, dynamic> && userKey == mykey) {
             HostelChangeRequest request = HostelChangeRequest.fromJson(userData);
+
             allRequests.add(request);
           }
         });
@@ -53,6 +54,7 @@ class MyRequestsScreen extends StatelessWidget {
         }
       });
     }
+
     return requests;
   }
 
@@ -146,7 +148,7 @@ class MyRequestsScreen extends StatelessWidget {
             final requestData = leaveRequest[rollnumber];
             final hasReason = requestData != null && requestData.containsKey('Reason');
             final hasStatus = requestData != null && requestData.containsKey('status');
-
+            if (requestData!=null)
             return Card(
               margin: const EdgeInsets.all(12),
               shape: RoundedRectangleBorder(
@@ -187,6 +189,7 @@ class MyRequestsScreen extends StatelessWidget {
                 ),
               ),
             );
+            return Container();
           }));
 
           return ListView(

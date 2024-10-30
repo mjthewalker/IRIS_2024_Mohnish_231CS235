@@ -8,7 +8,7 @@ import 'package:iris_rec/Data%20and%20models/loading_screen.dart';
 import 'package:iris_rec/Screens/Authorisation/bloc/auth_bloc.dart';
 import 'package:iris_rec/Screens/Hostel_Dashboard/iris.dart';
 import 'package:iris_rec/Screens/Hostel_Manager/add_hostel.dart';
-import 'package:iris_rec/firebase_api/firebase_api.dart';
+
 
 import '../../Data and models/firebase_options.dart';
 import '../Authorisation/auth.dart';
