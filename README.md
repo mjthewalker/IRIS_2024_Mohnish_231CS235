@@ -4,22 +4,22 @@
     <img src="Images/Screenshot_20241027_180001.png" alt="Screenshot" width="200" style="height:auto;">
     <img src="Images/drawer.png" alt="Drawer" width="200" style="height:auto;">
 </div>
-<h3>
+<h1>
     Backend
-</h3>
+</h1>
 The Backend has 6 collections in firestore
-<h3></h3>
-Users - This collection stores the users email,name,rollNo,uid etc and also their hostel room info.
-<h3></h3>
-room_exchange - This collection stores data of the room exchange requests sent by the user.Each Room exchange request will be given an exchange key of the format (x<->y) where x is the smallest room number among both of the students.This ensures that the consent of both parties is confirmed.Their might be another case where 4 ppl from two rooms want to switch rooms so this case is also handled in the flutter code. The room exchange request is displayed to the  admin only if all of the above conditions are true.
-<h3></h3>
-requests - This collection stores data of the Hostel change details,Personal Details, The data of current room and the data of the room which the user wants to shift to.Upon approval the hostels collection is updated.
-<h3></h3>
-new_hostels - This collection stores information about any new hostels created by the admin.This hostel information is later downloaded locally on the users device on hive.
-<h3></h3>
-leaves - This collection stores the information about the leave requests sent by the users and their status.Each of the requests have the student's rollNumbers as the main key to identify the users as this key will be unique.
-<h3></h3>
-hostels - This collection stores the realtime occupancy of each hostel. This collection shows how many users are present in each room.This collection is dynamically updated on each operation of the user or the admin
+<h3>Users</h3>
+This collection stores the users email,name,rollNo,uid etc and also their hostel room info.
+<h3>room_exchange</h3>
+  This collection stores data of the room exchange requests sent by the user.Each Room exchange request will be given an exchange key of the format (x<->y) where x is the smallest room number among both of the students.This ensures that the consent of both parties is confirmed.Their might be another case where 4 ppl from two rooms want to switch rooms so this case is also handled in the flutter code. The room exchange request is displayed to the  admin only if all of the above conditions are true.
+<h3>requests</h3>
+  This collection stores data of the Hostel change details,Personal Details, The data of current room and the data of the room which the user wants to shift to.Upon approval the hostels collection is updated.
+<h3>new_hostels</h3>
+  This collection stores information about any new hostels created by the admin.This hostel information is later downloaded locally on the users device on hive.
+<h3>leaves</h3>
+ This collection stores the information about the leave requests sent by the users and their status.Each of the requests have the student's rollNumbers as the main key to identify the users as this key will be unique.
+<h3>hostels</h3>
+  This collection stores the realtime occupancy of each hostel. This collection shows how many users are present in each room.This collection is dynamically updated on each operation of the user or the admin
 
 
 
