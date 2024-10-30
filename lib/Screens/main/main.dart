@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,10 +8,12 @@ import 'package:iris_rec/Data%20and%20models/loading_screen.dart';
 import 'package:iris_rec/Screens/Authorisation/bloc/auth_bloc.dart';
 import 'package:iris_rec/Screens/Hostel_Dashboard/iris.dart';
 import 'package:iris_rec/Screens/Hostel_Manager/add_hostel.dart';
+import 'package:iris_rec/firebase_api/firebase_api.dart';
 
 import '../../Data and models/firebase_options.dart';
 import '../Authorisation/auth.dart';
 import '../Hostel_Dashboard/bloc/iris_bloc.dart';
+
 import '../Hostel_Manager/hostel_info.dart';
 import '../Hostel_Manager/hostel_manager.dart';
 import '../Hostel_change/hostel_change.dart';
@@ -33,7 +36,13 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(const MyApp());
+}
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async{
+  await Firebase.initializeApp();
+
 }
 
 class MyApp extends StatelessWidget {
@@ -49,12 +58,13 @@ class MyApp extends StatelessWidget {
         BlocProvider<HomeBloc>(
           create: (context) => HomeBloc()..add(LoadData()),
         ),
+
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         initialRoute: '/',
           routes: {
-            '/': (context) => const MainScaffold(),
+            '/': (context) =>  MainScaffold(),
             '/manageLeaves': (context) => const ManageLeaves(),
             '/hostelChangeApproval': (context) => const HostelChangeApproval(),
             '/hostelManager': (context) => const HostelManager(),

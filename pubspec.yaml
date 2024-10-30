@@ -48,6 +48,9 @@ dependencies:
   lottie: ^1.0.1
   shimmer: ^3.0.0
   intl: ^0.18.0
+  flutter_local_notifications: ^17.2.4
+  http: ^1.2.2
+  googleapis_auth: ^1.6.0
 
 dev_dependencies:
   flutter_test:

@@ -14,6 +14,7 @@ class HomeLoadedWithData  extends HomeState {
   final Map<String, dynamic> userData;
 
 
+
   HomeLoadedWithData(this.userData);
 }
 class HomeLoadedWithoutData  extends HomeState {

@@ -112,7 +112,7 @@ class _HostelLayoutFormState extends State<HostelLayoutForm> {
           'Floor 0': {}
         });
         await FirebaseFirestore.instance.collection('requests').doc('$hostelName').set({
-          'Sample': {}
+
         });
         await FirebaseFirestore.instance.collection('new_hostels').doc('$hostelName').set({
           'hostelName': hostelName,

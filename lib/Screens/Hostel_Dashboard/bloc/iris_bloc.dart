@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:iris_rec/Data%20and%20models/student_list_model.dart';
 part 'iris_states.dart';
 part 'iris_events.dart';
 
@@ -25,6 +26,7 @@ class HomeBloc extends Bloc<HomeEvent,HomeState>{
 
         }
         else{
+          
           emit(HomeLoadedWithData(userData));
         }
 
