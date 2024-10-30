@@ -23,8 +23,7 @@ This collection stores the users email,name,rollNo,uid etc and also their hostel
 
 
 
-
-## List of Implimented features
+<h1>List of Implimented features</h1>
 
   * Authentication screen integrated with firebase
   * Hostel Dashboard with a drawer
@@ -40,7 +39,7 @@ This collection stores the users email,name,rollNo,uid etc and also their hostel
   * Student Manager module for admin to view all the students and their details, Also reallocate or deallocate users. This module also has a search feature
   * Use of Bloc for State Management
   * Implemented Role Based Access for admins and users
-## List of Planned features 
+<h1>List of Planned features </h1> 
 
 * Displaying original hostel layouts while hostel booking
 * FCM Notifications
