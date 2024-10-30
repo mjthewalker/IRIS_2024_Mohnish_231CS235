@@ -143,7 +143,7 @@ class _AuthScreenState extends State<AuthScreen>{
                                     labelText: 'Roll Number',
                                   ),
                                   cursorColor: Colors.grey[700],
-                                  keyboardType: TextInputType.number,
+
                                   autocorrect: false,
                                   textCapitalization: TextCapitalization.none,
                                   onSaved: (value) {

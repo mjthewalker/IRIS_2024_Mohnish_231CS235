@@ -30,12 +30,7 @@ class _HostelDetailScreenState extends State<HostelDetailScreen> {
   int occupancyRoom=0;
   int occupiedRoomsCount = 0;
   Map<String, int> roomData = {};
-
   bool isLoading = true;
-
-
-
-
   @override
   void initState() {
     super.initState();
