@@ -20,10 +20,24 @@
   * Hostel Manager module for admin to view all the available hostels,add new ones and  also delete hostels.
   * Student Manager module for admin to view all the students and their details, Also reallocate or deallocate users. This module also has a search feature
   * Use of Bloc for State Management
+  * Implemented Role Based Access for admins and users
+## List of Planned features 
+
+* Displaying original hostel layouts while hostel booking
+## Recordings
+App
+https://drive.google.com/file/d/1OYoBaK6j8lfa8s7Y7qr-0snmoVT8r6Qj/view?usp=drive_link
+Firebase
+https://drive.google.com/file/d/1BJ2OUCJEQeveRu65DYkl2YA9r2DhQhWe/view?usp=sharing
+## References
+* https://www.youtube.com/watch?v=THCkkQ-V1-8
+* https://www.youtube.com/watch?v=Y1roIi0-Sro&list=PL9n0l8rSshSkzasAAyVMozHQu8-LdWxI0&index=2
+* https://www.youtube.com/watch?v=Dh-cTQJgM-Q&t=127s
+  
 ## Operating system 
-  used windows 10
+windows
 ## Design Tools
- used Adobe After Effects
+Adobe After Effects
  
 
 
