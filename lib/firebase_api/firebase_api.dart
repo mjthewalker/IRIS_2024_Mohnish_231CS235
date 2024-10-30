@@ -32,7 +32,7 @@ class FirebaseApi {
 
   Future<void> _createNotificationChannel() async {
     const AndroidNotificationChannel channel = AndroidNotificationChannel(
-      '2', // Channel ID used in showNotifications
+      '2',
       'High Importance Notifications',
       description: 'This channel is used for important notifications.',
       importance: Importance.high,
@@ -52,7 +52,7 @@ class FirebaseApi {
 
   Future<void> showNotifications(RemoteMessage message) async {
     AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
-      '2', // Ensure consistency with _createNotificationChannel
+      '2',
       'High Importance Notifications',
       channelDescription: 'Your channel description',
       importance: Importance.high,
@@ -70,7 +70,7 @@ class FirebaseApi {
       message.notification?.title,
       message.notification?.body,
       notificationDetails,
-      payload: 'your_custom_payload', // Example payload
+      payload: 'your_custom_payload',
     );
   }
 

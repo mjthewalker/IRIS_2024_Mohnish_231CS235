@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: '/',
           routes: {
-            '/': (context) =>  MainScaffold(),
+            '/': (context) =>  const MainScaffold(),
             '/manageLeaves': (context) => const ManageLeaves(),
             '/hostelChangeApproval': (context) => const HostelChangeApproval(),
             '/hostelManager': (context) => const HostelManager(),

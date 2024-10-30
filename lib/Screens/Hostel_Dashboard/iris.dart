@@ -5,15 +5,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iris_rec/Data%20and%20models/student_list_model.dart';
 import 'package:iris_rec/Screens/Authorisation/bloc/auth_bloc.dart';
 import 'package:iris_rec/Screens/Hostel_Dashboard/my_drawer.dart';
-import 'package:iris_rec/Screens/room_switch/approve_switch.dart';
 import 'package:iris_rec/Screens/room_switch/switch_rooms.dart';
-import 'package:iris_rec/Screens/Hostel_Manager/hostel_manager.dart';
-import 'package:iris_rec/Screens/Hostel_change/hostel_change.dart';
 import 'package:iris_rec/Screens/Hostel_registration/hostelreg.dart';
 import 'package:iris_rec/Screens/Hostel_Dashboard/my_requests.dart';
 import 'package:iris_rec/Screens/Student%20Leaves/apply_leave.dart';
-import 'package:iris_rec/Screens/Student%20Leaves/manage_leaves.dart';
-import 'package:iris_rec/Screens/Student_Manager/student_manager.dart';
 
 import '../../Data and models/loading_screen.dart';
 import 'bloc/iris_bloc.dart';

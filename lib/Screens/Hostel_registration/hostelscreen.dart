@@ -10,7 +10,7 @@ import '../../Data and models/loading_screen.dart';
 import '../Hostel_Dashboard/bloc/iris_bloc.dart';
 
 class HostelDetailScreen extends StatefulWidget {
-  final Hostel hostel; // Receive hostel object
+  final Hostel hostel;
   final String mode;
   final Map<String,dynamic>? currentDetails;
   final StudentList studentdetail;
@@ -127,8 +127,8 @@ class _HostelDetailScreenState extends State<HostelDetailScreen> {
     if (confirm == false) return;
     User? user = FirebaseAuth.instance.currentUser;
     List<String> parts = selectedRoom!.split(',');
-    String floorPart = parts[0].trim();  // "Floor 1"
-    String floorNumber = floorPart.split(' ')[1]; // Extract "1"
+    String floorPart = parts[0].trim();
+    String floorNumber = floorPart.split(' ')[1];
     String wingName = parts[1].trim();
 
     if (widget.mode == "change" && widget.currentDetails!=null){
@@ -187,7 +187,7 @@ class _HostelDetailScreenState extends State<HostelDetailScreen> {
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('student reallocated')));
       Navigator.of(context).pushNamedAndRemoveUntil(
-        '/studentManager', // Replace with the name of the route you want to push
+        '/studentManager',
             (route) => route.isFirst,
       );
 
