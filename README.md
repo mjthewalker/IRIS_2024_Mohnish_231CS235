@@ -43,6 +43,7 @@ This collection stores the users email,name,rollNo,uid etc and also their hostel
 
 * Displaying original hostel layouts while hostel booking
 * FCM Notifications
+  
 ## Recordings
 <h3>App</h3>
 https://drive.google.com/file/d/1OYoBaK6j8lfa8s7Y7qr-0snmoVT8r6Qj/view?usp=drive_link
@@ -50,7 +51,8 @@ https://drive.google.com/file/d/1OYoBaK6j8lfa8s7Y7qr-0snmoVT8r6Qj/view?usp=drive
 https://drive.google.com/file/d/1BJ2OUCJEQeveRu65DYkl2YA9r2DhQhWe/view?usp=sharing
 <h3></h3>
 
-
+## Admin Credentials
+email - rrvrv@gmail.com, pswd - vrvrvr
 ## References
 * https://www.youtube.com/watch?v=THCkkQ-V1-8
 * https://www.youtube.com/watch?v=Y1roIi0-Sro&list=PL9n0l8rSshSkzasAAyVMozHQu8-LdWxI0&index=2
