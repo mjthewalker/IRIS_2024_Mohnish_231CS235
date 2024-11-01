@@ -59,7 +59,7 @@ email - rrvrv@gmail.com, pswd - vrvrvr
 * https://www.youtube.com/watch?v=Dh-cTQJgM-Q&t=127s
   
 ## Operating system 
-windows
+Windows 10
 ## Design Tools
 Adobe After Effects
  
