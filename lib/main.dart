@@ -10,17 +10,17 @@ import 'package:iris_rec/Screens/Hostel_Dashboard/iris.dart';
 import 'package:iris_rec/Screens/Hostel_Manager/add_hostel.dart';
 
 
-import '../../Data and models/firebase_options.dart';
-import '../Authorisation/auth.dart';
-import '../Hostel_Dashboard/bloc/iris_bloc.dart';
+import 'Data and models/firebase_options.dart';
+import 'Screens/Authorisation/auth.dart';
+import 'Screens/Hostel_Dashboard/bloc/iris_bloc.dart';
 
-import '../Hostel_Manager/hostel_info.dart';
-import '../Hostel_Manager/hostel_manager.dart';
-import '../Hostel_change/hostel_change.dart';
-import '../Hostel_registration/hostelscreen.dart';
-import '../Student Leaves/manage_leaves.dart';
-import '../Student_Manager/student_manager.dart';
-import '../room_switch/approve_switch.dart';
+import 'Screens/Hostel_Manager/hostel_info.dart';
+import 'Screens/Hostel_Manager/hostel_manager.dart';
+import 'Screens/Hostel_change/hostel_change.dart';
+import 'Screens/Hostel_registration/hostelscreen.dart';
+import 'Screens/Student Leaves/manage_leaves.dart';
+import 'Screens/Student_Manager/student_manager.dart';
+import 'Screens/room_switch/approve_switch.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

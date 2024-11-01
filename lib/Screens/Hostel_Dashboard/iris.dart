@@ -34,11 +34,11 @@ class _MainScreenState extends State<MainScreen> {
     uid: "dummyuid",
   );
 
-  /*@override
+  @override
   void initState() {
     super.initState();
     context.read<HomeBloc>().add(LoadData());
-  }*/
+  }
 
   @override
   Widget build(BuildContext context) {
